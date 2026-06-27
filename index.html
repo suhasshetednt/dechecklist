@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Engineering — Definition of Done</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --line:#334155;
+    --txt:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --accent2:#0ea5e9;
+    --ok:#22c55e; --warn:#f59e0b; --m:#ef4444; --o:#64748b;
+    --B:#22c55e; --S:#38bdf8; --E:#a855f7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);font-size:15px;line-height:1.45}
+  header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#0f172a,#0f172aee);border-bottom:1px solid var(--line);padding:14px 20px}
+  h1{margin:0;font-size:18px;letter-spacing:.3px}
+  .sub{color:var(--muted);font-size:12px;margin-top:3px}
+  .wrap{max-width:980px;margin:0 auto;padding:18px 20px 80px}
+  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .chip{cursor:pointer;user-select:none;border:1px solid var(--line);background:var(--panel);color:var(--muted);
+        padding:5px 11px;border-radius:999px;font-size:12.5px;transition:.15s}
+  .chip:hover{border-color:var(--accent)}
+  .chip.on{background:var(--accent);color:#04293b;border-color:var(--accent);font-weight:600}
+  .tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+  select,button{font:inherit}
+  select{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+  button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--txt);border-radius:8px;padding:7px 13px;transition:.15s}
+  button:hover{border-color:var(--accent)}
+  button.primary{background:var(--accent);color:#04293b;border-color:var(--accent);font-weight:600}
+  .prog{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+  .prog .track{height:8px;background:#0b1220;border-radius:6px;overflow:hidden;margin-top:7px}
+  .prog .fill{height:100%;background:linear-gradient(90deg,var(--ok),var(--accent));width:0;transition:.3s}
+  .prog small{color:var(--muted)}
+  section{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .sh{display:flex;align-items:center;gap:10px;padding:11px 15px;background:var(--panel2);border-bottom:1px solid var(--line)}
+  .sh h2{margin:0;font-size:14.5px}
+  .sh .count{margin-left:auto;color:var(--muted);font-size:12px}
+  .item{display:flex;gap:11px;padding:11px 15px;border-bottom:1px solid #2a3852}
+  .item:last-child{border-bottom:0}
+  .item input{margin-top:3px;width:17px;height:17px;accent-color:var(--accent);flex:0 0 auto;cursor:pointer}
+  .item .body{flex:1}
+  .item .req{font-weight:500}
+  .item.done .req{text-decoration:line-through;color:var(--muted)}
+  .why{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .tag{font-size:10.5px;padding:2px 7px;border-radius:5px;border:1px solid var(--line);color:var(--muted)}
+  .tag.M{color:#fff;background:var(--m);border-color:var(--m)}
+  .tag.O{color:#fff;background:var(--o);border-color:var(--o)}
+  .tag.B{border-color:var(--B);color:var(--B)} .tag.S{border-color:var(--S);color:var(--S)} .tag.E{border-color:var(--E);color:var(--E)}
+  .tag.auto{border-color:var(--warn);color:var(--warn)}
+  .hidden{display:none}
+  .modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+  .modal.open{display:flex}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;max-width:760px;width:100%;max-height:85vh;display:flex;flex-direction:column}
+  .card .ch{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line)}
+  .card textarea{flex:1;margin:0;border:0;background:#0b1220;color:var(--txt);font-family:ui-monospace,Consolas,monospace;font-size:12.5px;padding:14px;resize:none;min-height:50vh}
+  .card .cf{padding:11px 16px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ok);color:#04230f;padding:9px 16px;border-radius:8px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:60}
+  .toast.show{opacity:1}
+  a.src{color:var(--accent);font-size:12px;text-decoration:none}
+  @media print{header,.bar,.tools,.prog,.chip,button{display:none!important}body{background:#fff;color:#000}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Data Engineering — Definition of Done</h1>
+  <div class="sub">Mandatory on every DE ticket. Pick the technologies the ticket touches; the relevant checks appear. Then <b>Copy for JIRA</b>.</div>
+  <div class="bar" id="chips"></div>
+  <div class="tools">
+    <label class="sub">Maturity:&nbsp;</label>
+    <select id="maturity">
+      <option value="E">Enterprise (all items)</option>
+      <option value="S" selected>Standard (Basic + Standard)</option>
+      <option value="B">Basic only</option>
+    </select>
+    <button id="copyBtn" class="primary">📋 Copy for JIRA</button>
+    <button id="resetBtn">↺ Reset checks</button>
+    <button onclick="window.print()">🖨 Print / PDF</button>
+  </div>
+  <div class="prog">
+    <small><b id="pPct">0%</b> of mandatory items complete &middot; <span id="pCount">0 / 0</span></small>
+    <div class="track"><div class="fill" id="pFill"></div></div>
+  </div>
+</header>
+
+<div class="wrap" id="list"></div>
+
+<div class="modal" id="modal">
+  <div class="card">
+    <div class="ch">
+      <b>Paste into JIRA</b>
+      <select id="fmt" style="margin-left:auto">
+        <option value="md">JIRA Cloud Markdown (task list)</option>
+        <option value="smart">Smart Checklist for Jira</option>
+        <option value="wiki">JIRA Wiki markup</option>
+      </select>
+    </div>
+    <textarea id="out" spellcheck="false" readonly></textarea>
+    <div class="cf">
+      <button class="primary" id="copyOut">Copy to clipboard</button>
+      <button id="closeModal">Close</button>
+      <span class="sub" style="margin-left:auto">Tip: in JIRA Cloud, paste Markdown into the description — it auto-converts.</span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---- Checklist data (from DoD-Checklist.md). m=mandatory, mat=B/S/E, auto=automatable ---- */
+const SECTIONS = [
+ {key:"core", name:"Core — every DE ticket", always:true, items:[
+   {t:"Business requirement understood & acceptance criteria confirmed", w:"Prevents building the wrong thing — the #1 source of rework", m:1, mat:"B"},
+   {t:"Source & target systems identified", w:"Can't validate completeness without knowing every source/target", m:1, mat:"B"},
+   {t:"Impact analysis completed (downstream tables / jobs / reports)", w:"A schema change can silently break reflections & BI", m:1, mat:"S"},
+   {t:"Code peer-reviewed (PR approved)", w:"Catches defects and spreads knowledge", m:1, mat:"B", auto:1},
+   {t:"Testing completed (unit / integration / data validation)", w:"Proves the change works before prod", m:1, mat:"S", auto:1},
+   {t:"Data quality checks passed (counts, nulls, duplicates, PKs)", w:"Detects dropped/duplicated/invalid rows", m:1, mat:"B", auto:1},
+   {t:"Security & governance verified (no secrets, access, PII)", w:"Breach prevention and compliance", m:1, mat:"B", auto:1},
+   {t:"Deployed via CI/CD (Git committed, PR merged, pipeline green)", w:"Repeatable, auditable promotion", m:1, mat:"S", auto:1},
+   {t:"Rollback plan available", w:"Fast recovery from a bad deploy", m:1, mat:"S"},
+   {t:"Documentation & JIRA updated", w:"Single source of truth for support & onboarding", m:1, mat:"B"},
+   {t:"BI notified / refresh requested (if reports or semantic layer affected)", w:"Prevents broken or stale reports", m:0, mat:"S"},
+   {t:"Final sign-off (peer + QA + business)", w:"Explicit go decision; meets the actual need", m:1, mat:"B"},
+ ]},
+ {key:"sql", name:"SQL", items:[
+   {t:"No SELECT * — explicit columns", w:"Avoids breakage on schema drift and wasted I/O", m:1, mat:"B", auto:1},
+   {t:"Query optimized — pre-filter in CTEs before joins", w:"Cuts scan/shuffle cost dramatically", m:1, mat:"S"},
+   {t:"Explain plan reviewed where applicable", w:"Confirms index/partition/reflection use", m:0, mat:"S"},
+   {t:"Indexes / partitions considered", w:"Avoids full scans at scale", m:1, mat:"S"},
+   {t:"No functions on indexed columns in WHERE (sargable)", w:"Preserves index usage", m:1, mat:"S", auto:1},
+   {t:"NULL handling validated", w:"NULLs silently break joins/aggregates/filters", m:1, mat:"B", auto:1},
+   {t:"No ORDER BY / LIMIT inside subqueries or views", w:"Non-deterministic and ignored by the optimizer", m:1, mat:"S", auto:1},
+ ]},
+ {key:"talend", name:"Talend", items:[
+   {t:"Context variables reviewed (no env hardcoding)", w:"Wrong context = writing to the wrong environment", m:1, mat:"B"},
+   {t:"No hardcoded paths / connections / credentials", w:"Breaks promotion; security risk", m:1, mat:"B", auto:1},
+   {t:"Error handling implemented (tDie / tWarn / reject)", w:"Failures must be detectable, not silent", m:1, mat:"S"},
+   {t:"Logging added (tLogCatcher / stats & logs)", w:"Required for triage and audit", m:1, mat:"S"},
+   {t:"Incremental / CDC load logic validated", w:"Full reloads are slow and can double-count", m:1, mat:"S"},
+   {t:"Job tested end-to-end in non-prod", w:"Proves it runs before prod", m:1, mat:"B"},
+   {t:"Dependencies & schedule verified (tRunJob / TAC)", w:"Orchestration order prevents partial loads", m:1, mat:"S"},
+ ]},
+ {key:"python", name:"Python", items:[
+   {t:"Virtual env / requirements.txt updated", w:"Reproducible runtime", m:1, mat:"B", auto:1},
+   {t:"Dependencies pinned & documented", w:"Prevents drift & supply-chain surprises", m:1, mat:"S", auto:1},
+   {t:"Exception handling implemented", w:"Uncaught errors corrupt/partial-load data", m:1, mat:"B"},
+   {t:"Structured logging added", w:"Observability for batch jobs", m:1, mat:"S"},
+   {t:"Config externalized (no hardcoded values)", w:"No code change to move environments", m:1, mat:"S", auto:1},
+   {t:"Secrets removed (vault / env / key store)", w:"Hardcoded keys = breach risk", m:1, mat:"B", auto:1},
+   {t:"Unit tests added & passing", w:"Regression protection", m:1, mat:"S", auto:1},
+   {t:"Linting / formatting passed", w:"Readability & defect catch", m:0, mat:"S", auto:1},
+ ]},
+ {key:"dremio", name:"Dremio (PDS / VDS)", items:[
+   {t:"PDS metadata refreshed / promoted", w:"Stale metadata → wrong or failed queries", m:1, mat:"B", auto:1},
+   {t:"VDS validated (schema, lineage, row sanity)", w:"The VDS is the contract consumers query", m:1, mat:"S"},
+   {t:"VDS naming & space/folder governance followed", w:"Discoverability and access control", m:1, mat:"S"},
+   {t:"Downstream VDS dependencies checked", w:"One VDS change cascades", m:1, mat:"E"},
+   {t:"Query performance validated", w:"Consumer-facing latency", m:1, mat:"S"},
+ ]},
+ {key:"reflection", name:"Reflections", items:[
+   {t:"Reflection created / updated (raw or aggregation)", w:"Drives acceleration", m:1, mat:"S"},
+   {t:"Reflection refresh completed successfully", w:"Accelerating stale data is worse than none", m:1, mat:"S", auto:1},
+   {t:"Acceleration verified (query plan uses reflection)", w:"An unused reflection is wasted cost", m:1, mat:"E"},
+   {t:"Refresh schedule / TTL appropriate", w:"Freshness vs compute trade-off", m:0, mat:"E"},
+   {t:"Storage / refresh footprint acceptable", w:"Reflections silently grow cost", m:0, mat:"E"},
+ ]},
+ {key:"cdc", name:"CDC", items:[
+   {t:"CDC capture validated (insert / update / delete)", w:"All change types must flow through", m:1, mat:"S"},
+   {t:"Watermark / offset / LSN tracking correct", w:"Wrong offset = missed or replayed data", m:1, mat:"S"},
+   {t:"Late-arriving & out-of-order data handled", w:"Real streams are not ordered", m:1, mat:"S"},
+   {t:"Idempotency / replay safe (no dupes on re-run)", w:"Re-runs must not duplicate", m:1, mat:"E", auto:1},
+   {t:"Soft-delete vs hard-delete handling confirmed", w:"Deletes must be represented correctly", m:1, mat:"S"},
+   {t:"Source-to-target reconciliation passed", w:"End-to-end correctness proof", m:1, mat:"E", auto:1},
+ ]},
+ {key:"api", name:"API / Xero", items:[
+   {t:"Auth / OAuth token refresh handled", w:"Tokens expire; jobs must self-renew", m:1, mat:"S"},
+   {t:"Rate limiting & retry/backoff implemented", w:"Avoids throttling and data gaps", m:1, mat:"S"},
+   {t:"Pagination handled fully", w:"Partial pulls silently lose rows", m:1, mat:"S"},
+   {t:"Schema / contract change detection in place", w:"APIs change without notice", m:1, mat:"E"},
+   {t:"API failure & partial-load handling tested", w:"Partial loads must not corrupt targets", m:1, mat:"S"},
+   {t:"Secrets stored in vault (no inline keys)", w:"Breach prevention", m:1, mat:"B", auto:1},
+ ]},
+ {key:"storage", name:"Storage / Data Lake (S3 / Azure)", items:[
+   {t:"Path / container / zone correct (raw → curated → consumption)", w:"Wrong zone breaks downstream contracts", m:1, mat:"S"},
+   {t:"File format & partitioning correct (parquet / partition keys)", w:"Drives query cost and performance", m:1, mat:"S"},
+   {t:"Lifecycle / retention policy applied", w:"Controls storage cost & compliance", m:0, mat:"E"},
+   {t:"Access (IAM / RBAC / SAS) least-privilege verified", w:"Limits blast radius", m:1, mat:"S", auto:1},
+ ]},
+];
+
+const TECHS = SECTIONS.filter(s=>!s.always);
+const MAT_ORDER = {B:1,S:2,E:3};
+const state = {active:new Set(), maturity:"S", checks:{}};
+
+/* ---- render chips ---- */
+const chipsEl = document.getElementById("chips");
+TECHS.forEach(s=>{
+  const c=document.createElement("div");
+  c.className="chip"; c.textContent=s.name; c.dataset.key=s.key;
+  c.onclick=()=>{ state.active.has(s.key)?state.active.delete(s.key):state.active.add(s.key); c.classList.toggle("on"); render(); };
+  chipsEl.appendChild(c);
+});
+const allChip=document.createElement("div");
+allChip.className="chip"; allChip.textContent="Select all";
+allChip.onclick=()=>{ const on=state.active.size<TECHS.length; state.active=new Set(on?TECHS.map(t=>t.key):[]);
+  document.querySelectorAll(".chip[data-key]").forEach(c=>c.classList.toggle("on",on)); render(); };
+chipsEl.appendChild(allChip);
+
+document.getElementById("maturity").onchange=e=>{state.maturity=e.target.value;render();};
+document.getElementById("resetBtn").onclick=()=>{state.checks={};render();};
+
+function visibleSections(){ return SECTIONS.filter(s=>s.always||state.active.has(s.key)); }
+function itemVisible(it){ return MAT_ORDER[it.mat] <= MAT_ORDER[state.maturity]; }
+function id(sk,i){ return sk+"_"+i; }
+
+function render(){
+  const list=document.getElementById("list"); list.innerHTML="";
+  let mTot=0,mDone=0;
+  visibleSections().forEach(s=>{
+    const items=s.items.filter(itemVisible); if(!items.length) return;
+    const sec=document.createElement("section");
+    const sh=document.createElement("div"); sh.className="sh";
+    sh.innerHTML=`<h2>${s.name}</h2><span class="count">${items.length} item${items.length>1?"s":""}</span>`;
+    sec.appendChild(sh);
+    s.items.forEach((it,i)=>{
+      if(!itemVisible(it)) return;
+      const key=id(s.key,i); const checked=!!state.checks[key];
+      if(it.m){mTot++; if(checked)mDone++;}
+      const row=document.createElement("label"); row.className="item"+(checked?" done":"");
+      row.innerHTML=`<input type="checkbox" ${checked?"checked":""}>
+        <div class="body"><div class="req">${it.t}</div>
+        <div class="why">${it.w}</div>
+        <div class="tags">
+          <span class="tag ${it.m?"M":"O"}">${it.m?"Mandatory":"Optional"}</span>
+          <span class="tag ${it.mat}">${({B:"Basic",S:"Standard",E:"Enterprise"})[it.mat]}</span>
+          ${it.auto?'<span class="tag auto">CI-automatable</span>':''}
+        </div></div>`;
+      row.querySelector("input").onchange=e=>{state.checks[key]=e.target.checked;render();};
+      sec.appendChild(row);
+    });
+    list.appendChild(sec);
+  });
+  const pct=mTot?Math.round(mDone/mTot*100):0;
+  document.getElementById("pPct").textContent=pct+"%";
+  document.getElementById("pCount").textContent=`${mDone} / ${mTot} mandatory`;
+  document.getElementById("pFill").style.width=pct+"%";
+}
+
+/* ---- JIRA export ---- */
+function buildExport(fmt){
+  const secs=visibleSections().map(s=>({name:s.name,items:s.items.filter(itemVisible)})).filter(s=>s.items.length);
+  const techNames=visibleSections().filter(s=>!s.always).map(s=>s.name).join(", ")||"core only";
+  const L=[];
+  if(fmt==="md"){
+    L.push(`**Definition of Done — ${techNames}**`,"");
+    secs.forEach(s=>{ L.push(`### ${s.name}`); s.items.forEach(it=>L.push(`- [ ] ${it.t}${it.m?"":"  _(optional)_"}`)); L.push(""); });
+  } else if(fmt==="smart"){
+    secs.forEach(s=>{ L.push(`# ${s.name}`); s.items.forEach(it=>L.push(`- ${it.t}${it.m?" (mandatory)":""}`)); L.push(""); });
+  } else { // wiki
+    L.push(`*Definition of Done — ${techNames}*`,"");
+    secs.forEach(s=>{ L.push(`h3. ${s.name}`); s.items.forEach(it=>L.push(`* (x) ${it.t}${it.m?" _(mandatory)_":""}`)); L.push(""); });
+  }
+  return L.join("\n");
+}
+
+const modal=document.getElementById("modal");
+const out=document.getElementById("out");
+const fmtSel=document.getElementById("fmt");
+function refreshOut(){ out.value=buildExport(fmtSel.value); }
+document.getElementById("copyBtn").onclick=()=>{ refreshOut(); modal.classList.add("open"); };
+fmtSel.onchange=refreshOut;
+document.getElementById("closeModal").onclick=()=>modal.classList.remove("open");
+modal.onclick=e=>{ if(e.target===modal) modal.classList.remove("open"); };
+document.getElementById("copyOut").onclick=async()=>{
+  try{ await navigator.clipboard.writeText(out.value); }catch(e){ out.select(); document.execCommand("copy"); }
+  toast("Copied to clipboard");
+};
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1600); }
+
+render();
+</script>
+</body>
+</html>
