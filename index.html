@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Data Engineering Unit Testing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#eef3f9; --bg2:#eef2f7; --panel:#ffffff; --panel2:#f5f8fc; --line:#dde4ee;
@@ -17,7 +20,7 @@
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{margin:0;min-height:100vh;color:var(--txt);
-       font:15px/1.55 system-ui,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;
+       font:15px/1.55 'IBM Plex Sans',system-ui,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;
        background:
          radial-gradient(900px 520px at 100% -12%, rgba(2,132,199,.13), transparent 60%),
          radial-gradient(700px 460px at -5% 0%, rgba(14,165,233,.10), transparent 55%),
@@ -33,7 +36,7 @@
   .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));
         display:grid;place-items:center;font-weight:800;font-size:18px;color:#fff;
         box-shadow:0 8px 20px rgba(2,132,199,.35)}
-  h1{font-size:16px;margin:0;letter-spacing:.2px}
+  h1{font-family:'Big Shoulders Display',system-ui,sans-serif;font-size:24px;font-weight:800;margin:0;letter-spacing:.4px;line-height:1.05}
   .h1sub{color:var(--muted);font-size:12px;margin-top:2px}
   .tabs{display:flex;gap:8px;margin-top:14px}
   .tab{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--muted);
@@ -66,7 +69,7 @@
   .sec-h{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);
          background:linear-gradient(90deg,rgba(2,132,199,.08),rgba(2,132,199,.02) 60%,transparent)}
   .sec-h .bar{width:4px;height:20px;border-radius:3px;background:var(--tier)}
-  .sec-h h2{margin:0;font-size:14px;letter-spacing:.2px}
+  .sec-h h2{margin:0;font-family:'Big Shoulders Display',system-ui,sans-serif;font-size:19px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
   .sec-h .cnt{margin-left:auto;color:var(--muted);font-size:12px;background:var(--panel2);border:1px solid var(--line);
               padding:2px 9px;border-radius:999px}
   .item{display:flex;gap:13px;padding:13px 16px;border-bottom:1px solid rgba(15,33,55,.08);transition:.12s}
@@ -90,7 +93,7 @@
   .why{color:var(--muted);font-size:13px;margin-top:4px}
   .verify{margin-top:7px;font-size:12px;color:#0f3a52;background:rgba(2,132,199,.07);border:1px solid rgba(2,132,199,.20);
           border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;
-          font-family:ui-monospace,Consolas,monospace;overflow-x:auto}
+          font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;overflow-x:auto}
   .verify b{color:var(--accent);font-family:system-ui;font-weight:700;margin-right:6px}
   .empty{color:var(--muted);text-align:center;padding:40px;font-size:13px}
   /* modal */
@@ -98,7 +101,7 @@
   .modal.open{display:flex}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);max-width:760px;width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
   .card .ch{padding:13px 16px;border-bottom:1px solid var(--line);font-weight:700}
-  .card textarea{flex:1;border:0;background:#f8fafc;color:var(--txt);font-family:ui-monospace,Consolas,monospace;
+  .card textarea{flex:1;border:0;background:#f8fafc;color:var(--txt);font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;
                  font-size:12.5px;padding:14px;resize:none;min-height:48vh}
   .card .cf{padding:11px 16px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;
