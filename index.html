@@ -131,7 +131,7 @@
 const SCOPE=[["ETL","ETL / ELT"],["SQL","SQL / VDS"]];
 const MLBL={B:"Basic",S:"Standard",E:"Enterprise"};
 const PHASES=[
- {key:"standards",n:0,name:"Engineering Standards",sub:"FLANG standards + environment readiness — set up before any development.",groups:[
+ {key:"standards",n:3,name:"Engineering Standards",sub:"FLANG standards + environment readiness — set up before any development.",groups:[
    {title:"Table & Naming Standards (FLANG)",items:[
      {t:"Table/dataset names: lowercase snake_case, no spaces/special chars",w:"Consistency & portability.",v:"names match ^[a-z0-9_]+$",m:"B"},
      {t:"Layer/zone prefix applied (src_ / stg_ / dim_ / fact_)",w:"Self-describing.",v:"prefix correct for the layer",m:"S"},
@@ -173,9 +173,9 @@ const PHASES=[
      {t:"ER / data-model diagram",w:"Clarifies keys & grain.",v:"ERD attached",m:"S"},
      {t:"Performance, logging, restart & error-handling design",w:"Operability & resilience.",v:"documented",m:"S"}]},
    {title:"Storage & Approval",items:[
-     {t:"Naming/standards (Phase 0) applied throughout",w:"Consistency.",v:"names/types match standard",m:"B"},
+     {t:"FLANG naming/type standards applied throughout",w:"Consistency.",v:"names/types match the FLANG standard",m:"B"},
      {t:"Docs versioned, stored in agreed location & linked to ticket",w:"Findable by the team.",v:"links on ticket",m:"B"}]}]},
- {key:"ready",n:3,name:"Definition of Ready",approval:true,sub:"Package phases 0–2 and submit to the Technical Lead for sign-off to start development.",groups:[
+ {key:"ready",n:4,name:"Definition of Ready",approval:true,sub:"Package the prior phases (requirement, documentation, standards) and submit to the Technical Lead for sign-off to start development.",groups:[
    {title:"Ready to submit to Lead",items:[
      {t:"Requirement doc, STTM & data dictionary attached",w:"Lead reviews artifacts.",v:"all linked",m:"B"},
      {t:"Diagrams (architecture + ER) attached",w:"Design reviewable.",v:"diagrams linked",m:"S"},
@@ -184,14 +184,14 @@ const PHASES=[
      {t:"Ticket moved to In Review / assigned to Technical Lead",w:"Triggers the review.",v:"status + assignee",m:"B"}]},
    {title:"Lead Sign-off",items:[
      {t:"Technical Lead decision recorded (Ready / Ready w conditions / Not Ready)",w:"The gate that starts the build.",v:"decision + signature captured",m:"B"}]}]},
- {key:"review-loop",n:4,name:"Review Feedback & Iterate",sub:"Act on Lead feedback, correct phases 1–2, re-submit. Loop until approved.",groups:[
+ {key:"review-loop",n:5,name:"Review Feedback & Iterate",sub:"Act on Lead feedback, correct phases 1–2, re-submit. Loop until approved.",groups:[
    {title:"Feedback Loop",items:[
      {t:"Lead/architect feedback captured on the ticket",w:"Actionable & auditable.",v:"comments present",m:"B"},
      {t:"Each feedback item actioned or answered with rationale",w:"Nothing dropped.",v:"each point resolved",m:"B"},
      {t:"Phases 1–2 corrected per feedback (requirement / mapping / docs)",w:"Fix the source of truth.",v:"docs updated & re-linked",m:"B"},
-     {t:"Re-submitted for re-review where changes are material",w:"Closes the loop (back to Phase 3).",v:"re-review requested",m:"S"},
+     {t:"Re-submitted for re-review where changes are material",w:"Closes the loop (back to Definition of Ready).",v:"re-review requested",m:"S"},
      {t:"Final design APPROVED by the Lead → proceed to development",w:"Starts the build.",v:"approval recorded",m:"B"}]}]},
- {key:"dev-etl",n:5,name:"Development — ETL / ELT",scope:"ETL",naAllowed:true,sub:"Build & unit-test the pipeline. If data already lands in the lake, mark N/A with a reason.",groups:[
+ {key:"dev-etl",n:6,name:"Development — ETL / ELT",scope:"ETL",naAllowed:true,sub:"Build & unit-test the pipeline. If data already lands in the lake, mark N/A with a reason.",groups:[
    {title:"ETL / ELT Build",items:[
      {t:"Workflow built per design; parameters externalized (no hardcoding)",w:"Promotable, maintainable.",v:"context/config used",m:"B"},
      {t:"Scheduling, dependencies, logging, audit & restartability",w:"Operable & resilient.",v:"schedule + logs + resume tested",m:"S"},
@@ -204,7 +204,7 @@ const PHASES=[
      {t:"Idempotency — re-run produces no duplicates",w:"Re-runs are normal.",v:"run twice; dup-key=0",m:"B"},
      {t:"Reject / exception handling validated",w:"Errors routed, not lost.",v:"bad rows in reject store",m:"S"},
      {t:"Test evidence uploaded (counts, results, screenshots)",w:"Proof, not claims.",v:"evidence attached below",m:"B"}]}]},
- {key:"dev-sql",n:6,name:"Development — SQL / VDS",scope:"SQL",naAllowed:true,sub:"Build, optimize & unit-test the query, then publish the VDS. Mark N/A if no query/VDS work.",groups:[
+ {key:"dev-sql",n:7,name:"Development — SQL / VDS",scope:"SQL",naAllowed:true,sub:"Build, optimize & unit-test the query, then publish the VDS. Mark N/A if no query/VDS work.",groups:[
    {title:"SQL Build & Optimization",items:[
      {t:"No SELECT *; CTEs; tables aliased; sargable predicates",w:"Readable, stable, fast.",v:"review SELECT list",m:"B"},
      {t:"Execution plan reviewed — no full scans; indexes/partitions used",w:"The plan is the truth.",v:"EXPLAIN / profile reviewed",m:"B"},
@@ -218,9 +218,9 @@ const PHASES=[
      {t:"Aggregation / control-total reconciliation",w:"Values correct.",v:"SUM reconciles to source",m:"S"},
      {t:"Business-rule assertions = 0 violations; edge & null cases",w:"Valid ≠ correct.",v:"assertion queries = 0 rows",m:"B"},
      {t:"Test evidence uploaded (query results, profile, counts)",w:"Proof, not claims.",v:"evidence attached below",m:"B"}]}]},
- {key:"done",n:7,name:"Definition of Done",approval:true,sub:"Final sign-off to the Technical Lead — development, unit testing and documentation complete.",groups:[
+ {key:"done",n:8,name:"Definition of Done",approval:true,sub:"Final sign-off to the Technical Lead — development, unit testing and documentation complete.",groups:[
    {title:"Done Checklist (proves the work was done properly)",items:[
-     {t:"Development complete for all selected scope",w:"All scope built.",v:"phases 5/6 complete or N/A",m:"B"},
+     {t:"Development complete for all selected scope",w:"All scope built.",v:"dev phases complete or N/A",m:"B"},
      {t:"Unit testing passed with evidence attached",w:"Proven correct.",v:"reconciliation + test evidence present",m:"B"},
      {t:"Documentation updated to final state (STTM, dictionary, diagrams)",w:"Docs match what shipped.",v:"docs current & linked",m:"B"},
      {t:"No critical / high defects open",w:"Quality bar.",v:"defect list clean",m:"B"},
@@ -229,6 +229,7 @@ const PHASES=[
    {title:"Final Lead Sign-off",items:[
      {t:"Technical Lead approves: ticket is Done",w:"Accountable closure.",v:"lead decision + signature",m:"B"}]}]}
 ];
+PHASES.sort((a,b)=>a.n-b.n); // array order follows phase number
 const USERS=["Suhas Shete","Dhruv Mevada","Vansh Nautiyal"];
 let CURRENT="Suhas Shete";
 
@@ -264,8 +265,8 @@ function unitStatus(t){const sel=t.devTypes;const phs=[["ETL","dev-etl"],["SQL",
 /* =================== SEED =================== */
 if(!DB.tickets.length){
   function seed(o){const t={id:uid(),key:o.k,title:o.ti,assignee:o.a,domain:o.d,source:o.s,target:o.tg,devTypes:o.dt,currentPhase:o.cp,checks:{},phases:{},evidence:[],comments:[],activity:[],createdAt:Date.now()};
-    PHASES.forEach(ph=>{const done=ph.n<o.through;const naScope=ph.scope&&!o.dt.includes(ph.scope);
-      t.phases[ph.key]={status:naScope?"NA":(done?"COMPLETED":(ph.n===o.cp?"IN_PROGRESS":"NOT_STARTED")),approval:done&&ph.approval?"APPROVED":"PENDING",naReason:naScope?"Not in selected development scope":""};
+    PHASES.forEach((ph,idx)=>{const done=idx<o.through;const naScope=ph.scope&&!o.dt.includes(ph.scope);
+      t.phases[ph.key]={status:naScope?"NA":(done?"COMPLETED":(idx===o.cp?"IN_PROGRESS":"NOT_STARTED")),approval:done&&ph.approval?"APPROVED":"PENDING",naReason:naScope?"Not in selected development scope":""};
       if(done&&!naScope)applicableKeys(ph).forEach(k=>t.checks[k]=true)});
     act(t,"Ticket "+o.k+" assigned to "+o.a);DB.tickets.push(t)}
   seed({k:"ADL-1700",ti:"APU Health Monitor — Engine VDS",a:"Suhas Shete",d:"Engineering",s:"AMOS",tg:"Dremio VDS",dt:["SQL"],cp:6,through:6});
@@ -299,7 +300,7 @@ function renderBoard(){
     return '<tr onclick="location.hash=\'#/t/'+t.id+'\'">'
       +'<td><span class="tkey">'+esc(t.key)+'</span><div class="small muted">'+esc(t.title)+'</div></td>'
       +'<td><span class="av">'+initials(t.assignee)+'</span><span class="hidesm">'+esc(t.assignee)+'</span></td>'
-      +'<td><span class="badge b">P'+t.currentPhase+' · '+esc(ph.name.replace("Development — ",""))+'</span></td>'
+      +'<td><span class="badge b">P'+ph.n+' · '+esc(ph.name.replace("Development — ",""))+'</span></td>'
       +'<td class="c">'+dot(areaStatus(t,"requirement"))+'</td>'
       +'<td class="c">'+dot(areaStatus(t,"techdoc"))+'</td>'
       +'<td class="c">'+dot(areaStatus(t,"ready"))+'</td>'
@@ -349,7 +350,7 @@ function createTicket(){
   if(!nw.devTypes.length){toast("Select at least one development scope");return}
   const t={id:uid(),key,title,assignee:$("n_assignee").value,domain:$("n_domain").value.trim(),type:$("n_type").value.trim(),
     source:$("n_source").value.trim(),target:$("n_target").value.trim(),devTypes:nw.devTypes.slice(),currentPhase:0,checks:{},phases:{},evidence:[],comments:[],activity:[],createdAt:Date.now()};
-  PHASES.forEach(ph=>{const naScope=ph.scope&&!t.devTypes.includes(ph.scope);t.phases[ph.key]={status:naScope?"NA":(ph.n===0?"IN_PROGRESS":"NOT_STARTED"),approval:"PENDING",naReason:naScope?"Not in selected development scope":""}});
+  PHASES.forEach((ph,idx)=>{const naScope=ph.scope&&!t.devTypes.includes(ph.scope);t.phases[ph.key]={status:naScope?"NA":(idx===0?"IN_PROGRESS":"NOT_STARTED"),approval:"PENDING",naReason:naScope?"Not in selected development scope":""}});
   act(t,"Ticket "+key+" assigned to "+t.assignee);DB.tickets.push(t);save();location.hash="#/t/"+t.id;
 }
 
@@ -375,7 +376,7 @@ function renderTicket(id){
     bd+='</div>'})}
   let adv='<div class="adv">';
   if(phase.approval){adv+='<span style="font-weight:600">Lead sign-off:</span><button class="btn success sm" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\',\'APPROVED\')">✓ Approve &amp; Continue</button><button class="btn sm" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\',\'READY_WITH_CONDITIONS\')">Ready w/ conditions</button><button class="btn sm" onclick="advance(\''+id+'\',\'NOT_READY\')">Not Ready</button>'}
-  else{adv+='<button class="btn primary" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\')">'+(phase.n===7?"Complete & Close Ticket":"Complete Phase "+phase.n+" → Next")+'</button>'}
+  else{adv+='<button class="btn primary" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\')">'+(activeIdx===PHASES.length-1?"Complete & Close Ticket":"Complete Phase "+phase.n+" → Next")+'</button>'}
   if(!canAdv)adv+='<span class="small muted">Verify all items (or mark N/A) to continue.</span>';
   adv+='</div>';
 
@@ -413,8 +414,8 @@ function advance(id,approval){const t=findT(id);const ph=PHASES[activeIdx];const
   if(ph.approval&&!approval){toast("A sign-off decision is required");return}
   if(st.status!=="NA")st.status="COMPLETED";if(ph.approval){st.approval=approval;st.signedBy=CURRENT;st.signedAt=Date.now()}
   act(t,"Phase "+ph.n+" ("+ph.name+") completed"+(approval?" — "+approval:""));
-  const next=PHASES[ph.n+1];
-  if(next){ps(t,next.key);if(t.phases[next.key].status==="NOT_STARTED")t.phases[next.key].status="IN_PROGRESS";t.currentPhase=next.n;activeIdx=next.n;toast("Phase "+ph.n+" complete → Phase "+next.n)}
+  const next=PHASES[activeIdx+1];
+  if(next){ps(t,next.key);if(t.phases[next.key].status==="NOT_STARTED")t.phases[next.key].status="IN_PROGRESS";t.currentPhase=activeIdx+1;activeIdx=activeIdx+1;toast("Phase "+ph.n+" complete → Phase "+next.n)}
   else{t.completed=true;toast("Ticket complete 🎉")}
   save();location.hash="#/t/"+id;renderTicket(id);
 }
