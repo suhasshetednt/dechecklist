@@ -3,30 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FLANG · Data Engineering — Definition of Done</title>
+<title>Data Engineering Unit Testing</title>
 <style>
   :root{
-    --bg:#0b1220; --bg2:#0e1626; --panel:#131c2e; --panel2:#172238; --line:#243049;
-    --txt:#e6edf7; --muted:#8a97ad; --faint:#5d6b87;
-    --accent:#22d3ee; --accent2:#38bdf8;
+    --bg:#0c1230; --bg2:#16205c; --panel:rgba(255,255,255,.07); --panel2:rgba(255,255,255,.13); --line:rgba(255,255,255,.15);
+    --txt:#eef2ff; --muted:#bcc4e8; --faint:#8b93bd;
+    --accent:#3ae7ff; --accent2:#a78bfa;
     --B:#34d399; --S:#60a5fa; --E:#c084fc;
-    --tier:#22d3ee;
-    --shadow:0 10px 30px rgba(0,0,0,.35);
-    --r:14px;
+    --tier:#3ae7ff;
+    --shadow:0 18px 50px rgba(6,8,35,.45);
+    --r:16px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#16223b 0,var(--bg) 55%);
-       color:var(--txt);font:15px/1.5 system-ui,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  body{margin:0;min-height:100vh;color:var(--txt);
+       font:15px/1.55 system-ui,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;
+       background:
+         radial-gradient(900px 620px at 10% -8%, rgba(124,58,237,.50), transparent 60%),
+         radial-gradient(820px 600px at 96% -2%, rgba(34,211,238,.42), transparent 55%),
+         radial-gradient(900px 720px at 50% 114%, rgba(236,72,153,.32), transparent 60%),
+         linear-gradient(160deg,#0a1030 0%,#141d52 48%,#0c1440 100%);
+       background-attachment:fixed}
+  body::before{content:"";position:fixed;inset:-25%;z-index:-1;pointer-events:none;opacity:.75;
+       background:
+         radial-gradient(38% 38% at 22% 26%, rgba(167,139,250,.30), transparent 60%),
+         radial-gradient(34% 34% at 82% 64%, rgba(58,231,255,.24), transparent 60%);
+       filter:blur(42px);animation:drift 24s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(1%,-4%,0) scale(1.1)}}
   a{color:var(--accent)}
   /* header */
-  header{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
-         background:linear-gradient(180deg,rgba(11,18,32,.92),rgba(11,18,32,.72));
+  header{position:sticky;top:0;z-index:20;backdrop-filter:blur(18px) saturate(150%);
+         background:linear-gradient(180deg,rgba(20,28,78,.66),rgba(12,18,52,.40));
          border-bottom:1px solid var(--line)}
   .hwrap{max-width:1060px;margin:0 auto;padding:14px 22px}
   .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#7c3aed);
-        display:grid;place-items:center;font-weight:800;color:#04121a;box-shadow:var(--shadow)}
+  .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#a78bfa 55%,#ec4899);
+        display:grid;place-items:center;font-weight:800;font-size:18px;color:#06122a;
+        box-shadow:0 8px 22px rgba(58,231,255,.4),0 4px 14px rgba(167,139,250,.35)}
   h1{font-size:16px;margin:0;letter-spacing:.2px}
   .h1sub{color:var(--muted);font-size:12px;margin-top:2px}
   .tabs{display:flex;gap:8px;margin-top:14px}
@@ -55,21 +68,21 @@
   .fill{height:100%;width:0;background:linear-gradient(90deg,var(--B),var(--accent));transition:.35s}
   /* body */
   .wrap{max-width:1060px;margin:0 auto;padding:20px 22px 90px}
-  .sec{margin-top:18px;background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);
+  .sec{margin-top:18px;background:var(--panel);backdrop-filter:blur(16px) saturate(140%);border:1px solid var(--line);
        border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
   .sec-h{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);
-         background:linear-gradient(90deg,rgba(34,211,238,.07),transparent)}
+         background:linear-gradient(90deg,rgba(58,231,255,.12),rgba(167,139,250,.06) 60%,transparent)}
   .sec-h .bar{width:4px;height:20px;border-radius:3px;background:var(--tier)}
   .sec-h h2{margin:0;font-size:14px;letter-spacing:.2px}
   .sec-h .cnt{margin-left:auto;color:var(--muted);font-size:12px;background:var(--panel2);border:1px solid var(--line);
               padding:2px 9px;border-radius:999px}
-  .item{display:flex;gap:13px;padding:13px 16px;border-bottom:1px solid #1b2740;transition:.12s}
+  .item{display:flex;gap:13px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.08);transition:.12s}
   .item:last-child{border-bottom:0}
   .item:hover{background:rgba(255,255,255,.015)}
   .item.done{opacity:.62}
   /* checkbox */
-  .cb{appearance:none;flex:0 0 auto;width:20px;height:20px;margin-top:2px;border:1.5px solid #3a4a68;border-radius:6px;
-      background:var(--bg2);cursor:pointer;position:relative;transition:.15s}
+  .cb{appearance:none;flex:0 0 auto;width:20px;height:20px;margin-top:2px;border:1.5px solid rgba(255,255,255,.35);border-radius:6px;
+      background:rgba(255,255,255,.08);cursor:pointer;position:relative;transition:.15s}
   .cb:hover{border-color:var(--accent)}
   .cb:checked{background:linear-gradient(135deg,var(--B),var(--accent));border-color:transparent}
   .cb:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #04121a;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
@@ -82,7 +95,7 @@
   .chip.S{color:var(--S);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
   .chip.E{color:var(--E);border-color:rgba(192,132,252,.5);background:rgba(192,132,252,.08)}
   .why{color:var(--muted);font-size:13px;margin-top:4px}
-  .verify{margin-top:7px;font-size:12px;color:#bfe9f5;background:#0a1626;border:1px solid #1d3a47;
+  .verify{margin-top:7px;font-size:12px;color:#dffbff;background:rgba(58,231,255,.09);border:1px solid rgba(58,231,255,.24);
           border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;
           font-family:ui-monospace,Consolas,monospace;overflow-x:auto}
   .verify b{color:var(--accent);font-family:system-ui;font-weight:700;margin-right:6px}
@@ -99,6 +112,7 @@
          background:linear-gradient(135deg,var(--B),var(--accent));color:#04121a;font-weight:700;
          padding:10px 18px;border-radius:10px;transition:.3s;pointer-events:none;z-index:60;box-shadow:var(--shadow)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .track{flex:1;height:7px;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:6px;overflow:hidden}
   .foot{max-width:1060px;margin:0 auto;padding:0 22px 40px;color:var(--faint);font-size:12px}
   @media print{header .tabs,.toolbar,.prog,.cb,.btn,.seg{display:none!important}body{background:#fff;color:#000}
     .sec,.verify{border-color:#ccc}.verify{color:#055;background:#f4fbfd}}
@@ -108,10 +122,10 @@
 <header>
   <div class="hwrap">
     <div class="brand">
-      <div class="logo">F</div>
+      <div class="logo">✓</div>
       <div>
-        <h1>FLANG · Data Engineering — Definition of Done</h1>
-        <div class="h1sub">Unit-testing review guide · evidence-based · tick what you've <i>proven</i>, not what you assume</div>
+        <h1>Data Engineering Unit Testing</h1>
+        <div class="h1sub">Evidence-based review · tick what you've <i>proven</i>, not what you assume</div>
       </div>
     </div>
     <div class="tabs" id="tabs"></div>
@@ -136,7 +150,7 @@
 </header>
 
 <div class="wrap" id="list"></div>
-<div class="foot">FLANG Data Engineering · A test isn't done until you can show the evidence. Attach the query result / profile / reconciliation to the ticket.</div>
+<div class="foot">Data Engineering · A test isn't done until you can show the evidence — attach the query result / profile / reconciliation to the ticket.</div>
 
 <div class="modal" id="modal">
   <div class="card">
