@@ -302,7 +302,11 @@ function renderBoard(){
       +'<td style="min-width:120px"><div style="display:flex;align-items:center;gap:8px"><div class="track" style="flex:1"><div class="fill" style="width:'+overall(t)+'%"></div></div><span class="small muted">'+overall(t)+'%</span></div></td>'
       +'</tr>'}).join("");
   $("app").innerHTML='<div class="wrap">'
-    +'<div class="row" style="align-items:flex-end"><div><h1 style="font-size:30px">Delivery Compliance Board</h1><div class="muted small">Every assigned ticket and whether it is following the standard process — '+ts.length+' tickets</div></div><div class="spacer"></div><a class="btn primary" href="#/new">+ New Ticket</a></div>'
+    +'<div class="row" style="align-items:flex-end"><div><h1 style="font-size:30px">Delivery Compliance Board</h1><div class="muted small">Every assigned ticket and whether it is following the standard process — '+ts.length+' tickets</div></div><div class="spacer"></div>'
+      +'<button class="btn" onclick="exportAll()">⬇ Export</button>'
+      +'<button class="btn" onclick="document.getElementById(\'importFile\').click()">⬆ Import</button>'
+      +'<input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importJSON(this)">'
+      +'<a class="btn primary" href="#/new">+ New Ticket</a></div>'
     +'<div class="grid mt" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">'
       +stat("Tickets",ts.length,"▤")+stat("In Development",inDev,"⚙")+stat("Awaiting Lead Sign-off",awaiting,"⚑")+stat("Avg Compliance",avg+"%","◍")+stat("Docs Complete",docDone+"/"+ts.length,"▦")+stat("Unit Tested",utDone+"/"+ts.length,"✓")+'</div>'
     +'<div class="card mt"><div class="pad" style="padding-bottom:6px"><h3>Compliance by Ticket</h3><div class="legend">'+dot("done")+' done '+dot("prog")+' in progress '+dot("none")+' not started '+dot("na")+' N/A &nbsp;·&nbsp; click a row to open</div></div>'
@@ -381,7 +385,7 @@ function renderTicket(id){
       +'<div style="flex:1;min-width:0"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="tkey" style="font-size:18px">'+esc(t.key)+'</span><h1 style="font-size:22px">'+esc(t.title)+'</h1></div>'
       +'<div class="small muted mt" style="margin-top:4px"><span class="av">'+initials(t.assignee)+'</span>'+esc(t.assignee)+' · '+esc(t.source||"—")+' → '+esc(t.target||"—")+'</div>'
       +'<div class="mt" style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap">'+(t.devTypes.map(d=>'<span class="badge b">'+(d==="ETL"?"ETL / ELT":"SQL / VDS")+'</span>').join(""))+'</div></div>'
-      +'<button class="btn sm" onclick="copyJira(\''+id+'\')">Copy for JIRA</button></div>'
+      +'<div style="display:flex;gap:6px"><button class="btn sm" onclick="exportTicket(\''+id+'\')">⬇ Export</button><button class="btn sm" onclick="copyJira(\''+id+'\')">Copy for JIRA</button></div></div>'
     +'<div class="grid work mt" style="grid-template-columns:250px 1fr">'
       +'<div class="card pad" style="height:max-content"><h3 class="mb">Lifecycle</h3>'+steps+'</div>'
       +'<div><div class="card pad"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><div style="display:flex;gap:8px;align-items:center"><span class="badge b">Phase '+phase.n+'</span><h2 style="font-size:21px">'+esc(phase.name)+'</h2></div><div class="muted small mt" style="margin-top:4px">'+esc(phase.sub)+'</div></div><span class="badge '+(st.status==="COMPLETED"?"ok":st.status==="NA"?"muted":"warn")+'">'+({NOT_STARTED:"Not started",IN_PROGRESS:"In progress",COMPLETED:"Completed",NA:"N/A"}[st.status]||st.status)+'</span></div>'
@@ -425,6 +429,22 @@ function addCm(id,pk){const b=$("cm_body").value.trim();if(!b)return;const t=fin
 function copyJira(id){const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);let L=["*"+t.key+" · Phase "+ph.n+" — "+ph.name+"*",""];
   if(st.status==="NA"){L.push("_N/A — "+(st.naReason||"")+"_")}else{ph.groups.forEach((g,gi)=>{L.push("### "+g.title);g.items.forEach((it,ii)=>{L.push("- ["+(t.checks[ik(ph.key,gi,ii)]?"x":" ")+"] "+it.t+"  _("+MLBL[it.m]+")_")});L.push("")})}
   navigator.clipboard.writeText(L.join("\n")).then(()=>toast("Copied for JIRA")).catch(()=>toast("Copy failed"))}
+
+/* =================== EXPORT / IMPORT =================== */
+function blobToDataURL(b){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)})}
+function dataURLtoBlob(d){const p=d.split(",");const mime=(p[0].match(/:(.*?);/)||[])[1]||"application/octet-stream";const bin=atob(p[1]);const a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new Blob([a],{type:mime})}
+function download(name,text){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"application/json"}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+async function gatherFiles(tickets){const files={};for(const t of tickets){for(const e of (t.evidence||[])){if(e.kind==="file"){try{const b=await idbGet(e.fid);if(b)files[e.fid]=await blobToDataURL(b)}catch(_){}}}}return files}
+async function exportAll(){toast("Preparing export…");const files=await gatherFiles(DB.tickets);download("de-compliance-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify({app:"de-compliance",version:1,exportedAt:Date.now(),by:CURRENT,tickets:DB.tickets,files},null,2));toast("Exported "+DB.tickets.length+" ticket(s)")}
+async function exportTicket(id){const t=findT(id);toast("Preparing export…");const files=await gatherFiles([t]);download(t.key+"-status.json",JSON.stringify({app:"de-compliance",version:1,exportedAt:Date.now(),by:CURRENT,tickets:[t],files},null,2));toast("Exported "+t.key)}
+async function importJSON(inp){const f=inp.files[0];if(!f){return}
+  try{const data=JSON.parse(await f.text());
+    if(!data||!Array.isArray(data.tickets)){toast("Not a valid export file");inp.value="";return}
+    if(!confirm("Import "+data.tickets.length+" ticket(s) from "+(data.by||"unknown")+"?\\nTickets with the same ID will be overwritten; others are added.")){inp.value="";return}
+    if(data.files){for(const fid in data.files){try{await idbPut(fid,dataURLtoBlob(data.files[fid]))}catch(_){}}}
+    data.tickets.forEach(it=>{const i=DB.tickets.findIndex(x=>x.id===it.id);if(i>=0)DB.tickets[i]=it;else DB.tickets.push(it)});
+    save();toast("Imported "+data.tickets.length+" ticket(s)");location.hash="#/";renderBoard();
+  }catch(e){toast("Import failed: invalid file")}finally{inp.value=""}}
 
 /* =================== THEME =================== */
 function applyTheme(){const d=localStorage.getItem("portal-theme")==="dark";document.documentElement.classList.toggle("dark",d);$("themeBtn").textContent=d?"☀":"☾"}
