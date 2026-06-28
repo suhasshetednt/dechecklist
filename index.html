@@ -123,7 +123,7 @@
   <button class="btn icon" id="themeBtn" title="Theme">☾</button>
 </header>
 <div id="app"></div>
-<div class="modal" id="reportModal"><div class="sheet"><div class="sh"><span id="reportTitle">Compliance report</span><button class="btn sm" onclick="closeReport()">✕ Close</button></div><textarea id="reportText" readonly spellcheck="false"></textarea><div class="sf"><button class="btn primary" onclick="copyReport()">📋 Copy to clipboard</button><span class="small muted" style="margin-left:auto">Markdown · JIRA Cloud auto-converts on paste</span></div></div></div>
+<div class="modal" id="reportModal"><div class="sheet"><div class="sh"><span id="reportTitle">Compliance report</span><button class="btn sm" onclick="closeReport()">✕ Close</button></div><textarea id="reportText" readonly spellcheck="false"></textarea><div class="sf"><button class="btn primary" onclick="copyReport()">📋 Copy report</button><button class="btn" id="dlAtt" onclick="downloadAttachments()">⬇ Attachments</button><button class="btn" onclick="exportTicket(REPORT_TID)">⬇ Export JSON</button><span class="small muted" style="margin-left:auto">Copy report → paste in JIRA · download attachments → drag into the comment</span></div></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -457,10 +457,17 @@ function buildReport(t){
   });
   return L.join("\n");
 }
-function copyJira(id){const t=findT(id);const txt=buildReport(t);$("reportText").value=txt;$("reportTitle").textContent="Compliance report — "+t.key;$("reportModal").classList.add("open");
-  navigator.clipboard.writeText(txt).then(()=>toast("Full report copied to clipboard")).catch(()=>{});}
+let REPORT_TID=null;
+function copyJira(id){const t=findT(id);REPORT_TID=id;const txt=buildReport(t);$("reportText").value=txt;$("reportTitle").textContent="Compliance report — "+t.key;
+  const nFiles=(t.evidence||[]).filter(e=>e.kind==="file").length;$("dlAtt").textContent="⬇ Attachments ("+nFiles+")";$("dlAtt").style.display=nFiles?"inline-flex":"none";
+  $("reportModal").classList.add("open");
+  navigator.clipboard.writeText(txt).then(()=>toast("Full report (all phases) copied")).catch(()=>{});}
 function copyReport(){const ta=$("reportText");navigator.clipboard.writeText(ta.value).then(()=>toast("Copied")).catch(()=>{ta.select();document.execCommand("copy");toast("Copied")});}
 function closeReport(){$("reportModal").classList.remove("open")}
+async function downloadAttachments(){const t=findT(REPORT_TID);const files=(t.evidence||[]).filter(e=>e.kind==="file");
+  if(!files.length){toast("No uploaded files on this ticket");return}
+  toast("Downloading "+files.length+" file(s)…");
+  for(const e of files){try{const b=await idbGet(e.fid);if(!b)continue;const url=URL.createObjectURL(b);const a=document.createElement("a");a.href=url;a.download=("P"+(PHASES.find(p=>p.key===e.phaseKey)||{}).n+"_"+e.name);document.body.appendChild(a);a.click();a.remove();await new Promise(r=>setTimeout(r,500));URL.revokeObjectURL(url)}catch(_){}}}
 
 /* =================== EXPORT / IMPORT =================== */
 function blobToDataURL(b){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)})}
