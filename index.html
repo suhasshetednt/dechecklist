@@ -162,6 +162,50 @@
 <script>
 /* ============ DATA (SQL + ETL unit-testing guides) ============ */
 const DATA = {
+ design: { label:"Requirements & Design", groups:[
+  {g:"A · Requirement Understanding", items:[
+   {t:"Business requirement & objective documented (problem, consumers, success criteria)", w:"Building the wrong thing is the costliest defect.", v:"requirement doc linked to the ticket", m:"B"},
+   {t:"Acceptance criteria defined & agreed with the requester", w:"Defines 'done' objectively, not by opinion.", v:"AC written on the ticket; requester confirmed", m:"B"},
+   {t:"Scope & explicit out-of-scope stated", w:"Prevents scope creep and silent gaps.", v:"scope section in the requirement doc", m:"S"},
+   {t:"Stakeholders, data owner & consumers identified", w:"Needed for approval, access and sign-off.", v:"named roles in the doc", m:"B"},
+   {t:"SLAs defined (freshness, latency, availability, retention)", w:"Drives design choices and alerting.", v:"SLA stated and agreed", m:"S"},
+   {t:"Data sensitivity / classification & compliance identified (PII / financial)", w:"Governs masking, access and storage decisions.", v:"classification recorded on the ticket", m:"S"},
+   {t:"Volume & growth estimates (rows, size, frequency)", w:"Sizing, partitioning and cost depend on it.", v:"estimates captured in the doc", m:"S"},
+  ]},
+  {g:"B · Source & Target Analysis (before development)", items:[
+   {t:"Source systems identified (system, schema, tables, owner, connection)", w:"Can't validate completeness without every source.", v:"source inventory in the doc", m:"B"},
+   {t:"Source data profiled (counts, keys, nulls, ranges, samples)", w:"Real-data surprises break naive designs.", v:"profiling results attached", m:"S"},
+   {t:"Source grain & refresh cadence / availability window understood", w:"Drives incremental and scheduling design.", v:"documented in analysis", m:"S"},
+   {t:"Target system, layer & zone identified (PDS/VDS/table; raw→curated→consumption)", w:"Defines exactly where output lands.", v:"target defined in the doc", m:"B"},
+   {t:"Target data model designed (entities, keys, grain, SCD type)", w:"The model determines correctness & usability.", v:"model documented / diagram", m:"S"},
+   {t:"Source-to-target mapping (field-level) documented", w:"The build-and-test contract.", v:"STTM spec linked to the ticket", m:"B"},
+   {t:"Incremental strategy decided (full / CDC / watermark) + key", w:"Wrong strategy = missed or duplicated data.", v:"strategy + key documented", m:"S"},
+   {t:"Historical / backfill requirement defined", w:"Backfill is forgotten until it's a prod problem.", v:"backfill scope stated", m:"S"},
+   {t:"Upstream/downstream dependencies & impact analysis done", w:"Changes cascade; reports can break.", v:"dependency + impact list (lineage)", m:"S"},
+  ]},
+  {g:"C · Technical Design & Documentation", items:[
+   {t:"Project requirement document created & linked", w:"Single source of truth for the work.", v:"doc in Confluence/catalog linked to ticket", m:"B"},
+   {t:"Data dictionary complete (name, type, description, source, rule, PII, allowed values)", w:"Self-describing, governable data.", v:"data dictionary for every target column", m:"B"},
+   {t:"Architecture / data-flow diagram (source → ingest → transform → serve)", w:"Shared mental model; reveals gaps early.", v:"diagram in the design doc", m:"S"},
+   {t:"Target ER / data-model diagram", w:"Clarifies keys, relationships and grain.", v:"ERD attached", m:"S"},
+   {t:"Naming conventions & standards followed (datasets, jobs, branches)", w:"Consistency & discoverability across the platform.", v:"names match the FLANG standard", m:"B"},
+   {t:"Security & access design (readers, roles, masking)", w:"Least-privilege by design, not after the fact.", v:"access design documented", m:"S"},
+   {t:"Error-handling, reject & reprocessing strategy designed", w:"Failures are inevitable — plan for them up front.", v:"strategy in the design doc", m:"S"},
+   {t:"Orchestration & schedule design (dependencies, triggers)", w:"Correct sequencing prevents partial loads.", v:"DAG / schedule documented", m:"S"},
+   {t:"Reusability check — reuse existing dataset/VDS before building new", w:"Avoids duplicate, conflicting datasets.", v:"catalog searched; decision recorded", m:"S"},
+   {t:"Performance / capacity design (volume, partitioning, reflections)", w:"Design for scale before building.", v:"approach documented", m:"E"},
+   {t:"Environment & deployment plan (DEV→TEST→UAT→PROD) + rollback / DR", w:"Smooth, reversible delivery.", v:"plan documented", m:"E"},
+   {t:"Lineage captured (catalog/auto or documented)", w:"Traceability and impact analysis.", v:"lineage available in the catalog", m:"E"},
+   {t:"All docs stored in the agreed location & linked to the ticket", w:"Findable later by the whole team.", v:"links present on the ticket", m:"B"},
+  ]},
+  {g:"D · Definition of Ready (sign-off to start dev)", items:[
+   {t:"Requirements reviewed & approved by requester / lead", w:"An approved baseline before any code.", v:"approval recorded on the ticket", m:"B"},
+   {t:"Design reviewed (peer / architect)", w:"Catch design flaws before they're built.", v:"design review noted", m:"S"},
+   {t:"Source access confirmed / provisioned", w:"Missing access blocks development.", v:"access verified in non-prod", m:"S"},
+   {t:"Mapping & data dictionary approved", w:"Build-and-test contract agreed.", v:"sign-off recorded", m:"S"},
+   {t:"Ticket has AC + mapping link + design link → Ready for Development", w:"A ticket without these is not ready to start.", v:"DoR checklist on the ticket complete", m:"B"},
+  ]},
+ ]},
  sql: { label:"SQL & Dremio VDS", groups:[
   {g:"A · Correctness", items:[
    {t:"Row count vs expected / source", w:"Catches dropped or duplicated rows.", v:"COUNT(*) of output vs source for the same window", m:"B"},
@@ -278,7 +322,7 @@ const DATA = {
 const MAT_NAME={B:"Basic",S:"Standard",E:"Enterprise"};
 
 /* ============ STATE ============ */
-const state={tab:"sql",mat:"ALL",q:"",checks:load()};
+const state={tab:"design",mat:"ALL",q:"",checks:load()};
 function load(){try{return JSON.parse(localStorage.getItem("flang-dod")||"{}")}catch(e){return {}}}
 function save(){localStorage.setItem("flang-dod",JSON.stringify(state.checks))}
 function idOf(tab,gi,ii){return tab+"|"+gi+"|"+ii}
