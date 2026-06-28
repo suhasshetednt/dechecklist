@@ -162,7 +162,7 @@
 <script>
 /* ============ DATA (SQL + ETL unit-testing guides) ============ */
 const DATA = {
- sql: { label:"SQL", groups:[
+ sql: { label:"SQL & Dremio VDS", groups:[
   {g:"A · Correctness", items:[
    {t:"Row count vs expected / source", w:"Catches dropped or duplicated rows.", v:"COUNT(*) of output vs source for the same window", m:"B"},
    {t:"Grain & uniqueness — no surprise duplicates", w:"Dupes silently inflate every downstream metric.", v:"SELECT key, COUNT(*) … HAVING COUNT(*)>1  → 0 rows", m:"B"},
@@ -203,6 +203,22 @@ const DATA = {
    {t:"Tested in non-prod with prod-like data first", w:"Prove impact before prod.", v:"ran in TEST; row-count delta matches expectation", m:"S"},
    {t:"Migration / DDL is re-runnable (idempotent)", w:"Re-runs and partial failures happen.", v:"IF NOT EXISTS / guarded; second run is a no-op", m:"S"},
    {t:"Rollback / recovery plan exists", w:"Fast recovery from a bad change.", v:"rollback script or backup/restore path on the ticket", m:"S"},
+  ]},
+  {g:"E · Dremio — VDS creation & optimization", items:[
+   {t:"Query saved as a VDS in the correct space/folder", w:"In Dremio the deliverable is the VDS, not a loose query.", v:"VDS exists at the agreed path; SELECT … LIMIT 10 returns expected columns", m:"B"},
+   {t:"VDS validates — no bare reserved keywords (quote or alias)", w:"Calcite rejects unquoted reserved words (value, date, type) — a recurring VDS-save failure.", v:"reserved columns aliased e.g. t.\"value\" AS metric_value; validation passes", m:"B"},
+   {t:"Explicit, business-friendly column names (no SELECT *, no EXPR$0)", w:"The VDS is the consumer contract; auto-names break BI.", v:"every output column is named/aliased", m:"B"},
+   {t:"Filters pushed to the lowest level (pre-filter before joins)", w:"A filter trapped above a join blocks pushdown and scans everything.", v:"profile shows the source pushdown query carries the WHERE", m:"S"},
+   {t:"Pushdown verified in the query profile (predicate/projection/aggregate)", w:"If pushdown breaks, Dremio pulls whole tables.", v:"profile → source operator 'pushdown query' has WHERE + only needed columns", m:"S"},
+   {t:"Partition pruning confirmed", w:"No pruning = full scan.", v:"profile: bytes scanned ≪ dataset size for a filtered query", m:"S"},
+   {t:"Join key types match exactly (no implicit casts)", w:"A cast on a join key kills pushdown and can mis-match rows.", v:"DESCRIBE both sides; keys share type", m:"S"},
+   {t:"VDS stack kept shallow (≤2–3 layers; avoid VDS-on-VDS-on-VDS)", w:"Deep nesting blocks pushdown and reflection matching — the #1 'it used to be fast'.", v:"lineage depth; flatten where deeper", m:"S"},
+   {t:"Reflection created/considered for hot or heavy VDS; acceleration confirmed", w:"Reflections are Dremio's biggest speed lever; an unused one is pure cost.", v:"profile → Reflections = CHOSEN (not just Considered) / job acceleration MATCHED", m:"E"},
+   {t:"Heavy repeated transforms materialized (CTAS to PDS or raw reflection)", w:"Don't recompute an expensive transform on every query.", v:"materialization in place; query hits it", m:"E"},
+   {t:"Upstream PDS metadata fresh & dependencies valid", w:"Stale metadata = wrong/failed queries.", v:"ALTER PDS … REFRESH METADATA done; lineage parents correct", m:"S"},
+   {t:"VDS naming/folder governance + description & tags for the catalog", w:"Discoverability and access control.", v:"location matches standard; description set", m:"S"},
+   {t:"Downstream dependent VDS/dashboards still valid (no breaking change)", w:"One VDS change cascades to many consumers.", v:"query dependents; rename/removal communicated", m:"E"},
+   {t:"Query profile reviewed (planning vs exec time, bytes scanned vs returned, no spill)", w:"The profile is the truth about cost.", v:"open the Raw Profile; bytes scanned ≈ needed; no disk spill", m:"S"},
   ]},
  ]},
  etl: { label:"ETL / ELT", groups:[
