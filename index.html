@@ -26,27 +26,35 @@
          radial-gradient(700px 460px at -5% 0%, rgba(14,165,233,.10), transparent 55%),
          linear-gradient(180deg,#f7fafd 0%, var(--bg) 100%);
        background-attachment:fixed}
-  a{color:var(--accent)}
-  /* header */
   header{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
-  .hwrap{max-width:1060px;margin:0 auto;padding:14px 22px}
+  .hwrap{max-width:1080px;margin:0 auto;padding:14px 22px}
   .brand{display:flex;align-items:center;gap:12px}
   .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0EA5E9,#7C3AED);
         display:grid;place-items:center;font-weight:800;font-size:18px;color:#fff}
   h1{font-family:'Big Shoulders Display',system-ui,sans-serif;font-size:24px;font-weight:800;margin:0;letter-spacing:.4px;line-height:1.05}
   .h1sub{color:var(--muted);font-size:12px;margin-top:2px}
-  .tabs{display:flex;gap:8px;margin-top:14px}
-  .tab{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--muted);
-       padding:8px 18px;border-radius:999px;font-weight:600;font-size:13.5px;transition:.15s;display:flex;gap:8px;align-items:center}
-  .tab:hover{border-color:var(--accent);color:var(--txt)}
+  .wf{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;font-size:11.5px;color:var(--muted)}
+  .wf b{color:var(--txt);font-weight:600} .wf .arrow{color:var(--accent)}
+  .scopebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px;padding-top:12px;border-top:1px dashed var(--border2)}
+  .scopebar .lbl{font-size:12px;color:var(--muted);font-weight:600}
+  .scopechip{cursor:pointer;user-select:none;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);
+        padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;transition:all .15s}
+  .scopechip:hover{border-color:var(--accent);color:var(--accent)}
+  .scopechip.on{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+  .scopechip .x{margin-right:6px;font-weight:800}
+  .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+  .tab{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);
+       padding:7px 13px;border-radius:999px;font-weight:600;font-size:12.5px;transition:.15s;display:flex;gap:8px;align-items:center}
+  .tab:hover{border-color:var(--accent);color:var(--accent)}
   .tab.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(2,132,199,.30)}
-  .tab .n{font-size:11px;opacity:.85;background:rgba(15,33,55,.07);padding:1px 7px;border-radius:999px}
-  .tab.on .n{background:rgba(255,255,255,.28)}
-  /* toolbar */
+  .tab .pn{flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:rgba(15,33,55,.07);color:var(--muted);
+        display:grid;place-items:center;font-weight:800;font-size:11px;font-family:'Big Shoulders Display',sans-serif}
+  .tab.on .pn{background:rgba(255,255,255,.28);color:#fff}
+  .tab .na{font-size:10px;color:#b45309}
   .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
   .seg{display:flex;background:var(--panel2);border:1px solid var(--border2);border-radius:8px;overflow:hidden}
   .seg button{border:0;background:transparent;color:var(--muted);padding:7px 12px;cursor:pointer;font:inherit;font-size:12.5px}
-  .seg button.on{background:var(--panel2);color:var(--txt)}
+  .seg button.on{background:var(--panel);color:var(--txt)}
   .seg button.on[data-m="B"]{color:var(--B)} .seg button.on[data-m="S"]{color:var(--S)} .seg button.on[data-m="E"]{color:var(--E)}
   .search{flex:1;min-width:160px;background:var(--panel2);border:1px solid var(--border2);border-radius:8px;
           color:var(--txt);padding:7px 12px;font:inherit;transition:all .15s}
@@ -57,25 +65,31 @@
   .btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
   .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;font-weight:700}
   .btn.primary:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;filter:brightness(1.06)}
-  /* progress */
   .prog{display:flex;align-items:center;gap:12px;margin-top:14px;color:var(--muted);font-size:12.5px}
   .track{flex:1;height:7px;background:#e3e9f2;border:1px solid var(--line);border-radius:6px;overflow:hidden}
   .fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.35s}
-  /* body */
-  .wrap{max-width:1060px;margin:0 auto;padding:20px 22px 90px}
-  .sec{margin-top:18px;background:var(--panel);border:1px solid var(--line);
-       border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+  .wrap{max-width:1080px;margin:0 auto;padding:20px 22px 90px}
+  .pdesc{color:var(--muted);font-size:13px;margin:4px 2px 0}
+  .nabar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding:11px 14px;border:1px dashed var(--border2);
+        border-radius:12px;background:var(--panel2)}
+  .nabar .q{font-weight:600;font-size:13px}
+  .nabar .gap{flex:1}
+  .miniseg{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden}
+  .miniseg button{border:0;background:var(--panel);color:var(--muted);padding:6px 12px;cursor:pointer;font:inherit;font-size:12.5px}
+  .miniseg button.on{background:var(--accent);color:#fff}
+  .miniseg button.on.na{background:#d97706}
+  .nacomment{width:100%;margin-top:10px;background:var(--panel);border:1px solid var(--border2);border-radius:10px;
+        color:var(--txt);padding:10px 12px;font:inherit;font-size:13px;min-height:60px;resize:vertical}
+  .sec{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
   .sec-h{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);
          background:linear-gradient(90deg,rgba(2,132,199,.08),rgba(2,132,199,.02) 60%,transparent)}
   .sec-h .bar{width:4px;height:20px;border-radius:3px;background:var(--tier)}
   .sec-h h2{margin:0;font-family:'Big Shoulders Display',system-ui,sans-serif;font-size:19px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-  .sec-h .cnt{margin-left:auto;color:var(--muted);font-size:12px;background:var(--panel2);border:1px solid var(--line);
-              padding:2px 9px;border-radius:999px}
+  .sec-h .cnt{margin-left:auto;color:var(--muted);font-size:12px;background:var(--panel2);border:1px solid var(--line);padding:2px 9px;border-radius:999px}
   .item{display:flex;gap:13px;padding:13px 16px;border-bottom:1px solid rgba(15,33,55,.08);transition:.12s}
   .item:last-child{border-bottom:0}
   .item:hover{background:rgba(2,132,199,.04)}
   .item.done{opacity:.62}
-  /* checkbox */
   .cb{appearance:none;flex:0 0 auto;width:20px;height:20px;margin-top:2px;border:1.5px solid #c8d4e2;border-radius:6px;
       background:#fff;cursor:pointer;position:relative;transition:.15s}
   .cb:hover{border-color:var(--accent)}
@@ -86,29 +100,27 @@
   .test{font-weight:600;flex:1}
   .item.done .test{text-decoration:line-through;color:var(--muted)}
   .chip{flex:0 0 auto;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:6px;border:1px solid;letter-spacing:.3px}
-  .chip.B{color:var(--B);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
-  .chip.S{color:var(--S);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
-  .chip.E{color:var(--E);border-color:rgba(192,132,252,.5);background:rgba(192,132,252,.08)}
+  .chip.B{color:var(--B);border-color:rgba(5,150,105,.45);background:rgba(5,150,105,.08)}
+  .chip.S{color:var(--S);border-color:rgba(37,99,235,.45);background:rgba(37,99,235,.08)}
+  .chip.E{color:var(--E);border-color:rgba(124,58,237,.45);background:rgba(124,58,237,.08)}
   .why{color:var(--muted);font-size:13px;margin-top:4px}
   .verify{margin-top:7px;font-size:12px;color:#0f3a52;background:rgba(2,132,199,.07);border:1px solid rgba(2,132,199,.20);
           border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;
           font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;overflow-x:auto}
-  .verify b{color:var(--accent);font-family:system-ui;font-weight:700;margin-right:6px}
-  .empty{color:var(--muted);text-align:center;padding:40px;font-size:13px}
-  /* modal */
+  .verify b{color:var(--accent);font-family:'IBM Plex Sans',system-ui;font-weight:700;margin-right:6px}
+  .empty,.hint{color:var(--muted);text-align:center;padding:34px;font-size:13px}
   .modal{position:fixed;inset:0;background:rgba(15,33,55,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
   .modal.open{display:flex}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);max-width:760px;width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
   .card .ch{padding:13px 16px;border-bottom:1px solid var(--line);font-weight:700}
-  .card textarea{flex:1;border:0;background:#f8fafc;color:var(--txt);font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;
-                 font-size:12.5px;padding:14px;resize:none;min-height:48vh}
+  .card textarea{flex:1;border:0;background:#f8fafc;color:var(--txt);font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;font-size:12.5px;padding:14px;resize:none;min-height:48vh}
   .card .cf{padding:11px 16px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;
          background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;
          padding:10px 18px;border-radius:10px;transition:.3s;pointer-events:none;z-index:60;box-shadow:var(--shadow)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  .foot{max-width:1060px;margin:0 auto;padding:0 22px 40px;color:var(--faint);font-size:12px}
-  @media print{header .tabs,.toolbar,.prog,.cb,.btn,.seg{display:none!important}body{background:#fff;color:#000}
+  .foot{max-width:1080px;margin:0 auto;padding:0 22px 40px;color:var(--faint);font-size:12px}
+  @media print{header .tabs,.toolbar,.prog,.cb,.btn,.seg,.scopebar{display:none!important}body{background:#fff;color:#000}
     .sec,.verify{border-color:#ccc}.verify{color:#055;background:#f4fbfd}}
 </style>
 </head>
@@ -119,8 +131,14 @@
       <div class="logo">✓</div>
       <div>
         <h1>Data Engineering Unit Testing</h1>
-        <div class="h1sub">Evidence-based review · tick what you've <i>proven</i>, not what you assume</div>
+        <div class="h1sub">Phased delivery workflow · evidence-based · tick what you've <i>proven</i>, not what you assume</div>
       </div>
+    </div>
+    <div class="wf">
+      <b>Design loop:</b> 1 → 2 → 3 → 4 <span class="arrow">↻ iterate until approved</span> &nbsp;·&nbsp; <b>Build:</b> 5 / 6 → 7 &nbsp;·&nbsp; <b>0</b> Standards underpins all
+    </div>
+    <div class="scopebar" id="scopebar">
+      <span class="lbl">Development scope:</span>
     </div>
     <div class="tabs" id="tabs"></div>
     <div class="toolbar">
@@ -130,7 +148,7 @@
         <button data-m="S">Standard</button>
         <button data-m="E">Enterprise</button>
       </div>
-      <input class="search" id="search" placeholder="Filter tests…">
+      <input class="search" id="search" placeholder="Filter…">
       <button class="btn primary" id="copyBtn">Copy for JIRA</button>
       <button class="btn" id="resetBtn">Reset</button>
       <button class="btn" id="printBtn">Print</button>
@@ -160,218 +178,299 @@
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============ DATA (SQL + ETL unit-testing guides) ============ */
-const DATA = {
- design: { label:"Requirements & Design", groups:[
-  {g:"A · Requirement Understanding", items:[
-   {t:"Business requirement & objective documented (problem, consumers, success criteria)", w:"Building the wrong thing is the costliest defect.", v:"requirement doc linked to the ticket", m:"B"},
-   {t:"Acceptance criteria defined & agreed with the requester", w:"Defines 'done' objectively, not by opinion.", v:"AC written on the ticket; requester confirmed", m:"B"},
-   {t:"Scope & explicit out-of-scope stated", w:"Prevents scope creep and silent gaps.", v:"scope section in the requirement doc", m:"S"},
-   {t:"Stakeholders, data owner & consumers identified", w:"Needed for approval, access and sign-off.", v:"named roles in the doc", m:"B"},
-   {t:"SLAs defined (freshness, latency, availability, retention)", w:"Drives design choices and alerting.", v:"SLA stated and agreed", m:"S"},
-   {t:"Data sensitivity / classification & compliance identified (PII / financial)", w:"Governs masking, access and storage decisions.", v:"classification recorded on the ticket", m:"S"},
-   {t:"Volume & growth estimates (rows, size, frequency)", w:"Sizing, partitioning and cost depend on it.", v:"estimates captured in the doc", m:"S"},
+/* ===================== PHASES ===================== */
+const PHASES = [
+ {key:"std", n:"0", label:"Standards", title:"FLANG Standards",
+  desc:"The naming, type and format standards every dataset/column/job must follow. The foundation for phases 1–7.", groups:[
+  {g:"A · Naming — Tables / Datasets", items:[
+   {t:"lowercase snake_case; no spaces or special characters", w:"Consistency and portability across engines.", v:"name matches ^[a-z0-9_]+$", m:"B"},
+   {t:"Layer/zone prefix per standard (src_ / stg_ / dim_ / fact_)", w:"Tells you what a dataset is at a glance.", v:"prefix correct for the layer", m:"S"},
+   {t:"No reserved keywords as object names (avoid value, date, type)", w:"Calcite/DB rejects or requires quoting.", v:"name is not a reserved word", m:"B"},
+   {t:"Singular/plural convention consistent", w:"Predictability for consumers.", v:"matches the agreed convention", m:"S"},
+   {t:"Environment & zone live in the path, not the name", w:"Same name promotes across DEV→PROD.", v:"no env suffixes in object names", m:"S"},
   ]},
-  {g:"B · Source & Target Analysis (before development)", items:[
-   {t:"Source systems identified (system, schema, tables, owner, connection)", w:"Can't validate completeness without every source.", v:"source inventory in the doc", m:"B"},
-   {t:"Source data profiled (counts, keys, nulls, ranges, samples)", w:"Real-data surprises break naive designs.", v:"profiling results attached", m:"S"},
-   {t:"Source grain & refresh cadence / availability window understood", w:"Drives incremental and scheduling design.", v:"documented in analysis", m:"S"},
-   {t:"Target system, layer & zone identified (PDS/VDS/table; raw→curated→consumption)", w:"Defines exactly where output lands.", v:"target defined in the doc", m:"B"},
-   {t:"Target data model designed (entities, keys, grain, SCD type)", w:"The model determines correctness & usability.", v:"model documented / diagram", m:"S"},
-   {t:"Source-to-target mapping (field-level) documented", w:"The build-and-test contract.", v:"STTM spec linked to the ticket", m:"B"},
-   {t:"Incremental strategy decided (full / CDC / watermark) + key", w:"Wrong strategy = missed or duplicated data.", v:"strategy + key documented", m:"S"},
-   {t:"Historical / backfill requirement defined", w:"Backfill is forgotten until it's a prod problem.", v:"backfill scope stated", m:"S"},
-   {t:"Upstream/downstream dependencies & impact analysis done", w:"Changes cascade; reports can break.", v:"dependency + impact list (lineage)", m:"S"},
+  {g:"B · Naming — Columns", items:[
+   {t:"snake_case, descriptive; no cryptic abbreviations (unless in glossary)", w:"Self-explaining columns reduce errors.", v:"column names readable & in glossary if abbreviated", m:"B"},
+   {t:"Key suffixes: _id (surrogate), _key (business); dates _date, timestamps _ts", w:"Type is obvious from the name.", v:"suffixes applied consistently", m:"S"},
+   {t:"Booleans prefixed is_ / has_", w:"Readable predicates.", v:"boolean columns prefixed", m:"S"},
+   {t:"Units in the name where ambiguous (amount_usd, weight_kg)", w:"Prevents unit mistakes.", v:"unit encoded where needed", m:"S"},
+   {t:"Reserved words aliased (t.\"value\" AS metric_value)", w:"Avoids the recurring VDS-save failure.", v:"reserved columns aliased", m:"B"},
   ]},
-  {g:"C · Technical Design & Documentation", items:[
-   {t:"Project requirement document created & linked", w:"Single source of truth for the work.", v:"doc in Confluence/catalog linked to ticket", m:"B"},
-   {t:"Data dictionary complete (name, type, description, source, rule, PII, allowed values)", w:"Self-describing, governable data.", v:"data dictionary for every target column", m:"B"},
-   {t:"Architecture / data-flow diagram (source → ingest → transform → serve)", w:"Shared mental model; reveals gaps early.", v:"diagram in the design doc", m:"S"},
-   {t:"Target ER / data-model diagram", w:"Clarifies keys, relationships and grain.", v:"ERD attached", m:"S"},
-   {t:"Naming conventions & standards followed (datasets, jobs, branches)", w:"Consistency & discoverability across the platform.", v:"names match the FLANG standard", m:"B"},
-   {t:"Security & access design (readers, roles, masking)", w:"Least-privilege by design, not after the fact.", v:"access design documented", m:"S"},
-   {t:"Error-handling, reject & reprocessing strategy designed", w:"Failures are inevitable — plan for them up front.", v:"strategy in the design doc", m:"S"},
-   {t:"Orchestration & schedule design (dependencies, triggers)", w:"Correct sequencing prevents partial loads.", v:"DAG / schedule documented", m:"S"},
-   {t:"Reusability check — reuse existing dataset/VDS before building new", w:"Avoids duplicate, conflicting datasets.", v:"catalog searched; decision recorded", m:"S"},
-   {t:"Performance / capacity design (volume, partitioning, reflections)", w:"Design for scale before building.", v:"approach documented", m:"E"},
-   {t:"Environment & deployment plan (DEV→TEST→UAT→PROD) + rollback / DR", w:"Smooth, reversible delivery.", v:"plan documented", m:"E"},
-   {t:"Lineage captured (catalog/auto or documented)", w:"Traceability and impact analysis.", v:"lineage available in the catalog", m:"E"},
-   {t:"All docs stored in the agreed location & linked to the ticket", w:"Findable later by the whole team.", v:"links present on the ticket", m:"B"},
+  {g:"C · Data Types & Formats", items:[
+   {t:"Money as DECIMAL(p,s) — never FLOAT/DOUBLE", w:"Floats lose pennies.", v:"amount columns are DECIMAL with agreed precision/scale", m:"B"},
+   {t:"Timestamps stored in UTC; DATE vs TIMESTAMP used correctly", w:"TZ bugs are silent and costly.", v:"UTC storage; correct type per column", m:"S"},
+   {t:"Consistent precision/scale for amounts across datasets", w:"Avoids rounding mismatches in joins/sums.", v:"same DECIMAL(p,s) for like measures", m:"S"},
+   {t:"Standard NULL vs default convention", w:"Predictable handling downstream.", v:"convention documented & applied", m:"S"},
+   {t:"Standard boolean representation", w:"No mix of Y/N, 1/0, true/false.", v:"single representation used", m:"S"},
   ]},
-  {g:"D · Definition of Ready (sign-off to start dev)", items:[
-   {t:"Requirements reviewed & approved by requester / lead", w:"An approved baseline before any code.", v:"approval recorded on the ticket", m:"B"},
-   {t:"Design reviewed (peer / architect)", w:"Catch design flaws before they're built.", v:"design review noted", m:"S"},
-   {t:"Source access confirmed / provisioned", w:"Missing access blocks development.", v:"access verified in non-prod", m:"S"},
-   {t:"Mapping & data dictionary approved", w:"Build-and-test contract agreed.", v:"sign-off recorded", m:"S"},
-   {t:"Ticket has AC + mapping link + design link → Ready for Development", w:"A ticket without these is not ready to start.", v:"DoR checklist on the ticket complete", m:"B"},
+  {g:"D · VDS / Job / Pipeline / Git naming", items:[
+   {t:"VDS space/folder & layer naming (raw→staging→curated→semantic)", w:"Discoverability and governance.", v:"object sits in the correct space/folder", m:"S"},
+   {t:"Job / pipeline / reflection naming convention followed", w:"Operability and ownership.", v:"names match the standard", m:"S"},
+   {t:"Branch naming feature/ADL-<id>-desc; commit carries the ticket key", w:"Traceability code↔ticket.", v:"branch + commit follow the pattern", m:"B"},
+   {t:"PR title/description standard followed", w:"Reviewable, auditable change.", v:"PR matches template", m:"S"},
+  ]},
+  {g:"E · Metadata & Documentation standards", items:[
+   {t:"Every dataset has description, owner, steward, domain, classification", w:"Governable, discoverable data.", v:"metadata present in the catalog", m:"B"},
+   {t:"Data dictionary template followed", w:"Uniform, complete documentation.", v:"dictionary uses the FLANG template", m:"B"},
+   {t:"Mandatory tags applied (PII, domain, sensitivity)", w:"Drives access & compliance.", v:"tags set on the dataset", m:"S"},
   ]},
  ]},
- sql: { label:"SQL & Dremio VDS", groups:[
+
+ {key:"p1", n:"1", label:"Requirement & Source/Target", title:"Phase 1 · Requirement & Source/Target Analysis",
+  desc:"Understand the requirement and analyse sources & targets BEFORE any development.", groups:[
+  {g:"A · Requirement Understanding", items:[
+   {t:"Business requirement & objective documented (problem, consumers, success criteria)", w:"Building the wrong thing is the costliest defect.", v:"requirement doc linked to the ticket", m:"B"},
+   {t:"Acceptance criteria defined & agreed with the requester", w:"Defines 'done' objectively.", v:"AC on the ticket; requester confirmed", m:"B"},
+   {t:"Scope & explicit out-of-scope stated", w:"Prevents scope creep and gaps.", v:"scope section in the doc", m:"S"},
+   {t:"Stakeholders, data owner & consumers identified", w:"Needed for approval, access, sign-off.", v:"named roles in the doc", m:"B"},
+   {t:"SLAs defined (freshness, latency, availability, retention)", w:"Drives design and alerting.", v:"SLA stated & agreed", m:"S"},
+   {t:"Data sensitivity / classification & compliance identified (PII/financial)", w:"Governs masking, access, storage.", v:"classification recorded", m:"S"},
+   {t:"Volume & growth estimates (rows, size, frequency)", w:"Sizing, partitioning, cost depend on it.", v:"estimates captured", m:"S"},
+  ]},
+  {g:"B · Source & Target Analysis", items:[
+   {t:"Source systems identified (system, schema, tables, owner, connection)", w:"Can't validate completeness without every source.", v:"source inventory in the doc", m:"B"},
+   {t:"Source data profiled (counts, keys, nulls, ranges, samples)", w:"Real-data surprises break naive designs.", v:"profiling results attached", m:"S"},
+   {t:"Source grain & refresh cadence / availability understood", w:"Drives incremental & scheduling.", v:"documented", m:"S"},
+   {t:"Target system, layer & zone identified (PDS/VDS/table; raw→curated→consumption)", w:"Defines where output lands.", v:"target defined", m:"B"},
+   {t:"Target data model designed (entities, keys, grain, SCD type)", w:"The model determines correctness.", v:"model documented/diagram", m:"S"},
+   {t:"Source-to-target mapping (field-level) documented", w:"The build-and-test contract.", v:"STTM spec linked", m:"B"},
+   {t:"Incremental strategy decided (full / CDC / watermark) + key", w:"Wrong strategy = missed/duplicated data.", v:"strategy + key documented", m:"S"},
+   {t:"Historical / backfill requirement defined", w:"Backfill is forgotten until prod.", v:"backfill scope stated", m:"S"},
+   {t:"Upstream/downstream dependencies & impact analysis done", w:"Changes cascade; reports can break.", v:"dependency + impact list (lineage)", m:"S"},
+  ]},
+ ]},
+
+ {key:"p2", n:"2", label:"Technical Documentation", title:"Phase 2 · Technical Documentation",
+  desc:"Produce the documentation set to FLANG standards — requirement doc, data dictionary, STTM, diagrams.", groups:[
+  {g:"A · Core documents", items:[
+   {t:"Project requirement document created & linked", w:"Single source of truth.", v:"doc in Confluence/catalog linked to ticket", m:"B"},
+   {t:"Data dictionary complete (name, type, description, source, rule, PII, allowed values)", w:"Self-describing, governable data.", v:"dictionary for every target column (FLANG template)", m:"B"},
+   {t:"Source-to-target mapping (STTM) follows the standard template", w:"Uniform, testable mapping.", v:"STTM in the template, field-level", m:"B"},
+   {t:"Assumptions & open-questions log maintained", w:"Surfaces unknowns before they bite.", v:"log in the doc", m:"S"},
+  ]},
+  {g:"B · Diagrams", items:[
+   {t:"Architecture / data-flow diagram (source → ingest → transform → serve)", w:"Shared mental model; reveals gaps.", v:"diagram in the design doc", m:"S"},
+   {t:"Target ER / data-model diagram", w:"Clarifies keys, relationships, grain.", v:"ERD attached", m:"S"},
+   {t:"Orchestration / sequence diagram (jobs, dependencies, triggers)", w:"Correct sequencing prevents partial loads.", v:"DAG/sequence documented", m:"S"},
+   {t:"Lineage captured (catalog/auto or documented)", w:"Traceability & impact analysis.", v:"lineage available", m:"E"},
+  ]},
+  {g:"C · Design decisions", items:[
+   {t:"Naming & standards from Phase 0 applied throughout", w:"Consistency across the platform.", v:"names/types match the standard", m:"B"},
+   {t:"Security & access design (readers, roles, masking)", w:"Least-privilege by design.", v:"access design documented", m:"S"},
+   {t:"Error-handling, reject & reprocessing strategy designed", w:"Plan for inevitable failures.", v:"strategy in the doc", m:"S"},
+   {t:"Reusability check — reuse existing dataset/VDS before building new", w:"Avoids duplicate, conflicting datasets.", v:"catalog searched; decision recorded", m:"S"},
+   {t:"Performance/capacity design (volume, partitioning, reflections)", w:"Design for scale up front.", v:"approach documented", m:"E"},
+   {t:"Environment & deployment plan (DEV→TEST→UAT→PROD) + rollback/DR", w:"Smooth, reversible delivery.", v:"plan documented", m:"E"},
+   {t:"All docs stored in the agreed location & linked to the ticket", w:"Findable by the whole team.", v:"links on the ticket", m:"B"},
+  ]},
+ ]},
+
+ {key:"p3", n:"3", label:"Definition of Ready", title:"Phase 3 · Definition of Ready — Lead Sign-off",
+  desc:"Package phases 1–2 and submit to the Technical Lead for review and approval to start development.", groups:[
+  {g:"A · Ready to submit to Lead", items:[
+   {t:"Requirement doc, STTM and data dictionary attached to the ticket", w:"The lead reviews artifacts, not memory.", v:"all three linked on the ticket", m:"B"},
+   {t:"Diagrams (architecture + ER) attached", w:"Design is reviewable.", v:"diagrams linked", m:"S"},
+   {t:"Standards (Phase 0) confirmed applied", w:"Lead shouldn't catch naming/type issues.", v:"self-check done", m:"B"},
+   {t:"Open questions/assumptions listed for the lead", w:"Focuses the review.", v:"list present", m:"S"},
+   {t:"Development scope declared (ETL/ELT, SQL/VDS, or both) with rationale", w:"Sets which build phases apply.", v:"scope selected above + rationale on ticket", m:"B"},
+   {t:"Ticket moved to 'In Review' / assigned to Technical Lead", w:"Triggers the formal review.", v:"status + assignee set", m:"B"},
+  ]},
+ ]},
+
+ {key:"p4", n:"4", label:"Review Feedback & Iterate", title:"Phase 4 · Review Feedback & Iterate",
+  desc:"Lead reviews. Capture feedback, correct phases 1–2, and re-submit (3→4). Loop until approved.", groups:[
+  {g:"A · Act on feedback (loop back to 1–2 as needed)", items:[
+   {t:"Lead/architect review completed; feedback captured on the ticket", w:"Written feedback is actionable & auditable.", v:"review comments on the ticket", m:"B"},
+   {t:"Each feedback item actioned, or answered with rationale", w:"Nothing dropped silently.", v:"each point resolved/responded", m:"B"},
+   {t:"Phases 1–2 corrected per feedback (requirement / mapping / design / docs)", w:"Fix the source of truth, not just the ticket.", v:"docs updated & re-linked", m:"B"},
+   {t:"Open questions resolved with the requester/owner", w:"Removes ambiguity before build.", v:"answers recorded", m:"S"},
+   {t:"Re-submitted for re-review where changes were material", w:"Closes the loop (back to Phase 3).", v:"re-review requested", m:"S"},
+   {t:"Final design APPROVED by the Lead → proceed to development", w:"The gate that starts the build.", v:"approval recorded on the ticket", m:"B"},
+  ]},
+ ]},
+
+ {key:"etl", n:"5", label:"Dev · ETL / ELT", scope:"etl", canNA:true, title:"Phase 5 · Development — ETL / ELT (+ unit testing)",
+  desc:"Build and unit-test the pipeline. Not needed if data already lands in the lake — mark N/A with a reason.", groups:[
+  {g:"A · Extract", items:[
+   {t:"Source connection/config correct & externalized", w:"Wrong/hardcoded source = wrong env or breakage.", v:"from context/config; intended source", m:"B"},
+   {t:"Extracted row count matches source for the window", w:"Catches a silently partial read.", v:"read-count vs source COUNT(*)", m:"B"},
+   {t:"Incremental key / watermark correct (or full-load justified)", w:"Wrong key = missed or re-read rows.", v:"re-run picks only new/changed; boundary once-only", m:"S"},
+   {t:"No truncation / precision loss on read", w:"Decimals/strings/timestamps degrade silently.", v:"spot-check high-precision columns", m:"S"},
+   {t:"Source schema/contract validated; drift handled", w:"Upstream changes break the job.", v:"assert columns/types; fail fast on drift", m:"S"},
+  ]},
+  {g:"B · Transform", items:[
+   {t:"Field-by-field mapping matches the STTM", w:"Most logic bugs live here.", v:"each column vs rule on a hand-calculated fixture", m:"B"},
+   {t:"Type conversions explicit & lossless", w:"Implicit casts corrupt numbers/dates.", v:"output types per schema; round-trip a sample", m:"S"},
+   {t:"NULL / default / empty handling defined", w:"NULLs break joins, keys, metrics.", v:"NULL counts = expected; defaults applied", m:"B"},
+   {t:"Deduplication correct; lookups handle misses (reject/default)", w:"Dupes & dropped rows are silent.", v:"dup-key assertion = 0; misses → reject w/ reason", m:"S"},
+   {t:"Business rules / derivations validated; deterministic output", w:"Valid ≠ correct; re-runs must match.", v:"fixture → expected; run twice identical", m:"S"},
+  ]},
+  {g:"C · Load", items:[
+   {t:"Load mode correct (append/overwrite/upsert/merge)", w:"Wrong mode duplicates or wipes data.", v:"mode matches intent; target before/after", m:"B"},
+   {t:"Idempotent — re-running does not duplicate", w:"Pipelines get re-run after failures.", v:"run twice → count unchanged; dup-key = 0", m:"B"},
+   {t:"Target count = transformed count (no silent drops)", w:"Lost rows are invisible without this.", v:"loaded vs transformed count", m:"B"},
+   {t:"PK/unique respected; partial-load safe; target format/partitioning correct", w:"Integrity, recoverability, query cost.", v:"dup-key=0; kill mid-run → clean; Parquet+partitions", m:"S"},
+  ]},
+  {g:"D · Reconciliation", items:[
+   {t:"Source → target reconciliation: source = loaded + rejected + filtered", w:"The headline completeness proof.", v:"equation holds; attach result", m:"B"},
+   {t:"Control totals reconcile (sum of key amounts)", w:"Counts can match while values are wrong.", v:"SUM source vs target within tolerance", m:"S"},
+   {t:"Sample records traced source → target", w:"Proves transforms end-to-end.", v:"5–10 keys correct at target", m:"S"},
+   {t:"Reject/error rows accounted for with reasons", w:"'Lost' rows are usually dropped.", v:"reject count + reasons logged", m:"S"},
+  ]},
+  {g:"E · Resilience, performance & orchestration", items:[
+   {t:"Failures detectable (not silent); bad rows to reject flow", w:"A 'green' job dropping rows is the worst case.", v:"non-zero exit/alert; reject store populated", m:"B"},
+   {t:"Restart/resume without duplication; rollback on failure", w:"Re-runs after failure are normal.", v:"fail mid-run → resume clean; target consistent", m:"S"},
+   {t:"Runtime within SLA on prod-like volume; bulk not row-by-row", w:"RBAR & small-data timings fail in prod.", v:"timed on real volume; bulk load used", m:"S"},
+   {t:"Dependencies/order, upstream-readiness, concurrency, schedule correct", w:"Stale/partial/double loads otherwise.", v:"DAG gates; _SUCCESS check; lock; schedule per SLA", m:"S"},
+   {t:"Run audit logged (run id, counts in/out/reject, timing)", w:"Observability + audit.", v:"audit row per run", m:"S"},
+  ]},
+ ]},
+
+ {key:"sql", n:"6", label:"Dev · SQL / VDS", scope:"sql", canNA:true, title:"Phase 6 · Development — SQL / VDS creation & optimization (+ unit testing)",
+  desc:"Write, optimize and unit-test the query, then publish it as a VDS. Mark N/A if no query/VDS work is needed.", groups:[
   {g:"A · Correctness", items:[
-   {t:"Row count vs expected / source", w:"Catches dropped or duplicated rows.", v:"COUNT(*) of output vs source for the same window", m:"B"},
-   {t:"Grain & uniqueness — no surprise duplicates", w:"Dupes silently inflate every downstream metric.", v:"SELECT key, COUNT(*) … HAVING COUNT(*)>1  → 0 rows", m:"B"},
-   {t:"Primary / business key integrity", w:"Keys must be present and unique.", v:"assertion: NULL keys = 0 rows; duplicate keys = 0 rows", m:"B"},
-   {t:"NULL handling validated", w:"NULLs break joins, aggregates and NOT IN.", v:"null counts = expected; never NOT IN (subquery with NULLs)", m:"B"},
-   {t:"Join cardinality — no unintended fan-out", w:"A many-to-many join multiplies rows.", v:"row count before vs after each join = intended grain", m:"S"},
-   {t:"Aggregation reconciliation", w:"A wrong GROUP BY / filter skews totals.", v:"SUM/COUNT reconciles to an independent grand total", m:"S"},
-   {t:"Business rules give expected output on known inputs", w:"Technically valid ≠ correct.", v:"run vs a fixture with hand-calculated expected values", m:"S"},
-   {t:"Referential integrity (no orphans)", w:"Orphan FKs break reports.", v:"LEFT JOIN parent … WHERE parent.key IS NULL  → 0 rows", m:"S"},
-   {t:"Edge & boundary cases", w:"Bugs hide at the edges.", v:"empty input, single row, max/min, dups, out-of-range dates", m:"S"},
-   {t:"Deterministic / idempotent", w:"Re-running must give the same result.", v:"run twice → identical output; no reliance on unstable order", m:"S"},
-   {t:"Date / timezone correctness", w:"Off-by-a-day and TZ bugs are costly.", v:"month/quarter edges + UTC↔local conversions tested", m:"E"},
+   {t:"Row count vs expected/source; grain & uniqueness (no dups)", w:"Dropped/duplicated rows skew everything.", v:"GROUP BY key HAVING COUNT(*)>1 → 0 rows", m:"B"},
+   {t:"PK/business key integrity; NULL handling validated", w:"Keys must be present/unique; NULLs break logic.", v:"NULL & dup-key assertions → 0 rows", m:"B"},
+   {t:"Join cardinality — no unintended fan-out", w:"A bad join multiplies rows.", v:"row count before vs after join = grain", m:"S"},
+   {t:"Aggregation reconciliation; business rules on known inputs", w:"Wrong GROUP BY/filter skews totals.", v:"SUM reconciles; fixture → expected", m:"S"},
+   {t:"Referential integrity; edge cases; deterministic; date/TZ correct", w:"Orphans, edges, and TZ bugs are common.", v:"orphan check=0; empties/min-max tested; UTC↔local", m:"S"},
   ]},
   {g:"B · Standards & readability", items:[
    {t:"No SELECT * — explicit, named columns", w:"Schema-drift breakage + wasted I/O.", v:"read the SELECT list", m:"B"},
-   {t:"CTEs over nested subqueries; pre-filter BEFORE joins", w:"Readability + far less data through joins.", v:"filters sit in the earliest CTE, not after the join", m:"S"},
-   {t:"All tables aliased in multi-table queries", w:"Unambiguous and maintainable.", v:"every column is alias-qualified", m:"B"},
-   {t:"JOIN instead of correlated subquery where possible", w:"Set-based is faster and clearer.", v:"no per-row correlated subselect a join would replace", m:"S"},
-   {t:"No ORDER BY / LIMIT inside subqueries or views", w:"Non-deterministic; optimizer ignores it.", v:"scan subquery / view bodies", m:"S"},
-   {t:"Explicit column list in INSERT", w:"Positional inserts break on schema change.", v:"INSERT INTO t (col1, col2, …)", m:"S"},
-   {t:"No trailing semicolons unless the DB requires it", w:"Team style / multi-statement safety.", v:"check statement terminators", m:"B"},
-   {t:"Consistent formatting & naming", w:"Reviewable, diff-friendly.", v:"case / indent / names follow convention", m:"S"},
+   {t:"CTEs over nested subqueries; pre-filter BEFORE joins", w:"Readability + far less data through joins.", v:"filters in the earliest CTE", m:"S"},
+   {t:"Tables aliased; JOIN over correlated subquery", w:"Unambiguous & faster.", v:"alias-qualified; no per-row subselect", m:"S"},
+   {t:"No ORDER BY/LIMIT in subqueries/views; explicit INSERT columns", w:"Non-deterministic; positional inserts break.", v:"scan bodies; INSERT lists columns", m:"S"},
   ]},
   {g:"C · Performance & optimization", items:[
    {t:"Execution plan reviewed — no full scans on large tables", w:"The plan is the truth about cost.", v:"Oracle DBMS_XPLAN · MySQL EXPLAIN ANALYZE · Dremio profile", m:"B"},
-   {t:"Sargable predicates — no functions on filtered/indexed columns", w:"A function on the column kills index/partition use.", v:"WHERE dt >= DATE '…'  not  WHERE TRUNC(dt)=…", m:"B"},
-   {t:"Indexes / partitions exist & are used", w:"Avoids full scans at scale.", v:"plan shows index range / partition pruning", m:"S"},
-   {t:"No implicit type conversions in joins/filters", w:"Breaks index use; can mis-match rows.", v:"join/filter columns share type (no VARCHAR↔NUMBER)", m:"S"},
-   {t:"Window functions instead of self-joins for ranking/dedupe", w:"Cheaper and clearer.", v:"ROW_NUMBER()/RANK() used; no self-join for 'latest row'", m:"S"},
-   {t:"No DISTINCT used to mask a bad join", w:"DISTINCT often hides fan-out duplication.", v:"remove DISTINCT → if dupes appear, fix the join", m:"S"},
-   {t:"COUNT(DISTINCT) on big data uses approximation when exact not needed", w:"Exact distinct is expensive.", v:"APPROX_COUNT_DISTINCT / engine equivalent", m:"E"},
-   {t:"Set-based, not row-by-row (no cursors/loops where SQL works)", w:"RBAR doesn't scale.", v:"logic expressed as set operations", m:"S"},
-   {t:"Statistics fresh; runtime within SLA on prod-like volume", w:"Stale stats → bad plans; small data lies.", v:"stats gathered; timed on representative volume", m:"S"},
+   {t:"Sargable predicates — no functions on filtered/indexed columns", w:"Functions kill index/partition pruning.", v:"WHERE dt >= DATE '…' not TRUNC(dt)=…", m:"B"},
+   {t:"Indexes/partitions used; no implicit type conversions", w:"Avoids full scans & mis-matches.", v:"plan shows index/partition; keys same type", m:"S"},
+   {t:"Window funcs over self-joins; no DISTINCT masking a bad join", w:"Cheaper; DISTINCT hides fan-out.", v:"ROW_NUMBER used; remove DISTINCT → dupes?", m:"S"},
+   {t:"APPROX_COUNT_DISTINCT for big distinct; set-based not RBAR; stats fresh", w:"Exact distinct & RBAR don't scale.", v:"approx used; set-based; timed on real volume", m:"S"},
   ]},
-  {g:"D · Safety (DML / DDL)", items:[
-   {t:"UPDATE / DELETE has a verified WHERE", w:"A missing WHERE wipes the table.", v:"run the SELECT form first; confirm affected-row count BEFORE mutating", m:"B"},
-   {t:"Transaction / commit boundaries correct", w:"Partial commits corrupt state.", v:"explicit txn; commit only after validation; rollback on error", m:"S"},
-   {t:"Tested in non-prod with prod-like data first", w:"Prove impact before prod.", v:"ran in TEST; row-count delta matches expectation", m:"S"},
-   {t:"Migration / DDL is re-runnable (idempotent)", w:"Re-runs and partial failures happen.", v:"IF NOT EXISTS / guarded; second run is a no-op", m:"S"},
-   {t:"Rollback / recovery plan exists", w:"Fast recovery from a bad change.", v:"rollback script or backup/restore path on the ticket", m:"S"},
-  ]},
-  {g:"E · Dremio — VDS creation & optimization", items:[
-   {t:"Query saved as a VDS in the correct space/folder", w:"In Dremio the deliverable is the VDS, not a loose query.", v:"VDS exists at the agreed path; SELECT … LIMIT 10 returns expected columns", m:"B"},
-   {t:"VDS validates — no bare reserved keywords (quote or alias)", w:"Calcite rejects unquoted reserved words (value, date, type) — a recurring VDS-save failure.", v:"reserved columns aliased e.g. t.\"value\" AS metric_value; validation passes", m:"B"},
-   {t:"Explicit, business-friendly column names (no SELECT *, no EXPR$0)", w:"The VDS is the consumer contract; auto-names break BI.", v:"every output column is named/aliased", m:"B"},
-   {t:"Filters pushed to the lowest level (pre-filter before joins)", w:"A filter trapped above a join blocks pushdown and scans everything.", v:"profile shows the source pushdown query carries the WHERE", m:"S"},
-   {t:"Pushdown verified in the query profile (predicate/projection/aggregate)", w:"If pushdown breaks, Dremio pulls whole tables.", v:"profile → source operator 'pushdown query' has WHERE + only needed columns", m:"S"},
-   {t:"Partition pruning confirmed", w:"No pruning = full scan.", v:"profile: bytes scanned ≪ dataset size for a filtered query", m:"S"},
-   {t:"Join key types match exactly (no implicit casts)", w:"A cast on a join key kills pushdown and can mis-match rows.", v:"DESCRIBE both sides; keys share type", m:"S"},
-   {t:"VDS stack kept shallow (≤2–3 layers; avoid VDS-on-VDS-on-VDS)", w:"Deep nesting blocks pushdown and reflection matching — the #1 'it used to be fast'.", v:"lineage depth; flatten where deeper", m:"S"},
-   {t:"Reflection created/considered for hot or heavy VDS; acceleration confirmed", w:"Reflections are Dremio's biggest speed lever; an unused one is pure cost.", v:"profile → Reflections = CHOSEN (not just Considered) / job acceleration MATCHED", m:"E"},
-   {t:"Heavy repeated transforms materialized (CTAS to PDS or raw reflection)", w:"Don't recompute an expensive transform on every query.", v:"materialization in place; query hits it", m:"E"},
-   {t:"Upstream PDS metadata fresh & dependencies valid", w:"Stale metadata = wrong/failed queries.", v:"ALTER PDS … REFRESH METADATA done; lineage parents correct", m:"S"},
-   {t:"VDS naming/folder governance + description & tags for the catalog", w:"Discoverability and access control.", v:"location matches standard; description set", m:"S"},
-   {t:"Downstream dependent VDS/dashboards still valid (no breaking change)", w:"One VDS change cascades to many consumers.", v:"query dependents; rename/removal communicated", m:"E"},
-   {t:"Query profile reviewed (planning vs exec time, bytes scanned vs returned, no spill)", w:"The profile is the truth about cost.", v:"open the Raw Profile; bytes scanned ≈ needed; no disk spill", m:"S"},
+  {g:"D · Dremio VDS creation & optimization", items:[
+   {t:"Query saved as a VDS in the correct space/folder", w:"In Dremio the deliverable is the VDS.", v:"VDS at agreed path; SELECT LIMIT 10 returns expected", m:"B"},
+   {t:"VDS validates — no bare reserved keywords (quote/alias)", w:"Calcite rejects value/date/type unquoted.", v:"reserved cols aliased; validation passes", m:"B"},
+   {t:"Explicit business-friendly columns (no SELECT *, no EXPR$0)", w:"The VDS is the consumer contract.", v:"every output column named/aliased", m:"B"},
+   {t:"Pushdown & partition pruning verified in the profile", w:"Else Dremio scans whole tables.", v:"profile: pushdown WHERE present; bytes scanned ≪ dataset", m:"S"},
+   {t:"VDS stack shallow (≤2–3 layers); heavy transforms materialized", w:"Deep nesting blocks pushdown & reflections.", v:"lineage depth; CTAS/reflection for hot VDS", m:"S"},
+   {t:"Reflection created/considered; acceleration CHOSEN in profile", w:"Biggest Dremio speed lever; unused = cost.", v:"profile Reflections = CHOSEN / job MATCHED", m:"E"},
+   {t:"Upstream PDS metadata fresh; downstream VDS/dashboards not broken", w:"Stale metadata & cascading breaks.", v:"REFRESH METADATA done; dependents still valid", m:"S"},
+   {t:"VDS naming/folder governance + description & tags; profile reviewed", w:"Governance + cost truth.", v:"location/description set; Raw Profile reviewed", m:"S"},
   ]},
  ]},
- etl: { label:"ETL / ELT", groups:[
-  {g:"A · Extract (read from source)", items:[
-   {t:"Source connection / config correct & externalized", w:"Wrong/hardcoded source = wrong env or breakage.", v:"from context/config, not hardcoded; points at intended source", m:"B"},
-   {t:"Extracted row count matches source for the window", w:"Catches a silently partial read.", v:"read-count vs COUNT(*) on source for the same filter", m:"B"},
-   {t:"Incremental key / watermark correct (or full-load justified)", w:"Wrong key = missed or re-read rows.", v:"re-run picks only new/changed; boundary row once-only", m:"S"},
-   {t:"No truncation / precision loss on read", w:"Decimals, long strings, timestamps degrade silently.", v:"spot-check high-precision columns vs source", m:"S"},
-   {t:"Source schema / contract validated (columns, types)", w:"Upstream changes break the job.", v:"assert expected columns/types before transform; fail fast", m:"S"},
-   {t:"Source schema-drift handled (new/renamed/removed cols)", w:"APIs and DBs change without notice.", v:"drift → controlled failure or mapping, not silent loss", m:"E"},
+
+ {key:"deploy", n:"7", label:"Review, Deploy & Sign-off", title:"Phase 7 · Review, Deployment & Sign-off",
+  desc:"Close the lifecycle: code review, promotion DEV→TEST→UAT→PROD, BI hand-off, and production sign-off.", groups:[
+  {g:"A · Code review & CI", items:[
+   {t:"Code peer-reviewed; PR approved by a non-author", w:"Catches defects; spreads knowledge.", v:"PR approved on the ticket's branch", m:"B"},
+   {t:"Unit tests passed in CI; evidence/coverage attached", w:"CI proof beats the honour system.", v:"green pipeline + report link on ticket", m:"B"},
+   {t:"No secrets; lint/standards gates green", w:"Security & consistency.", v:"secret scan + lint pass", m:"S"},
   ]},
-  {g:"B · Transform (logic)", items:[
-   {t:"Field-by-field mapping matches the spec", w:"Most logic bugs live here.", v:"each target column vs its rule on a hand-calculated fixture", m:"B"},
-   {t:"Type conversions explicit & lossless", w:"Implicit casts corrupt numbers/dates.", v:"output types per schema; round-trip a sample", m:"S"},
-   {t:"NULL / default / empty handling defined", w:"NULLs break joins, keys, metrics.", v:"critical-column NULL count = expected; defaults applied", m:"B"},
-   {t:"Deduplication logic correct", w:"Source dupes must not reach the target.", v:"dup-key assertion on output → 0 rows", m:"S"},
-   {t:"Lookups/joins — no fan-out; lookup misses handled", w:"Bad join multiplies; unmatched must reject/default.", v:"row count stable across joins; misses → reject w/ reason", m:"S"},
-   {t:"Business rules / derivations validated", w:"Technically valid ≠ correct.", v:"known-input fixture → expected output", m:"S"},
-   {t:"Deterministic output", w:"Same input must give same output.", v:"run twice → identical result", m:"S"},
+  {g:"B · Promotion (no skipping)", items:[
+   {t:"Promotion path followed: feature → main → test → uat → prod", w:"Skipping environments lets bugs reach prod.", v:"merge guard / branch rules enforced", m:"B"},
+   {t:"DQ / reconciliation green in TEST", w:"Data correctness before UAT.", v:"DQ harness passed on TEST", m:"S"},
+   {t:"Business validation completed in UAT", w:"Meets the actual need.", v:"UAT sign-off recorded", m:"S"},
+   {t:"Production smoke check passed post-deploy", w:"Confirms the live layer serves data.", v:"row-count + freshness smoke result", m:"S"},
+   {t:"Rollback plan ready before PROD", w:"Fast recovery from a bad deploy.", v:"rollback steps on the ticket", m:"B"},
   ]},
-  {g:"C · Load (write to target)", items:[
-   {t:"Load mode correct (append / overwrite / upsert / merge)", w:"Wrong mode duplicates or wipes data.", v:"confirm mode matches intent; check target before/after", m:"B"},
-   {t:"Idempotent — re-running does not duplicate", w:"Pipelines get re-run after failures.", v:"run twice → target count unchanged; dup-key assertion = 0", m:"B"},
-   {t:"Target count = transformed count (no silent drops)", w:"Rows lost at load are invisible without this.", v:"loaded count vs transformed count", m:"B"},
-   {t:"PK / unique constraints respected", w:"Integrity at rest.", v:"dup-key assertion on target → 0 rows", m:"S"},
-   {t:"SCD handling correct (if applicable)", w:"Type-1 overwrite vs Type-2 history must match design.", v:"update a key → overwrite (T1) or new version + closed prior (T2)", m:"E"},
-   {t:"Partial-load safety (all-or-nothing or recoverable)", w:"A mid-load crash must not leave half-loaded data.", v:"kill mid-run → target clean or cleanly resumable", m:"S"},
-   {t:"Target format / partitioning correct (lake targets)", w:"Drives downstream query cost.", v:"Parquet/Iceberg + partition cols; no small-files explosion", m:"S"},
-  ]},
-  {g:"D · Reconciliation (end-to-end)", items:[
-   {t:"Source → target row-count reconciliation passes", w:"The headline completeness proof.", v:"source = loaded + rejected + filtered  (must hold)", m:"B"},
-   {t:"Control totals reconcile (sum of key amounts)", w:"Counts can match while values are wrong.", v:"SUM(amount) source vs target match within tolerance", m:"S"},
-   {t:"Sample records traced source → target", w:"Proves transformations end-to-end.", v:"pick 5–10 business keys; values correct at target", m:"S"},
-   {t:"Reject / error rows accounted for with reasons", w:"'Lost' rows are usually silently dropped.", v:"reject count + reasons logged; totals balance the equation", m:"S"},
-  ]},
-  {g:"E · Error handling & restartability", items:[
-   {t:"Failures are detectable, not silent", w:"A job that 'succeeds' while dropping rows is the worst case.", v:"non-zero exit / alert on error; failed step stops pipeline", m:"B"},
-   {t:"Bad rows routed to a reject flow with a reason", w:"Triage + no data loss.", v:"malformed input → reject store with error detail", m:"S"},
-   {t:"Restart / resume without duplication", w:"Re-runs after failure are normal.", v:"fail mid-run, restart → no dupes, no gaps", m:"S"},
-   {t:"Rollback / cleanup on failure", w:"Leave no half-written state.", v:"failed run leaves target consistent", m:"S"},
-   {t:"Run audit logged (run id, counts in/out/reject, timing)", w:"Observability + audit.", v:"audit row written per run", m:"S"},
-  ]},
-  {g:"F · Performance & scale", items:[
-   {t:"Runtime within SLA on prod-like volume", w:"Small-data timings lie.", v:"timed on representative volume; within window", m:"S"},
-   {t:"Incremental, not full reload (where applicable)", w:"Full reloads are slow and double-count.", v:"delta load confirmed", m:"S"},
-   {t:"Bulk / set-based load, not row-by-row", w:"RBAR is the classic ETL bottleneck.", v:"bulk loader / batch commit used", m:"S"},
-   {t:"Resource sizing right (memory/parallelism); no skew", w:"Over/under-provisioning costs time or money.", v:"no spill/OOM; balanced partitions", m:"E"},
-  ]},
-  {g:"G · Orchestration & dependencies", items:[
-   {t:"Dependencies & run order correct", w:"Running before upstream is ready loads stale/partial data.", v:"scheduler DAG; upstream completion gates this job", m:"S"},
-   {t:"Upstream-readiness check before run", w:"Don't process missing/incomplete source.", v:"job checks source freshness / _SUCCESS marker", m:"S"},
-   {t:"Concurrency / locking safe", w:"Two runs must not corrupt the same target.", v:"single-flight / lock; concurrent trigger doesn't double-load", m:"S"},
-   {t:"Schedule correct (window, timezone, frequency)", w:"Wrong cadence = stale or overlapping data.", v:"schedule matches the SLA", m:"S"},
+  {g:"C · Hand-off & closure", items:[
+   {t:"Documentation, data dictionary & lineage updated post-build", w:"Docs must match what shipped.", v:"docs reflect final state", m:"S"},
+   {t:"BI notified / dataset refresh requested (if reports affected)", w:"Prevents broken or stale reports.", v:"BI ticket linked / refresh requested", m:"S"},
+   {t:"Final sign-off (peer + QA + business); ticket → Done", w:"Explicit, accountable closure.", v:"sign-offs recorded; status Done", m:"B"},
   ]},
  ]},
-};
+];
 const MAT_NAME={B:"Basic",S:"Standard",E:"Enterprise"};
+const SCOPES=[{k:"etl",label:"ETL / ELT"},{k:"sql",label:"SQL / VDS"}];
 
-/* ============ STATE ============ */
-const state={tab:"design",mat:"ALL",q:"",checks:load()};
-function load(){try{return JSON.parse(localStorage.getItem("flang-dod")||"{}")}catch(e){return {}}}
-function save(){localStorage.setItem("flang-dod",JSON.stringify(state.checks))}
-function idOf(tab,gi,ii){return tab+"|"+gi+"|"+ii}
+/* ===================== STATE ===================== */
+const state=Object.assign({phase:"p1",mat:"ALL",q:""}, load());
+function load(){try{const d=JSON.parse(localStorage.getItem("flang-dod")||"{}");
+  return {checks:d.checks||{}, na:d.na||{}, notes:d.notes||{}, scope:new Set(d.scope||[])};}
+  catch(e){return {checks:{},na:{},notes:{},scope:new Set()}}}
+function save(){localStorage.setItem("flang-dod",JSON.stringify({checks:state.checks,na:state.na,notes:state.notes,scope:[...state.scope]}))}
+function P(k){return PHASES.find(p=>p.key===k)}
+function idOf(pk,gi,ii){return pk+"|"+gi+"|"+ii}
+function isNA(p){ if(!p.scope) return false; if(state.na[p.key]!==undefined) return state.na[p.key]; return !state.scope.has(p.scope); }
 
-/* ============ TABS ============ */
+/* ===================== SCOPE BAR ===================== */
+const scopebar=document.getElementById("scopebar");
+SCOPES.forEach(s=>{
+  const c=document.createElement("div");c.className="scopechip"+(state.scope.has(s.k)?" on":"");
+  c.innerHTML=`<span class="x">${state.scope.has(s.k)?"✓":"+"}</span>${s.label}`;
+  c.onclick=()=>{state.scope.has(s.k)?state.scope.delete(s.k):state.scope.add(s.k);
+    c.classList.toggle("on");c.querySelector(".x").textContent=state.scope.has(s.k)?"✓":"+";
+    save();buildTabs();render();};
+  scopebar.appendChild(c);
+});
+
+/* ===================== TABS ===================== */
 const tabsEl=document.getElementById("tabs");
-Object.keys(DATA).forEach(k=>{
-  const total=DATA[k].groups.reduce((a,g)=>a+g.items.length,0);
-  const b=document.createElement("div");
-  b.className="tab"+(k===state.tab?" on":"");
-  b.innerHTML=`${DATA[k].label} <span class="n">${total}</span>`;
-  b.onclick=()=>{state.tab=k;[...tabsEl.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");render()};
-  tabsEl.appendChild(b);
-});
+function buildTabs(){
+  tabsEl.innerHTML="";
+  PHASES.forEach(p=>{
+    const na=isNA(p);
+    const b=document.createElement("div");
+    b.className="tab"+(p.key===state.phase?" on":"");
+    b.innerHTML=`<span class="pn">${p.n}</span>${p.label}`+(na?` <span class="na">N/A</span>`:``);
+    b.onclick=()=>{state.phase=p.key;buildTabs();render();};
+    tabsEl.appendChild(b);
+  });
+}
 
-/* ============ CONTROLS ============ */
-document.getElementById("matSeg").addEventListener("click",e=>{
-  const btn=e.target.closest("button"); if(!btn)return;
-  state.mat=btn.dataset.m;
-  [...e.currentTarget.children].forEach(c=>c.classList.remove("on"));btn.classList.add("on");render();
-});
+/* ===================== CONTROLS ===================== */
+document.getElementById("matSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  state.mat=b.dataset.m;[...e.currentTarget.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");render();});
 document.getElementById("search").addEventListener("input",e=>{state.q=e.target.value.toLowerCase();render()});
-document.getElementById("resetBtn").onclick=()=>{
-  if(!confirm("Clear all ticks on this tab?"))return;
-  DATA[state.tab].groups.forEach((g,gi)=>g.items.forEach((_,ii)=>delete state.checks[idOf(state.tab,gi,ii)]));
-  save();render();
-};
+document.getElementById("resetBtn").onclick=()=>{const p=P(state.phase);
+  if(!confirm("Clear all ticks on this phase?"))return;
+  p.groups.forEach((g,gi)=>g.items.forEach((_,ii)=>delete state.checks[idOf(p.key,gi,ii)]));save();render();};
 document.getElementById("printBtn").onclick=()=>window.print();
 
-/* ============ RENDER ============ */
-function visible(it){
-  if(state.mat!=="ALL" && it.m!==state.mat) return false;
-  if(state.q){const h=(it.t+" "+it.w+" "+it.v).toLowerCase();if(!h.includes(state.q))return false;}
-  return true;
-}
+/* ===================== RENDER ===================== */
+function visible(it){if(state.mat!=="ALL"&&it.m!==state.mat)return false;
+  if(state.q){const h=(it.t+" "+it.w+" "+it.v).toLowerCase();if(!h.includes(state.q))return false;}return true;}
+
 function render(){
   const root=document.getElementById("list");root.innerHTML="";
-  const groups=DATA[state.tab].groups;
+  const p=P(state.phase);
+  const d=document.createElement("div");d.className="pdesc";d.textContent=p.desc;root.appendChild(d);
+
+  // N/A bar for scoped phases
+  if(p.scope){
+    const na=isNA(p);
+    const bar=document.createElement("div");bar.className="nabar";
+    bar.innerHTML=`<span class="q">Is this phase applicable?</span><div class="gap"></div>`;
+    const seg=document.createElement("div");seg.className="miniseg";
+    const yes=document.createElement("button");yes.textContent="Applicable";yes.className=na?"":"on";
+    const no=document.createElement("button");no.textContent="Mark N/A";no.className=na?"on na":"";
+    yes.onclick=()=>{state.na[p.key]=false;save();buildTabs();render()};
+    no.onclick=()=>{state.na[p.key]=true;save();buildTabs();render()};
+    seg.append(yes,no);bar.appendChild(seg);root.appendChild(bar);
+    if(na){
+      const ta=document.createElement("textarea");ta.className="nacomment";
+      ta.placeholder="Reason this phase is N/A (e.g., data already lands in the Data Lake; no ETL required)…";
+      ta.value=state.notes[p.key]||"";
+      ta.oninput=()=>{state.notes[p.key]=ta.value;save()};
+      root.appendChild(ta);
+      document.getElementById("pPct").textContent="N/A";
+      document.getElementById("pCount").textContent="phase marked N/A";
+      document.getElementById("pFill").style.width="0%";
+      return;
+    }
+  }
+
   let total=0,done=0,shown=0;
-  groups.forEach((g,gi)=>{
+  p.groups.forEach((g,gi)=>{
     const items=g.items.map((it,ii)=>({it,ii})).filter(x=>visible(x.it));
     if(!items.length)return;
     const sec=document.createElement("section");sec.className="sec";
     const h=document.createElement("div");h.className="sec-h";
-    h.innerHTML=`<span class="bar"></span><h2>${g.g}</h2><span class="cnt">${items.length}</span>`;
-    sec.appendChild(h);
+    h.innerHTML=`<span class="bar"></span><h2>${g.g}</h2><span class="cnt">${items.length}</span>`;sec.appendChild(h);
     items.forEach(({it,ii})=>{
       shown++;total++;
-      const id=idOf(state.tab,gi,ii);const ck=!!state.checks[id];if(ck)done++;
+      const id=idOf(p.key,gi,ii);const ck=!!state.checks[id];if(ck)done++;
       const row=document.createElement("label");row.className="item"+(ck?" done":"");
       const cb=document.createElement("input");cb.type="checkbox";cb.className="cb";cb.checked=ck;
       cb.onchange=()=>{state.checks[id]=cb.checked;save();render()};
@@ -382,43 +481,33 @@ function render(){
       top.append(test,chip);
       const why=document.createElement("div");why.className="why";why.textContent=it.w;
       const ver=document.createElement("div");ver.className="verify";
-      const vb=document.createElement("b");vb.textContent="verify";const vt=document.createTextNode(it.v);
-      ver.append(vb,vt);
-      body.append(top,why,ver);
-      row.append(cb,body);sec.appendChild(row);
+      const vb=document.createElement("b");vb.textContent="verify";ver.append(vb,document.createTextNode(it.v));
+      body.append(top,why,ver);row.append(cb,body);sec.appendChild(row);
     });
     root.appendChild(sec);
   });
-  if(!shown){const e=document.createElement("div");e.className="empty";e.textContent="No tests match this filter.";root.appendChild(e);}
+  if(!shown){const e=document.createElement("div");e.className="empty";e.textContent="No items match this filter.";root.appendChild(e);}
   const pct=total?Math.round(done/total*100):0;
   document.getElementById("pPct").textContent=pct+"%";
   document.getElementById("pCount").textContent=`${done} / ${total} verified`;
   document.getElementById("pFill").style.width=pct+"%";
 }
 
-/* ============ COPY FOR JIRA ============ */
+/* ===================== COPY FOR JIRA ===================== */
 const modal=document.getElementById("modal"),out=document.getElementById("out");
 document.getElementById("copyBtn").onclick=()=>{
-  const L=[`*Definition of Done — ${DATA[state.tab].label}*`,""];
-  DATA[state.tab].groups.forEach(g=>{
-    const items=g.items.filter(visible);if(!items.length)return;
-    L.push(`### ${g.g}`);
-    items.forEach(it=>L.push(`- [ ] ${it.t}  _(${MAT_NAME[it.m]})_`));
-    L.push("");
-  });
-  out.value=L.join("\n");
-  document.getElementById("modalTab").textContent=DATA[state.tab].label;
-  modal.classList.add("open");
+  const p=P(state.phase);const L=[`*${p.title}*`,""];
+  if(p.scope&&isNA(p)){L.push(`_N/A — ${state.notes[p.key]||"no reason given"}_`);}
+  else{p.groups.forEach(g=>{const items=g.items.filter(visible);if(!items.length)return;
+    L.push(`### ${g.g}`);items.forEach(it=>L.push(`- [ ] ${it.t}  _(${MAT_NAME[it.m]})_`));L.push("");});}
+  out.value=L.join("\n");document.getElementById("modalTab").textContent=p.title;modal.classList.add("open");
 };
 document.getElementById("closeModal").onclick=()=>modal.classList.remove("open");
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open")};
-document.getElementById("copyOut").onclick=async()=>{
-  try{await navigator.clipboard.writeText(out.value)}catch(e){out.select();document.execCommand("copy")}
-  toast("Copied to clipboard");
-};
+document.getElementById("copyOut").onclick=async()=>{try{await navigator.clipboard.writeText(out.value)}catch(e){out.select();document.execCommand("copy")}toast("Copied to clipboard")};
 function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
 
-render();
+buildTabs();render();
 </script>
 </body>
 </html>
