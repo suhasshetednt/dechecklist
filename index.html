@@ -93,6 +93,10 @@
   .miniseg button{border:0;background:var(--panel);color:var(--muted);padding:6px 12px;font:inherit;font-size:12px;cursor:pointer}
   .miniseg button.on{background:var(--accent);color:#fff}.miniseg button.on.na{background:var(--warning)}
   .ev{display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:13px;margin-bottom:8px}
+  .ev a{color:var(--accent);cursor:pointer}
+  .drop{margin-top:10px;border:2px dashed var(--border2);border-radius:11px;padding:18px;text-align:center;color:var(--muted);cursor:pointer;transition:.15s;font-size:13px}
+  .drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-dim);color:var(--accent)}
+  .drop b{color:var(--accent)}
   .cmt{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;font-size:14px}.cmt .meta{font-size:11px;color:var(--muted);margin-bottom:4px}
   .adv{display:flex;flex-wrap:wrap;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
   .ring-wrap{position:relative;display:grid;place-items:center}.ring-wrap span{position:absolute;font-weight:800;font-size:14px}
@@ -365,7 +369,10 @@ function renderTicket(id){
   adv+='</div>';
 
   const evs=(t.evidence||[]).filter(e=>e.phaseKey===phase.key);
-  const evH=evs.map(e=>'<a class="ev" href="'+esc(e.url)+'" target="_blank">⬆ <span style="flex:1">'+esc(e.name)+'</span><span class="small muted">'+ago(e.at)+'</span></a>').join("");
+  const evH=evs.map(e=>{
+    if(e.kind==="file")return '<div class="ev">📄 <span style="flex:1"><a onclick="openEv(\''+e.fid+'\',\''+esc(e.name)+'\')">'+esc(e.name)+'</a> <span class="small muted">'+fmtSize(e.size)+'</span></span><span class="small muted">'+ago(e.at)+'</span></div>';
+    return '<a class="ev" href="'+esc(e.url)+'" target="_blank">🔗 <span style="flex:1">'+esc(e.name)+'</span><span class="small muted">'+ago(e.at)+'</span></a>';
+  }).join("");
   const cms=(t.comments||[]).filter(c=>c.phaseKey===phase.key);
   const cmH=cms.map(c=>'<div class="cmt"><div class="meta"><b>'+esc(c.by)+'</b> · '+ago(c.at)+'</div>'+esc(c.body)+'</div>').join("");
 
@@ -379,7 +386,10 @@ function renderTicket(id){
       +'<div class="card pad" style="height:max-content"><h3 class="mb">Lifecycle</h3>'+steps+'</div>'
       +'<div><div class="card pad"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><div style="display:flex;gap:8px;align-items:center"><span class="badge b">Phase '+phase.n+'</span><h2 style="font-size:21px">'+esc(phase.name)+'</h2></div><div class="muted small mt" style="margin-top:4px">'+esc(phase.sub)+'</div></div><span class="badge '+(st.status==="COMPLETED"?"ok":st.status==="NA"?"muted":"warn")+'">'+({NOT_STARTED:"Not started",IN_PROGRESS:"In progress",COMPLETED:"Completed",NA:"N/A"}[st.status]||st.status)+'</span></div>'
         +(isNA?"":'<div class="mt" style="display:flex;gap:10px;align-items:center"><div class="track" style="flex:1"><div class="fill" style="width:'+ppct+'%"></div></div><span class="small muted">'+done+'/'+reqKeys.length+'</span></div>')+bd+adv+'</div>'
-      +'<div class="card pad mt"><h3 class="mb">📎 Evidence ('+evs.length+')</h3>'+evH+'<div class="row" style="gap:8px;margin-top:6px"><input id="ev_name" placeholder="Evidence name (reconciliation.xlsx)" style="flex:1"><input id="ev_url" placeholder="Link / path" style="flex:1"><button class="btn sm" onclick="addEv(\''+id+'\',\''+phase.key+'\')">Attach</button></div></div>'
+      +'<div class="card pad mt"><h3 class="mb">📎 Evidence ('+evs.length+')</h3>'+evH
+        +'<div class="drop" ondragover="event.preventDefault();this.classList.add(\'over\')" ondragleave="this.classList.remove(\'over\')" ondrop="dropFiles(event,\''+id+'\',\''+phase.key+'\')" onclick="document.getElementById(\'fi\').click()">⬆ Drag &amp; drop files here, or <b>click to browse</b><div class="small muted" style="margin-top:3px">screenshots, CSVs, PDFs… stored in your browser (max 15&nbsp;MB each)</div></div>'
+        +'<input type="file" multiple id="fi" style="display:none" onchange="browseFiles(this,\''+id+'\',\''+phase.key+'\')">'
+        +'<div class="row" style="gap:8px;margin-top:8px"><input id="ev_name" placeholder="…or link name" style="flex:1"><input id="ev_url" placeholder="link / path (URL)" style="flex:1"><button class="btn sm" onclick="addEv(\''+id+'\',\''+phase.key+'\')">Attach link</button></div></div>'
       +'<div class="card pad mt"><h3 class="mb">💬 Comments ('+cms.length+')</h3>'+cmH+'<div class="row" style="gap:8px;align-items:flex-end"><textarea id="cm_body" placeholder="Add a comment…" style="flex:1;min-height:44px"></textarea><button class="btn sm" onclick="addCm(\''+id+'\',\''+phase.key+'\')">Send</button></div></div>'
       +'</div></div></div>';
 }
@@ -397,7 +407,20 @@ function advance(id,approval){const t=findT(id);const ph=PHASES[activeIdx];const
   else{t.completed=true;toast("Ticket complete 🎉")}
   save();location.hash="#/t/"+id;renderTicket(id);
 }
-function addEv(id,pk){const n=$("ev_name").value.trim(),u=$("ev_url").value.trim();if(!n||!u){toast("Name and link required");return}const t=findT(id);t.evidence.push({phaseKey:pk,name:n,url:u,at:Date.now(),by:CURRENT});act(t,"Evidence added: "+n);save();renderTicket(id)}
+function addEv(id,pk){const n=$("ev_name").value.trim(),u=$("ev_url").value.trim();if(!n||!u){toast("Name and link required");return}const t=findT(id);t.evidence.push({kind:"link",phaseKey:pk,name:n,url:u,at:Date.now(),by:CURRENT});act(t,"Evidence link added: "+n);save();renderTicket(id)}
+/* ---- file uploads (drag & drop / browse) stored in IndexedDB ---- */
+let _fdb;
+function idb(){return new Promise((res,rej)=>{if(_fdb)return res(_fdb);const r=indexedDB.open("de-compliance-files",1);r.onupgradeneeded=()=>r.result.createObjectStore("files");r.onsuccess=()=>{_fdb=r.result;res(_fdb)};r.onerror=()=>rej(r.error)})}
+function idbPut(k,blob){return idb().then(db=>new Promise((res,rej)=>{const tx=db.transaction("files","readwrite");tx.objectStore("files").put(blob,k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)}))}
+function idbGet(k){return idb().then(db=>new Promise((res,rej)=>{const tx=db.transaction("files","readonly");const rq=tx.objectStore("files").get(k);rq.onsuccess=()=>res(rq.result);rq.onerror=()=>rej(rq.error)}))}
+function fmtSize(n){if(n<1024)return n+" B";if(n<1048576)return (n/1024).toFixed(0)+" KB";return (n/1048576).toFixed(1)+" MB"}
+async function handleFiles(list,id,pk){const t=findT(id);const files=[...list];let ok=0;
+  for(const f of files){if(f.size>15*1048576){toast('"'+f.name+'" too large (>15MB)');continue}const fid=uid()+"_"+f.name;
+    try{await idbPut(fid,f);t.evidence.push({kind:"file",fid,name:f.name,size:f.size,type:f.type,phaseKey:pk,at:Date.now(),by:CURRENT});act(t,"Evidence uploaded: "+f.name);ok++}catch(e){toast("Could not store "+f.name)}}
+  if(ok){save();renderTicket(id);toast(ok+" file(s) attached")}}
+function dropFiles(e,id,pk){e.preventDefault();handleFiles(e.dataTransfer.files,id,pk)}
+function browseFiles(inp,id,pk){handleFiles(inp.files,id,pk)}
+async function openEv(fid,name){try{const b=await idbGet(fid);if(!b){toast("File not found in this browser");return}const url=URL.createObjectURL(b);const a=document.createElement("a");a.href=url;if(b.type&&(b.type.indexOf("image/")===0||b.type==="application/pdf"||b.type.indexOf("text/")===0)){a.target="_blank"}else{a.download=name}document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000)}catch(e){toast("Could not open file")}}
 function addCm(id,pk){const b=$("cm_body").value.trim();if(!b)return;const t=findT(id);t.comments.push({phaseKey:pk,body:b,at:Date.now(),by:CURRENT});act(t,"Added a comment");save();renderTicket(id)}
 function copyJira(id){const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);let L=["*"+t.key+" · Phase "+ph.n+" — "+ph.name+"*",""];
   if(st.status==="NA"){L.push("_N/A — "+(st.naReason||"")+"_")}else{ph.groups.forEach((g,gi)=>{L.push("### "+g.title);g.items.forEach((it,ii)=>{L.push("- ["+(t.checks[ik(ph.key,gi,ii)]?"x":" ")+"] "+it.t+"  _("+MLBL[it.m]+")_")});L.push("")})}
