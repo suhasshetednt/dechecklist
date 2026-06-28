@@ -1,496 +1,512 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DE Delivery Compliance</title>
+<title>ASL DataLake · Unit Testing Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#eef3f9; --panel:#fff; --panel2:#f5f8fc; --line:#dde4ee; --border2:#c8d4e2; --accent-dim:rgba(2,132,199,.10);
+    --bg:#eef3f9; --bg2:#eef2f7; --panel:#ffffff; --panel2:#f5f8fc; --line:#dde4ee; --border2:#c8d4e2; --accent-dim:rgba(2,132,199,.10);
     --txt:#0f2137; --muted:#4a6080; --faint:#8ba3bc;
-    --accent:#0284c7; --accent2:#0ea5e9; --B:#059669; --S:#2563eb; --E:#7c3aed;
-    --success:#059669; --warning:#d97706; --danger:#dc2626;
-    --shadow:0 10px 30px rgba(15,33,55,.08); --r:14px;
-  }
-  .dark{
-    --bg:#0b1220; --panel:#131c2e; --panel2:#172238; --line:#243049; --border2:#2c3a52; --accent-dim:rgba(56,189,248,.12);
-    --txt:#e6edf7; --muted:#9fb0c9; --faint:#64748b; --accent:#38bdf8; --accent2:#0ea5e9;
-    --B:#34d399; --S:#60a5fa; --E:#c084fc; --shadow:0 14px 40px rgba(0,0,0,.4);
+    --accent:#0284c7; --accent2:#0ea5e9;
+    --B:#059669; --S:#2563eb; --E:#7c3aed;
+    --tier:#0284c7;
+    --shadow:0 10px 30px rgba(15,33,55,.08);
+    --r:14px;
   }
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;color:var(--txt);font:15px/1.55 'IBM Plex Sans',system-ui,Segoe UI,Roboto,sans-serif;
-    background:radial-gradient(900px 520px at 100% -12%,var(--accent-dim),transparent 60%),radial-gradient(700px 460px at -5% 0%,var(--accent-dim),transparent 55%),var(--bg);
-    background-attachment:fixed;-webkit-font-smoothing:antialiased}
-  a{color:var(--accent);text-decoration:none}
-  h1,h2,h3{font-family:'Big Shoulders Display',system-ui,sans-serif;margin:0}
-  header.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;padding:11px 22px;
-    background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line)}
-  .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#7c3aed);display:grid;place-items:center;color:#fff;font-weight:800}
-  .brand b{font-family:'Big Shoulders Display';font-size:18px;letter-spacing:.4px}
-  .brand div{font-size:11px;color:var(--muted)}
-  .wrap{max-width:1180px;margin:0 auto;padding:22px}
-  .row{display:flex;gap:16px;flex-wrap:wrap}.spacer{flex:1}.mt{margin-top:14px}.mb{margin-bottom:10px}
-  .muted{color:var(--muted)}.small{font-size:12px}
-  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);border-radius:8px;padding:8px 14px;font:inherit;font-size:13px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:7px}
+  html{scroll-behavior:smooth}
+  body{margin:0;min-height:100vh;color:var(--txt);
+       font:15px/1.55 'IBM Plex Sans',system-ui,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;
+       background:
+         radial-gradient(900px 520px at 100% -12%, rgba(2,132,199,.13), transparent 60%),
+         radial-gradient(700px 460px at -5% 0%, rgba(14,165,233,.10), transparent 55%),
+         linear-gradient(180deg,#f7fafd 0%, var(--bg) 100%);
+       background-attachment:fixed}
+  header{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
+  .hwrap{max-width:1080px;margin:0 auto;padding:14px 22px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{height:40px;width:auto;max-width:130px;object-fit:contain;display:block}
+  h1{font-family:'Big Shoulders Display',system-ui,sans-serif;font-size:24px;font-weight:800;margin:0;letter-spacing:.4px;line-height:1.05}
+  .h1sub{color:var(--muted);font-size:12px;margin-top:2px}
+  .wf{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;font-size:11.5px;color:var(--muted)}
+  .wf b{color:var(--txt);font-weight:600} .wf .arrow{color:var(--accent)}
+  .scopebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px;padding-top:12px;border-top:1px dashed var(--border2)}
+  .scopebar .lbl{font-size:12px;color:var(--muted);font-weight:600}
+  .scopechip{cursor:pointer;user-select:none;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);
+        padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;transition:all .15s}
+  .scopechip:hover{border-color:var(--accent);color:var(--accent)}
+  .scopechip.on{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+  .scopechip .x{margin-right:6px;font-weight:800}
+  .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+  .tab{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);
+       padding:7px 13px;border-radius:999px;font-weight:600;font-size:12.5px;transition:.15s;display:flex;gap:8px;align-items:center}
+  .tab:hover{border-color:var(--accent);color:var(--accent)}
+  .tab.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(2,132,199,.30)}
+  .tab .pn{flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:rgba(15,33,55,.07);color:var(--muted);
+        display:grid;place-items:center;font-weight:800;font-size:11px;font-family:'Big Shoulders Display',sans-serif}
+  .tab.on .pn{background:rgba(255,255,255,.28);color:#fff}
+  .tab .na{font-size:10px;color:#b45309}
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+  .seg{display:flex;background:var(--panel2);border:1px solid var(--border2);border-radius:8px;overflow:hidden}
+  .seg button{border:0;background:transparent;color:var(--muted);padding:7px 12px;cursor:pointer;font:inherit;font-size:12.5px}
+  .seg button.on{background:var(--panel);color:var(--txt)}
+  .seg button.on[data-m="B"]{color:var(--B)} .seg button.on[data-m="S"]{color:var(--S)} .seg button.on[data-m="E"]{color:var(--E)}
+  .search{flex:1;min-width:160px;background:var(--panel2);border:1px solid var(--border2);border-radius:8px;
+          color:var(--txt);padding:7px 12px;font:inherit;transition:all .15s}
+  .search:focus{outline:none;border-color:var(--accent);background:var(--panel)}
+  .search::placeholder{color:var(--faint)}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);
+       border-radius:8px;padding:7px 13px;font:inherit;font-size:13px;font-weight:500;transition:all .15s}
   .btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
-  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
-  .btn.primary:hover{filter:brightness(1.07);color:#fff}
-  .btn.success{background:var(--success);color:#fff;border-color:transparent}
-  .btn.sm{padding:5px 10px;font-size:12px}.icon{width:34px;justify-content:center;padding:8px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
-  .glass{background:color-mix(in srgb,var(--panel) 80%,transparent);backdrop-filter:blur(12px) saturate(140%)}
-  .pad{padding:18px}.grid{display:grid;gap:16px}
-  .stat{padding:15px;display:flex;justify-content:space-between;align-items:flex-start}
-  .stat .v{font-family:'Big Shoulders Display';font-size:27px;font-weight:800;margin-top:3px}
-  .stat .l{font-size:12px;color:var(--muted)} .stat .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--accent-dim);color:var(--accent)}
-  .badge{display:inline-flex;align-items:center;gap:4px;border:1px solid;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700}
-  .badge.b{color:var(--accent);border-color:transparent;background:var(--accent-dim)}
-  .badge.muted{color:var(--muted);border-color:var(--line);background:var(--panel2)}
-  .badge.B{color:var(--B);border-color:color-mix(in srgb,var(--B) 45%,transparent);background:color-mix(in srgb,var(--B) 10%,transparent)}
-  .badge.S{color:var(--S);border-color:color-mix(in srgb,var(--S) 45%,transparent);background:color-mix(in srgb,var(--S) 10%,transparent)}
-  .badge.E{color:var(--E);border-color:color-mix(in srgb,var(--E) 45%,transparent);background:color-mix(in srgb,var(--E) 10%,transparent)}
-  .badge.ok{color:var(--success);border-color:color-mix(in srgb,var(--success) 45%,transparent);background:color-mix(in srgb,var(--success) 10%,transparent)}
-  .badge.warn{color:var(--warning);border-color:color-mix(in srgb,var(--warning) 45%,transparent);background:color-mix(in srgb,var(--warning) 10%,transparent)}
-  .track{height:8px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-  .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.4s}
-  input,textarea,select{width:100%;background:var(--panel2);border:1px solid var(--border2);border-radius:8px;color:var(--txt);padding:8px 11px;font:inherit;font-size:14px}
-  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);background:var(--panel)}
-  label{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px}
-  textarea{min-height:70px;resize:vertical}
-  .chip{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;transition:.15s}
-  .chip:hover{border-color:var(--accent);color:var(--accent)} .chip.on{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
-  /* compliance board */
-  .board{width:100%;border-collapse:collapse}
-  .board th,.board td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
-  .board th{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700}
-  .board tbody tr{cursor:pointer} .board tbody tr:hover td{background:var(--panel2)}
-  .board th.c,.board td.c{text-align:center}
-  .dot{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;font-size:12px;font-weight:800}
-  .dot.done{background:color-mix(in srgb,var(--success) 16%,transparent);color:var(--success)}
-  .dot.prog{background:color-mix(in srgb,var(--warning) 16%,transparent);color:var(--warning)}
-  .dot.none{background:var(--panel2);color:var(--faint)} .dot.na{background:var(--panel2);color:var(--muted)}
-  .av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:inline-grid;place-items:center;font-size:11px;font-weight:700;margin-right:7px;vertical-align:middle}
-  .tkey{font-family:'IBM Plex Mono';font-weight:600;color:var(--accent)}
-  /* stepper + items */
-  .step{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;transition:.12s;width:100%;text-align:left;border:0;background:transparent;color:var(--txt)}
-  .step:hover{background:var(--panel2)} .step.active{background:var(--accent-dim);color:var(--accent)}
-  .step .n{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-weight:800;font-size:12px;border:1px solid var(--border2);flex:0 0 auto}
-  .step .n.done{background:var(--success);color:#fff;border-color:transparent}.step .n.cur{background:var(--accent);color:#fff;border-color:transparent}.step .n.na{background:var(--panel2);color:var(--muted)}
-  .group{border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-top:12px}
-  .ghead{display:flex;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(90deg,var(--accent-dim),transparent)}
-  .ghead h3{font-size:15px;letter-spacing:.5px;text-transform:uppercase}.ghead .bar{width:4px;height:18px;border-radius:3px;background:var(--accent)}
-  .item{display:flex;gap:12px;padding:12px 14px;border-top:1px solid var(--line)}.item:hover{background:var(--panel2)}
-  .item input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--accent);flex:0 0 auto;cursor:pointer}
-  .item .t{font-weight:600}.item.done .t{text-decoration:line-through;color:var(--muted)}
-  .item .w{color:var(--muted);font-size:13px;margin-top:3px}
-  .item .v{margin-top:6px;font-size:12px;background:var(--accent-dim);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;font-family:'IBM Plex Mono',monospace;overflow-x:auto}
-  .item .v b{font-family:'IBM Plex Sans';color:var(--accent);margin-right:6px}
-  .nabar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 14px;border:1px dashed var(--border2);border-radius:11px;background:var(--panel2);margin-top:12px}
-  .miniseg{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;margin-left:auto}
-  .miniseg button{border:0;background:var(--panel);color:var(--muted);padding:6px 12px;font:inherit;font-size:12px;cursor:pointer}
-  .miniseg button.on{background:var(--accent);color:#fff}.miniseg button.on.na{background:var(--warning)}
-  .ev{display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:13px;margin-bottom:8px}
-  .ev a{color:var(--accent);cursor:pointer}
-  .drop{margin-top:10px;border:2px dashed var(--border2);border-radius:11px;padding:18px;text-align:center;color:var(--muted);cursor:pointer;transition:.15s;font-size:13px}
-  .drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-dim);color:var(--accent)}
-  .drop b{color:var(--accent)}
-  .cmt{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;font-size:14px}.cmt .meta{font-size:11px;color:var(--muted);margin-bottom:4px}
-  .adv{display:flex;flex-wrap:wrap;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
-  .ring-wrap{position:relative;display:grid;place-items:center}.ring-wrap span{position:absolute;font-weight:800;font-size:14px}
-  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;padding:10px 18px;border-radius:10px;transition:.3s;z-index:80;pointer-events:none;box-shadow:var(--shadow)}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  .hint{color:var(--muted);text-align:center;padding:34px;font-size:13px}
-  .modal{position:fixed;inset:0;background:rgba(15,33,55,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:90}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;font-weight:700}
+  .btn.primary:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;filter:brightness(1.06)}
+  .prog{display:flex;align-items:center;gap:12px;margin-top:14px;color:var(--muted);font-size:12.5px}
+  .track{flex:1;height:7px;background:#e3e9f2;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.35s}
+  .wrap{max-width:1080px;margin:0 auto;padding:20px 22px 90px}
+  .pdesc{color:var(--muted);font-size:13px;margin:4px 2px 0}
+  .nabar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding:11px 14px;border:1px dashed var(--border2);
+        border-radius:12px;background:var(--panel2)}
+  .nabar .q{font-weight:600;font-size:13px}
+  .nabar .gap{flex:1}
+  .miniseg{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden}
+  .miniseg button{border:0;background:var(--panel);color:var(--muted);padding:6px 12px;cursor:pointer;font:inherit;font-size:12.5px}
+  .miniseg button.on{background:var(--accent);color:#fff}
+  .miniseg button.on.na{background:#d97706}
+  .nacomment{width:100%;margin-top:10px;background:var(--panel);border:1px solid var(--border2);border-radius:10px;
+        color:var(--txt);padding:10px 12px;font:inherit;font-size:13px;min-height:60px;resize:vertical}
+  .sec{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+  .sec-h{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);
+         background:linear-gradient(90deg,rgba(2,132,199,.08),rgba(2,132,199,.02) 60%,transparent)}
+  .sec-h .bar{width:4px;height:20px;border-radius:3px;background:var(--tier)}
+  .sec-h h2{margin:0;font-family:'Big Shoulders Display',system-ui,sans-serif;font-size:19px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+  .sec-h .cnt{margin-left:auto;color:var(--muted);font-size:12px;background:var(--panel2);border:1px solid var(--line);padding:2px 9px;border-radius:999px}
+  .item{display:flex;gap:13px;padding:13px 16px;border-bottom:1px solid rgba(15,33,55,.08);transition:.12s}
+  .item:last-child{border-bottom:0}
+  .item:hover{background:rgba(2,132,199,.04)}
+  .item.done{opacity:.62}
+  .cb{appearance:none;flex:0 0 auto;width:20px;height:20px;margin-top:2px;border:1.5px solid #c8d4e2;border-radius:6px;
+      background:#fff;cursor:pointer;position:relative;transition:.15s}
+  .cb:hover{border-color:var(--accent)}
+  .cb:checked{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent}
+  .cb:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+  .body{flex:1;min-width:0}
+  .top{display:flex;gap:10px;align-items:flex-start}
+  .test{font-weight:600;flex:1}
+  .item.done .test{text-decoration:line-through;color:var(--muted)}
+  .chip{flex:0 0 auto;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:6px;border:1px solid;letter-spacing:.3px}
+  .chip.B{color:var(--B);border-color:rgba(5,150,105,.45);background:rgba(5,150,105,.08)}
+  .chip.S{color:var(--S);border-color:rgba(37,99,235,.45);background:rgba(37,99,235,.08)}
+  .chip.E{color:var(--E);border-color:rgba(124,58,237,.45);background:rgba(124,58,237,.08)}
+  .why{color:var(--muted);font-size:13px;margin-top:4px}
+  .verify{margin-top:7px;font-size:12px;color:#0f3a52;background:rgba(2,132,199,.07);border:1px solid rgba(2,132,199,.20);
+          border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;
+          font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;overflow-x:auto}
+  .verify b{color:var(--accent);font-family:'IBM Plex Sans',system-ui;font-weight:700;margin-right:6px}
+  .empty,.hint{color:var(--muted);text-align:center;padding:34px;font-size:13px}
+  .modal{position:fixed;inset:0;background:rgba(15,33,55,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
   .modal.open{display:flex}
-  .sheet{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:800px;width:100%;max-height:86vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
-  .sheet .sh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);font-family:'Big Shoulders Display';font-weight:700}
-  .sheet textarea{flex:1;border:0;background:var(--panel2);color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:14px;resize:none;min-height:52vh}
-  .sheet .sf{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
-  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:8px}
-  @media(max-width:880px){.work{grid-template-columns:1fr!important}.hidesm{display:none}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);max-width:760px;width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+  .card .ch{padding:13px 16px;border-bottom:1px solid var(--line);font-weight:700}
+  .card textarea{flex:1;border:0;background:#f8fafc;color:var(--txt);font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;font-size:12.5px;padding:14px;resize:none;min-height:48vh}
+  .card .cf{padding:11px 16px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;
+         background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;
+         padding:10px 18px;border-radius:10px;transition:.3s;pointer-events:none;z-index:60;box-shadow:var(--shadow)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .foot{max-width:1080px;margin:0 auto;padding:0 22px 40px;color:var(--faint);font-size:12px}
+  @media print{header .tabs,.toolbar,.prog,.cb,.btn,.seg,.scopebar{display:none!important}body{background:#fff;color:#000}
+    .sec,.verify{border-color:#ccc}.verify{color:#055;background:#f4fbfd}}
 </style>
 </head>
 <body>
-<header class="top">
-  <div class="logo">✓</div>
-  <div class="brand"><b>DE Delivery Compliance</b><div>Is every ticket following the standard? — for Tech Leads &amp; Management</div></div>
-  <div class="spacer"></div>
-  <a class="btn" href="#/">Board</a>
-  <a class="btn primary" href="#/new">+ New Ticket</a>
-  <button class="btn icon" id="themeBtn" title="Theme">☾</button>
+<header>
+  <div class="hwrap">
+    <div class="brand">
+      <img class="logo" src="data:image/png;base64,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" alt="ASL Airlines">
+      <div>
+        <h1>ASL DataLake · Unit Testing Dashboard</h1>
+        <div class="h1sub">Evidence-based delivery · tick what you've <i>proven</i>, not what you assume</div>
+      </div>
+    </div>
+    <div class="wf">
+      <b>Design loop:</b> 1 → 2 → 3 → 4 <span class="arrow">↻ iterate until approved</span> &nbsp;·&nbsp; <b>Build:</b> 5 / 6 → 7 &nbsp;·&nbsp; <b>0</b> Standards underpins all
+    </div>
+    <div class="scopebar" id="scopebar">
+      <span class="lbl">Development scope:</span>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="toolbar">
+      <div class="seg" id="matSeg">
+        <button data-m="ALL" class="on">All</button>
+        <button data-m="B">Basic</button>
+        <button data-m="S">Standard</button>
+        <button data-m="E">Enterprise</button>
+      </div>
+      <input class="search" id="search" placeholder="Filter…">
+      <button class="btn primary" id="copyBtn">Copy for JIRA</button>
+      <button class="btn" id="resetBtn">Reset</button>
+      <button class="btn" id="printBtn">Print</button>
+    </div>
+    <div class="prog">
+      <b id="pPct" style="color:var(--txt)">0%</b>
+      <div class="track"><div class="fill" id="pFill"></div></div>
+      <span id="pCount">0 / 0</span>
+    </div>
+  </div>
 </header>
-<div id="app"></div>
-<div class="modal" id="reportModal"><div class="sheet"><div class="sh"><span id="reportTitle">Compliance report</span><button class="btn sm" onclick="closeReport()">✕ Close</button></div><textarea id="reportText" readonly spellcheck="false"></textarea><div class="sf"><button class="btn primary" onclick="copyReport()">📋 Copy report</button><button class="btn" id="dlAtt" onclick="downloadAttachments()">⬇ Attachments</button><button class="btn" onclick="exportTicket(REPORT_TID)">⬇ Export JSON</button><span class="small muted" style="margin-left:auto">Copy report → paste in JIRA · download attachments → drag into the comment</span></div></div></div>
+
+<div class="wrap" id="list"></div>
+<div class="foot">Data Engineering · A test isn't done until you can show the evidence — attach the query result / profile / reconciliation to the ticket.</div>
+
+<div class="modal" id="modal">
+  <div class="card">
+    <div class="ch">Paste into JIRA — <span id="modalTab"></span></div>
+    <textarea id="out" readonly spellcheck="false"></textarea>
+    <div class="cf">
+      <button class="btn primary" id="copyOut">Copy to clipboard</button>
+      <button class="btn" id="closeModal">Close</button>
+      <span style="margin-left:auto;color:var(--muted);font-size:12px">Markdown task list · JIRA Cloud auto-converts</span>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
-/* =================== PHASES =================== */
-const SCOPE=[["ETL","ETL / ELT"],["SQL","SQL / VDS"]];
-const MLBL={B:"Basic",S:"Standard",E:"Enterprise"};
-const PHASES=[
- {key:"standards",n:3,name:"Engineering Standards",sub:"FLANG standards + environment readiness — set up before any development.",groups:[
-   {title:"Table & Naming Standards (FLANG)",items:[
-     {t:"Table/dataset names: lowercase snake_case, no spaces/special chars",w:"Consistency & portability.",v:"names match ^[a-z0-9_]+$",m:"B"},
-     {t:"Layer/zone prefix applied (src_ / stg_ / dim_ / fact_)",w:"Self-describing.",v:"prefix correct for the layer",m:"S"},
-     {t:"No reserved keywords as names (value, date, type)",w:"Calcite/DB rejects.",v:"name not reserved",m:"B"},
-     {t:"Environment/zone in the path, not the name",w:"Same name promotes DEV→PROD.",v:"no env suffix",m:"S"}]},
-   {title:"Column & Data-Type Standards (FLANG)",items:[
-     {t:"Columns snake_case; suffixes _id / _key / _date / _ts; bool is_/has_",w:"Type obvious from name.",v:"suffixes applied",m:"B"},
-     {t:"Money DECIMAL(p,s) (never FLOAT); timestamps UTC",w:"Floats lose pennies; TZ bugs.",v:"amount=DECIMAL; UTC",m:"B"},
-     {t:"Consistent precision/scale; standard boolean representation",w:"Avoids mismatches.",v:"same DECIMAL across measures",m:"S"},
-     {t:"Reserved-word columns aliased (t.\"value\" AS metric_value)",w:"Prevents VDS-save failures.",v:"aliased",m:"B"}]},
-   {title:"Git, Documentation & Security Standards",items:[
-     {t:"Branch feature/<KEY>-desc; commit carries ticket key",w:"Traceability.",v:"pattern followed",m:"B"},
-     {t:"Dataset has description, owner, steward, classification",w:"Governable, discoverable.",v:"metadata present",m:"B"},
-     {t:"No secrets in code; least-privilege access",w:"Security.",v:"secret scan; RBAC",m:"B"}]},
-   {title:"Environment Readiness & Access",items:[
-     {t:"Git access provisioned",w:"Can't build without it.",v:"repo access confirmed",m:"B"},
-     {t:"Source & target DB access provisioned",w:"Build & test.",v:"connections verified",m:"B"},
-     {t:"Data Lake / pipeline access provisioned",w:"Storage & deploy.",v:"access confirmed",m:"S"}]}]},
- {key:"requirement",n:1,name:"Requirement & Source/Target",sub:"Understand the requirement and analyse sources & targets — before development.",groups:[
-   {title:"Requirement Understanding",items:[
-     {t:"Business requirement & objective documented",w:"Wrong thing = costliest defect.",v:"requirement doc linked",m:"B"},
-     {t:"Acceptance criteria defined & agreed with requester",w:"Defines 'done'.",v:"AC on ticket; confirmed",m:"B"},
-     {t:"Scope & out-of-scope stated; assumptions logged",w:"Prevents scope creep.",v:"in the doc",m:"S"},
-     {t:"Business rules captured",w:"Logic to build & test.",v:"rules documented",m:"B"}]},
-   {title:"Source & Target Analysis",items:[
-     {t:"Source systems identified (system, schema, tables, owner)",w:"Completeness needs every source.",v:"source inventory",m:"B"},
-     {t:"Source data profiled (counts, keys, nulls, ranges, samples)",w:"Real-data surprises break designs.",v:"profiling attached",m:"S"},
-     {t:"Target identified (system, layer, model, grain, SCD)",w:"Where & how output lands.",v:"target design",m:"B"},
-     {t:"Incremental strategy decided (full/CDC/watermark) + key",w:"No missed/dup data.",v:"strategy + key",m:"S"},
-     {t:"Dependencies & downstream impact analysed",w:"Changes cascade.",v:"impact list",m:"S"}]}]},
- {key:"techdoc",n:2,name:"Technical Documentation",sub:"Create the design & documentation set in the FLANG standard format.",groups:[
-   {title:"Mapping & Dictionary (FLANG format)",items:[
-     {t:"Source-to-target mapping (STTM) — field level, standard template",w:"Build-and-test contract.",v:"STTM linked",m:"B"},
-     {t:"Data dictionary — tables & columns in FLANG standard format",w:"Self-describing, governable.",v:"dictionary per target column",m:"B"},
-     {t:"Transformation rules documented",w:"Unambiguous logic.",v:"rules in design",m:"B"}]},
-   {title:"Design & Diagrams",items:[
-     {t:"Technical design document",w:"Single source of truth.",v:"design doc linked",m:"B"},
-     {t:"Architecture / data-flow diagram",w:"Shared mental model.",v:"diagram attached",m:"S"},
-     {t:"ER / data-model diagram",w:"Clarifies keys & grain.",v:"ERD attached",m:"S"},
-     {t:"Performance, logging, restart & error-handling design",w:"Operability & resilience.",v:"documented",m:"S"}]},
-   {title:"Storage & Approval",items:[
-     {t:"FLANG naming/type standards applied throughout",w:"Consistency.",v:"names/types match the FLANG standard",m:"B"},
-     {t:"Docs versioned, stored in agreed location & linked to ticket",w:"Findable by the team.",v:"links on ticket",m:"B"}]}]},
- {key:"ready",n:4,name:"Definition of Ready",approval:true,sub:"Package the prior phases (requirement, documentation, standards) and submit to the Technical Lead for sign-off to start development.",groups:[
-   {title:"Ready to submit to Lead",items:[
-     {t:"Requirement doc, STTM & data dictionary attached",w:"Lead reviews artifacts.",v:"all linked",m:"B"},
-     {t:"Diagrams (architecture + ER) attached",w:"Design reviewable.",v:"diagrams linked",m:"S"},
-     {t:"Standards confirmed applied; open questions listed",w:"Focuses review.",v:"self-check + list",m:"B"},
-     {t:"Development scope declared (ETL/ELT, SQL/VDS) with rationale",w:"Sets which build phases apply.",v:"scope on ticket",m:"B"},
-     {t:"Ticket moved to In Review / assigned to Technical Lead",w:"Triggers the review.",v:"status + assignee",m:"B"}]},
-   {title:"Lead Sign-off",items:[
-     {t:"Technical Lead decision recorded (Ready / Ready w conditions / Not Ready)",w:"The gate that starts the build.",v:"decision + signature captured",m:"B"}]}]},
- {key:"review-loop",n:5,name:"Review Feedback & Iterate",sub:"Act on Lead feedback, correct phases 1–2, re-submit. Loop until approved.",groups:[
-   {title:"Feedback Loop",items:[
-     {t:"Lead/architect feedback captured on the ticket",w:"Actionable & auditable.",v:"comments present",m:"B"},
-     {t:"Each feedback item actioned or answered with rationale",w:"Nothing dropped.",v:"each point resolved",m:"B"},
-     {t:"Phases 1–2 corrected per feedback (requirement / mapping / docs)",w:"Fix the source of truth.",v:"docs updated & re-linked",m:"B"},
-     {t:"Re-submitted for re-review where changes are material",w:"Closes the loop (back to Definition of Ready).",v:"re-review requested",m:"S"},
-     {t:"Final design APPROVED by the Lead → proceed to development",w:"Starts the build.",v:"approval recorded",m:"B"}]}]},
- {key:"dev-etl",n:6,name:"Development — ETL / ELT",scope:"ETL",naAllowed:true,sub:"Build & unit-test the pipeline. If data already lands in the lake, mark N/A with a reason.",groups:[
-   {title:"ETL / ELT Build",items:[
-     {t:"Workflow built per design; parameters externalized (no hardcoding)",w:"Promotable, maintainable.",v:"context/config used",m:"B"},
-     {t:"Scheduling, dependencies, logging, audit & restartability",w:"Operable & resilient.",v:"schedule + logs + resume tested",m:"S"},
-     {t:"Incremental / CDC logic implemented & validated",w:"No missed/duplicated rows.",v:"delta + boundary tested",m:"S"},
-     {t:"Performance tuned (bulk load, parallelism)",w:"Meets SLA.",v:"timed on real volume",m:"S"}]},
-   {title:"Unit Testing (ETL / ELT)",items:[
-     {t:"Source → target reconciliation: source = loaded + rejected + filtered",w:"Completeness proof.",v:"equation holds; evidence attached",m:"B"},
-     {t:"Control totals / checksum match",w:"Values, not just counts.",v:"SUM/hash reconciles",m:"S"},
-     {t:"Positive / negative / boundary / null cases pass",w:"Bugs hide at edges.",v:"cases written & passing",m:"B"},
-     {t:"Idempotency — re-run produces no duplicates",w:"Re-runs are normal.",v:"run twice; dup-key=0",m:"B"},
-     {t:"Reject / exception handling validated",w:"Errors routed, not lost.",v:"bad rows in reject store",m:"S"},
-     {t:"Test evidence uploaded (counts, results, screenshots)",w:"Proof, not claims.",v:"evidence attached below",m:"B"}]}]},
- {key:"dev-sql",n:7,name:"Development — SQL / VDS",scope:"SQL",naAllowed:true,sub:"Build, optimize & unit-test the query, then publish the VDS. Mark N/A if no query/VDS work.",groups:[
-   {title:"SQL Build & Optimization",items:[
-     {t:"No SELECT *; CTEs; tables aliased; sargable predicates",w:"Readable, stable, fast.",v:"review SELECT list",m:"B"},
-     {t:"Execution plan reviewed — no full scans; indexes/partitions used",w:"The plan is the truth.",v:"EXPLAIN / profile reviewed",m:"B"},
-     {t:"Business rules implemented; NULL handling; exception handling",w:"Correctness & resilience.",v:"rules tested",m:"S"}]},
-   {title:"VDS Creation (Dremio)",items:[
-     {t:"Query saved as a VDS in the correct space; validates (reserved aliased)",w:"The VDS is the deliverable.",v:"VDS at path; validates",m:"B"},
-     {t:"Pushdown & partition pruning verified in the profile",w:"Avoid full scans.",v:"profile shows pushdown + pruning",m:"S"},
-     {t:"Reflection created/considered; acceleration CHOSEN; metadata fresh",w:"Biggest speed lever.",v:"profile Reflections = CHOSEN",m:"E"}]},
-   {title:"Unit Testing (SQL / VDS)",items:[
-     {t:"Row count vs source; grain & uniqueness (dup-key = 0)",w:"Dropped/dup rows skew metrics.",v:"GROUP BY key HAVING COUNT(*)>1 = 0",m:"B"},
-     {t:"Aggregation / control-total reconciliation",w:"Values correct.",v:"SUM reconciles to source",m:"S"},
-     {t:"Business-rule assertions = 0 violations; edge & null cases",w:"Valid ≠ correct.",v:"assertion queries = 0 rows",m:"B"},
-     {t:"Test evidence uploaded (query results, profile, counts)",w:"Proof, not claims.",v:"evidence attached below",m:"B"}]}]},
- {key:"done",n:8,name:"Definition of Done",approval:true,sub:"Final sign-off to the Technical Lead — development, unit testing and documentation complete.",groups:[
-   {title:"Done Checklist (proves the work was done properly)",items:[
-     {t:"Development complete for all selected scope",w:"All scope built.",v:"dev phases complete or N/A",m:"B"},
-     {t:"Unit testing passed with evidence attached",w:"Proven correct.",v:"reconciliation + test evidence present",m:"B"},
-     {t:"Documentation updated to final state (STTM, dictionary, diagrams)",w:"Docs match what shipped.",v:"docs current & linked",m:"B"},
-     {t:"No critical / high defects open",w:"Quality bar.",v:"defect list clean",m:"B"},
-     {t:"Deployment readiness: promotion path + rollback plan",w:"Smooth, reversible release.",v:"DEV→TEST→UAT→PROD + rollback",m:"S"},
-     {t:"Knowledge transfer / handover done",w:"Support readiness.",v:"KT notes",m:"S"}]},
-   {title:"Final Lead Sign-off",items:[
-     {t:"Technical Lead approves: ticket is Done",w:"Accountable closure.",v:"lead decision + signature",m:"B"}]}]}
+/* ===================== PHASES ===================== */
+const PHASES = [
+ {key:"std", n:"0", label:"Standards", title:"FLANG Standards",
+  desc:"The naming, type and format standards every dataset/column/job must follow. The foundation for phases 1–7.", groups:[
+  {g:"A · Naming — Tables / Datasets", items:[
+   {t:"lowercase snake_case; no spaces or special characters", w:"Consistency and portability across engines.", v:"name matches ^[a-z0-9_]+$", m:"B"},
+   {t:"Layer/zone prefix per standard (src_ / stg_ / dim_ / fact_)", w:"Tells you what a dataset is at a glance.", v:"prefix correct for the layer", m:"S"},
+   {t:"No reserved keywords as object names (avoid value, date, type)", w:"Calcite/DB rejects or requires quoting.", v:"name is not a reserved word", m:"B"},
+   {t:"Singular/plural convention consistent", w:"Predictability for consumers.", v:"matches the agreed convention", m:"S"},
+   {t:"Environment & zone live in the path, not the name", w:"Same name promotes across DEV→PROD.", v:"no env suffixes in object names", m:"S"},
+  ]},
+  {g:"B · Naming — Columns", items:[
+   {t:"snake_case, descriptive; no cryptic abbreviations (unless in glossary)", w:"Self-explaining columns reduce errors.", v:"column names readable & in glossary if abbreviated", m:"B"},
+   {t:"Key suffixes: _id (surrogate), _key (business); dates _date, timestamps _ts", w:"Type is obvious from the name.", v:"suffixes applied consistently", m:"S"},
+   {t:"Booleans prefixed is_ / has_", w:"Readable predicates.", v:"boolean columns prefixed", m:"S"},
+   {t:"Units in the name where ambiguous (amount_usd, weight_kg)", w:"Prevents unit mistakes.", v:"unit encoded where needed", m:"S"},
+   {t:"Reserved words aliased (t.\"value\" AS metric_value)", w:"Avoids the recurring VDS-save failure.", v:"reserved columns aliased", m:"B"},
+  ]},
+  {g:"C · Data Types & Formats", items:[
+   {t:"Money as DECIMAL(p,s) — never FLOAT/DOUBLE", w:"Floats lose pennies.", v:"amount columns are DECIMAL with agreed precision/scale", m:"B"},
+   {t:"Timestamps stored in UTC; DATE vs TIMESTAMP used correctly", w:"TZ bugs are silent and costly.", v:"UTC storage; correct type per column", m:"S"},
+   {t:"Consistent precision/scale for amounts across datasets", w:"Avoids rounding mismatches in joins/sums.", v:"same DECIMAL(p,s) for like measures", m:"S"},
+   {t:"Standard NULL vs default convention", w:"Predictable handling downstream.", v:"convention documented & applied", m:"S"},
+   {t:"Standard boolean representation", w:"No mix of Y/N, 1/0, true/false.", v:"single representation used", m:"S"},
+  ]},
+  {g:"D · VDS / Job / Pipeline / Git naming", items:[
+   {t:"VDS space/folder & layer naming (raw→staging→curated→semantic)", w:"Discoverability and governance.", v:"object sits in the correct space/folder", m:"S"},
+   {t:"Job / pipeline / reflection naming convention followed", w:"Operability and ownership.", v:"names match the standard", m:"S"},
+   {t:"Branch naming feature/ADL-<id>-desc; commit carries the ticket key", w:"Traceability code↔ticket.", v:"branch + commit follow the pattern", m:"B"},
+   {t:"PR title/description standard followed", w:"Reviewable, auditable change.", v:"PR matches template", m:"S"},
+  ]},
+  {g:"E · Metadata & Documentation standards", items:[
+   {t:"Every dataset has description, owner, steward, domain, classification", w:"Governable, discoverable data.", v:"metadata present in the catalog", m:"B"},
+   {t:"Data dictionary template followed", w:"Uniform, complete documentation.", v:"dictionary uses the FLANG template", m:"B"},
+   {t:"Mandatory tags applied (PII, domain, sensitivity)", w:"Drives access & compliance.", v:"tags set on the dataset", m:"S"},
+  ]},
+ ]},
+
+ {key:"p1", n:"1", label:"Requirement & Source/Target", title:"Phase 1 · Requirement & Source/Target Analysis",
+  desc:"Understand the requirement and analyse sources & targets BEFORE any development.", groups:[
+  {g:"A · Requirement Understanding", items:[
+   {t:"Business requirement & objective documented (problem, consumers, success criteria)", w:"Building the wrong thing is the costliest defect.", v:"requirement doc linked to the ticket", m:"B"},
+   {t:"Acceptance criteria defined & agreed with the requester", w:"Defines 'done' objectively.", v:"AC on the ticket; requester confirmed", m:"B"},
+   {t:"Scope & explicit out-of-scope stated", w:"Prevents scope creep and gaps.", v:"scope section in the doc", m:"S"},
+   {t:"Stakeholders, data owner & consumers identified", w:"Needed for approval, access, sign-off.", v:"named roles in the doc", m:"B"},
+   {t:"SLAs defined (freshness, latency, availability, retention)", w:"Drives design and alerting.", v:"SLA stated & agreed", m:"S"},
+   {t:"Data sensitivity / classification & compliance identified (PII/financial)", w:"Governs masking, access, storage.", v:"classification recorded", m:"S"},
+   {t:"Volume & growth estimates (rows, size, frequency)", w:"Sizing, partitioning, cost depend on it.", v:"estimates captured", m:"S"},
+  ]},
+  {g:"B · Source & Target Analysis", items:[
+   {t:"Source systems identified (system, schema, tables, owner, connection)", w:"Can't validate completeness without every source.", v:"source inventory in the doc", m:"B"},
+   {t:"Source data profiled (counts, keys, nulls, ranges, samples)", w:"Real-data surprises break naive designs.", v:"profiling results attached", m:"S"},
+   {t:"Source grain & refresh cadence / availability understood", w:"Drives incremental & scheduling.", v:"documented", m:"S"},
+   {t:"Target system, layer & zone identified (PDS/VDS/table; raw→curated→consumption)", w:"Defines where output lands.", v:"target defined", m:"B"},
+   {t:"Target data model designed (entities, keys, grain, SCD type)", w:"The model determines correctness.", v:"model documented/diagram", m:"S"},
+   {t:"Source-to-target mapping (field-level) documented", w:"The build-and-test contract.", v:"STTM spec linked", m:"B"},
+   {t:"Incremental strategy decided (full / CDC / watermark) + key", w:"Wrong strategy = missed/duplicated data.", v:"strategy + key documented", m:"S"},
+   {t:"Historical / backfill requirement defined", w:"Backfill is forgotten until prod.", v:"backfill scope stated", m:"S"},
+   {t:"Upstream/downstream dependencies & impact analysis done", w:"Changes cascade; reports can break.", v:"dependency + impact list (lineage)", m:"S"},
+  ]},
+ ]},
+
+ {key:"p2", n:"2", label:"Technical Documentation", title:"Phase 2 · Technical Documentation",
+  desc:"Produce the documentation set to FLANG standards — requirement doc, data dictionary, STTM, diagrams.", groups:[
+  {g:"A · Core documents", items:[
+   {t:"Project requirement document created & linked", w:"Single source of truth.", v:"doc in Confluence/catalog linked to ticket", m:"B"},
+   {t:"Data dictionary complete (name, type, description, source, rule, PII, allowed values)", w:"Self-describing, governable data.", v:"dictionary for every target column (FLANG template)", m:"B"},
+   {t:"Source-to-target mapping (STTM) follows the standard template", w:"Uniform, testable mapping.", v:"STTM in the template, field-level", m:"B"},
+   {t:"Assumptions & open-questions log maintained", w:"Surfaces unknowns before they bite.", v:"log in the doc", m:"S"},
+  ]},
+  {g:"B · Diagrams", items:[
+   {t:"Architecture / data-flow diagram (source → ingest → transform → serve)", w:"Shared mental model; reveals gaps.", v:"diagram in the design doc", m:"S"},
+   {t:"Target ER / data-model diagram", w:"Clarifies keys, relationships, grain.", v:"ERD attached", m:"S"},
+   {t:"Orchestration / sequence diagram (jobs, dependencies, triggers)", w:"Correct sequencing prevents partial loads.", v:"DAG/sequence documented", m:"S"},
+   {t:"Lineage captured (catalog/auto or documented)", w:"Traceability & impact analysis.", v:"lineage available", m:"E"},
+  ]},
+  {g:"C · Design decisions", items:[
+   {t:"Naming & standards from Phase 0 applied throughout", w:"Consistency across the platform.", v:"names/types match the standard", m:"B"},
+   {t:"Security & access design (readers, roles, masking)", w:"Least-privilege by design.", v:"access design documented", m:"S"},
+   {t:"Error-handling, reject & reprocessing strategy designed", w:"Plan for inevitable failures.", v:"strategy in the doc", m:"S"},
+   {t:"Reusability check — reuse existing dataset/VDS before building new", w:"Avoids duplicate, conflicting datasets.", v:"catalog searched; decision recorded", m:"S"},
+   {t:"Performance/capacity design (volume, partitioning, reflections)", w:"Design for scale up front.", v:"approach documented", m:"E"},
+   {t:"Environment & deployment plan (DEV→TEST→UAT→PROD) + rollback/DR", w:"Smooth, reversible delivery.", v:"plan documented", m:"E"},
+   {t:"All docs stored in the agreed location & linked to the ticket", w:"Findable by the whole team.", v:"links on the ticket", m:"B"},
+  ]},
+ ]},
+
+ {key:"p3", n:"3", label:"Definition of Ready", title:"Phase 3 · Definition of Ready — Lead Sign-off",
+  desc:"Package phases 1–2 and submit to the Technical Lead for review and approval to start development.", groups:[
+  {g:"A · Ready to submit to Lead", items:[
+   {t:"Requirement doc, STTM and data dictionary attached to the ticket", w:"The lead reviews artifacts, not memory.", v:"all three linked on the ticket", m:"B"},
+   {t:"Diagrams (architecture + ER) attached", w:"Design is reviewable.", v:"diagrams linked", m:"S"},
+   {t:"Standards (Phase 0) confirmed applied", w:"Lead shouldn't catch naming/type issues.", v:"self-check done", m:"B"},
+   {t:"Open questions/assumptions listed for the lead", w:"Focuses the review.", v:"list present", m:"S"},
+   {t:"Development scope declared (ETL/ELT, SQL/VDS, or both) with rationale", w:"Sets which build phases apply.", v:"scope selected above + rationale on ticket", m:"B"},
+   {t:"Ticket moved to 'In Review' / assigned to Technical Lead", w:"Triggers the formal review.", v:"status + assignee set", m:"B"},
+  ]},
+ ]},
+
+ {key:"p4", n:"4", label:"Review Feedback & Iterate", title:"Phase 4 · Review Feedback & Iterate",
+  desc:"Lead reviews. Capture feedback, correct phases 1–2, and re-submit (3→4). Loop until approved.", groups:[
+  {g:"A · Act on feedback (loop back to 1–2 as needed)", items:[
+   {t:"Lead/architect review completed; feedback captured on the ticket", w:"Written feedback is actionable & auditable.", v:"review comments on the ticket", m:"B"},
+   {t:"Each feedback item actioned, or answered with rationale", w:"Nothing dropped silently.", v:"each point resolved/responded", m:"B"},
+   {t:"Phases 1–2 corrected per feedback (requirement / mapping / design / docs)", w:"Fix the source of truth, not just the ticket.", v:"docs updated & re-linked", m:"B"},
+   {t:"Open questions resolved with the requester/owner", w:"Removes ambiguity before build.", v:"answers recorded", m:"S"},
+   {t:"Re-submitted for re-review where changes were material", w:"Closes the loop (back to Phase 3).", v:"re-review requested", m:"S"},
+   {t:"Final design APPROVED by the Lead → proceed to development", w:"The gate that starts the build.", v:"approval recorded on the ticket", m:"B"},
+  ]},
+ ]},
+
+ {key:"etl", n:"5", label:"Dev · ETL / ELT", scope:"etl", canNA:true, title:"Phase 5 · Development — ETL / ELT (+ unit testing)",
+  desc:"Build and unit-test the pipeline. Not needed if data already lands in the lake — mark N/A with a reason.", groups:[
+  {g:"A · Extract", items:[
+   {t:"Source connection/config correct & externalized", w:"Wrong/hardcoded source = wrong env or breakage.", v:"from context/config; intended source", m:"B"},
+   {t:"Extracted row count matches source for the window", w:"Catches a silently partial read.", v:"read-count vs source COUNT(*)", m:"B"},
+   {t:"Incremental key / watermark correct (or full-load justified)", w:"Wrong key = missed or re-read rows.", v:"re-run picks only new/changed; boundary once-only", m:"S"},
+   {t:"No truncation / precision loss on read", w:"Decimals/strings/timestamps degrade silently.", v:"spot-check high-precision columns", m:"S"},
+   {t:"Source schema/contract validated; drift handled", w:"Upstream changes break the job.", v:"assert columns/types; fail fast on drift", m:"S"},
+  ]},
+  {g:"B · Transform", items:[
+   {t:"Field-by-field mapping matches the STTM", w:"Most logic bugs live here.", v:"each column vs rule on a hand-calculated fixture", m:"B"},
+   {t:"Type conversions explicit & lossless", w:"Implicit casts corrupt numbers/dates.", v:"output types per schema; round-trip a sample", m:"S"},
+   {t:"NULL / default / empty handling defined", w:"NULLs break joins, keys, metrics.", v:"NULL counts = expected; defaults applied", m:"B"},
+   {t:"Deduplication correct; lookups handle misses (reject/default)", w:"Dupes & dropped rows are silent.", v:"dup-key assertion = 0; misses → reject w/ reason", m:"S"},
+   {t:"Business rules / derivations validated; deterministic output", w:"Valid ≠ correct; re-runs must match.", v:"fixture → expected; run twice identical", m:"S"},
+  ]},
+  {g:"C · Load", items:[
+   {t:"Load mode correct (append/overwrite/upsert/merge)", w:"Wrong mode duplicates or wipes data.", v:"mode matches intent; target before/after", m:"B"},
+   {t:"Idempotent — re-running does not duplicate", w:"Pipelines get re-run after failures.", v:"run twice → count unchanged; dup-key = 0", m:"B"},
+   {t:"Target count = transformed count (no silent drops)", w:"Lost rows are invisible without this.", v:"loaded vs transformed count", m:"B"},
+   {t:"PK/unique respected; partial-load safe; target format/partitioning correct", w:"Integrity, recoverability, query cost.", v:"dup-key=0; kill mid-run → clean; Parquet+partitions", m:"S"},
+  ]},
+  {g:"D · Reconciliation", items:[
+   {t:"Source → target reconciliation: source = loaded + rejected + filtered", w:"The headline completeness proof.", v:"equation holds; attach result", m:"B"},
+   {t:"Control totals reconcile (sum of key amounts)", w:"Counts can match while values are wrong.", v:"SUM source vs target within tolerance", m:"S"},
+   {t:"Sample records traced source → target", w:"Proves transforms end-to-end.", v:"5–10 keys correct at target", m:"S"},
+   {t:"Reject/error rows accounted for with reasons", w:"'Lost' rows are usually dropped.", v:"reject count + reasons logged", m:"S"},
+  ]},
+  {g:"E · Resilience, performance & orchestration", items:[
+   {t:"Failures detectable (not silent); bad rows to reject flow", w:"A 'green' job dropping rows is the worst case.", v:"non-zero exit/alert; reject store populated", m:"B"},
+   {t:"Restart/resume without duplication; rollback on failure", w:"Re-runs after failure are normal.", v:"fail mid-run → resume clean; target consistent", m:"S"},
+   {t:"Runtime within SLA on prod-like volume; bulk not row-by-row", w:"RBAR & small-data timings fail in prod.", v:"timed on real volume; bulk load used", m:"S"},
+   {t:"Dependencies/order, upstream-readiness, concurrency, schedule correct", w:"Stale/partial/double loads otherwise.", v:"DAG gates; _SUCCESS check; lock; schedule per SLA", m:"S"},
+   {t:"Run audit logged (run id, counts in/out/reject, timing)", w:"Observability + audit.", v:"audit row per run", m:"S"},
+  ]},
+ ]},
+
+ {key:"sql", n:"6", label:"Dev · SQL / VDS", scope:"sql", canNA:true, title:"Phase 6 · Development — SQL / VDS creation & optimization (+ unit testing)",
+  desc:"Write, optimize and unit-test the query, then publish it as a VDS. Mark N/A if no query/VDS work is needed.", groups:[
+  {g:"A · Correctness", items:[
+   {t:"Row count vs expected/source; grain & uniqueness (no dups)", w:"Dropped/duplicated rows skew everything.", v:"GROUP BY key HAVING COUNT(*)>1 → 0 rows", m:"B"},
+   {t:"PK/business key integrity; NULL handling validated", w:"Keys must be present/unique; NULLs break logic.", v:"NULL & dup-key assertions → 0 rows", m:"B"},
+   {t:"Join cardinality — no unintended fan-out", w:"A bad join multiplies rows.", v:"row count before vs after join = grain", m:"S"},
+   {t:"Aggregation reconciliation; business rules on known inputs", w:"Wrong GROUP BY/filter skews totals.", v:"SUM reconciles; fixture → expected", m:"S"},
+   {t:"Referential integrity; edge cases; deterministic; date/TZ correct", w:"Orphans, edges, and TZ bugs are common.", v:"orphan check=0; empties/min-max tested; UTC↔local", m:"S"},
+  ]},
+  {g:"B · Standards & readability", items:[
+   {t:"No SELECT * — explicit, named columns", w:"Schema-drift breakage + wasted I/O.", v:"read the SELECT list", m:"B"},
+   {t:"CTEs over nested subqueries; pre-filter BEFORE joins", w:"Readability + far less data through joins.", v:"filters in the earliest CTE", m:"S"},
+   {t:"Tables aliased; JOIN over correlated subquery", w:"Unambiguous & faster.", v:"alias-qualified; no per-row subselect", m:"S"},
+   {t:"No ORDER BY/LIMIT in subqueries/views; explicit INSERT columns", w:"Non-deterministic; positional inserts break.", v:"scan bodies; INSERT lists columns", m:"S"},
+  ]},
+  {g:"C · Performance & optimization", items:[
+   {t:"Execution plan reviewed — no full scans on large tables", w:"The plan is the truth about cost.", v:"Oracle DBMS_XPLAN · MySQL EXPLAIN ANALYZE · Dremio profile", m:"B"},
+   {t:"Sargable predicates — no functions on filtered/indexed columns", w:"Functions kill index/partition pruning.", v:"WHERE dt >= DATE '…' not TRUNC(dt)=…", m:"B"},
+   {t:"Indexes/partitions used; no implicit type conversions", w:"Avoids full scans & mis-matches.", v:"plan shows index/partition; keys same type", m:"S"},
+   {t:"Window funcs over self-joins; no DISTINCT masking a bad join", w:"Cheaper; DISTINCT hides fan-out.", v:"ROW_NUMBER used; remove DISTINCT → dupes?", m:"S"},
+   {t:"APPROX_COUNT_DISTINCT for big distinct; set-based not RBAR; stats fresh", w:"Exact distinct & RBAR don't scale.", v:"approx used; set-based; timed on real volume", m:"S"},
+  ]},
+  {g:"D · Dremio VDS creation & optimization", items:[
+   {t:"Query saved as a VDS in the correct space/folder", w:"In Dremio the deliverable is the VDS.", v:"VDS at agreed path; SELECT LIMIT 10 returns expected", m:"B"},
+   {t:"VDS validates — no bare reserved keywords (quote/alias)", w:"Calcite rejects value/date/type unquoted.", v:"reserved cols aliased; validation passes", m:"B"},
+   {t:"Explicit business-friendly columns (no SELECT *, no EXPR$0)", w:"The VDS is the consumer contract.", v:"every output column named/aliased", m:"B"},
+   {t:"Pushdown & partition pruning verified in the profile", w:"Else Dremio scans whole tables.", v:"profile: pushdown WHERE present; bytes scanned ≪ dataset", m:"S"},
+   {t:"VDS stack shallow (≤2–3 layers); heavy transforms materialized", w:"Deep nesting blocks pushdown & reflections.", v:"lineage depth; CTAS/reflection for hot VDS", m:"S"},
+   {t:"Reflection created/considered; acceleration CHOSEN in profile", w:"Biggest Dremio speed lever; unused = cost.", v:"profile Reflections = CHOSEN / job MATCHED", m:"E"},
+   {t:"Upstream PDS metadata fresh; downstream VDS/dashboards not broken", w:"Stale metadata & cascading breaks.", v:"REFRESH METADATA done; dependents still valid", m:"S"},
+   {t:"VDS naming/folder governance + description & tags; profile reviewed", w:"Governance + cost truth.", v:"location/description set; Raw Profile reviewed", m:"S"},
+  ]},
+ ]},
+
+ {key:"deploy", n:"7", label:"Review, Deploy & Sign-off", title:"Phase 7 · Review, Deployment & Sign-off",
+  desc:"Close the lifecycle: code review, promotion DEV→TEST→UAT→PROD, BI hand-off, and production sign-off.", groups:[
+  {g:"A · Code review & CI", items:[
+   {t:"Code peer-reviewed; PR approved by a non-author", w:"Catches defects; spreads knowledge.", v:"PR approved on the ticket's branch", m:"B"},
+   {t:"Unit tests passed in CI; evidence/coverage attached", w:"CI proof beats the honour system.", v:"green pipeline + report link on ticket", m:"B"},
+   {t:"No secrets; lint/standards gates green", w:"Security & consistency.", v:"secret scan + lint pass", m:"S"},
+  ]},
+  {g:"B · Promotion (no skipping)", items:[
+   {t:"Promotion path followed: feature → main → test → uat → prod", w:"Skipping environments lets bugs reach prod.", v:"merge guard / branch rules enforced", m:"B"},
+   {t:"DQ / reconciliation green in TEST", w:"Data correctness before UAT.", v:"DQ harness passed on TEST", m:"S"},
+   {t:"Business validation completed in UAT", w:"Meets the actual need.", v:"UAT sign-off recorded", m:"S"},
+   {t:"Production smoke check passed post-deploy", w:"Confirms the live layer serves data.", v:"row-count + freshness smoke result", m:"S"},
+   {t:"Rollback plan ready before PROD", w:"Fast recovery from a bad deploy.", v:"rollback steps on the ticket", m:"B"},
+  ]},
+  {g:"C · Hand-off & closure", items:[
+   {t:"Documentation, data dictionary & lineage updated post-build", w:"Docs must match what shipped.", v:"docs reflect final state", m:"S"},
+   {t:"BI notified / dataset refresh requested (if reports affected)", w:"Prevents broken or stale reports.", v:"BI ticket linked / refresh requested", m:"S"},
+   {t:"Final sign-off (peer + QA + business); ticket → Done", w:"Explicit, accountable closure.", v:"sign-offs recorded; status Done", m:"B"},
+  ]},
+ ]},
 ];
-PHASES.sort((a,b)=>a.n-b.n); // array order follows phase number
-const USERS=["Suhas Shete","Dhruv Mevada","Vansh Nautiyal"];
-let CURRENT="Suhas Shete";
+const MAT_NAME={B:"Basic",S:"Standard",E:"Enterprise"};
+const SCOPES=[{k:"etl",label:"ETL / ELT"},{k:"sql",label:"SQL / VDS"}];
 
-/* =================== STORE =================== */
-const KEY="de-compliance-v1";
-function load(){try{return JSON.parse(localStorage.getItem(KEY))||{tickets:[]}}catch(e){return {tickets:[]}}}
-function save(){localStorage.setItem(KEY,JSON.stringify(DB))}
-let DB=load();
-function uid(){return Math.random().toString(36).slice(2,9)}
-function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
-function findT(id){return DB.tickets.find(t=>t.id===id)}
-function ik(pk,gi,ii){return pk+"."+gi+"."+ii}
-function groupApplies(){return true}
-function applicableKeys(phase){const k=[];phase.groups.forEach((g,gi)=>g.items.forEach((_,ii)=>k.push(ik(phase.key,gi,ii))));return k}
-function ps(t,key){t.phases=t.phases||{};return t.phases[key]||(t.phases[key]={status:"NOT_STARTED",approval:"PENDING"})}
-function phasePct(t,phase){const st=ps(t,phase.key);if(st.status==="NA"||st.status==="COMPLETED")return 100;const ks=applicableKeys(phase);const d=ks.filter(k=>t.checks[k]).length;return ks.length?Math.round(d/ks.length*100):0}
-function overall(t){let to=0,d=0;PHASES.forEach(ph=>{const st=ps(t,ph.key);if(st.status==="NA")return;const ks=applicableKeys(ph);to+=ks.length;d+=ks.filter(k=>t.checks[k]).length});return to?Math.round(d/to*100):0}
-function act(t,msg){t.activity=t.activity||[];t.activity.unshift({msg,at:Date.now(),by:CURRENT});t.activity=t.activity.slice(0,40)}
-function ago(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return s+"s ago";const m=Math.floor(s/60);if(m<60)return m+"m ago";const h=Math.floor(m/60);if(h<24)return h+"h ago";return Math.floor(h/24)+"d ago"}
-function initials(n){return n.split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase()}
+/* ===================== STATE ===================== */
+const state=Object.assign({phase:"p1",mat:"ALL",q:""}, load());
+function load(){try{const d=JSON.parse(localStorage.getItem("flang-dod")||"{}");
+  return {checks:d.checks||{}, na:d.na||{}, notes:d.notes||{}, scope:new Set(d.scope||[])};}
+  catch(e){return {checks:{},na:{},notes:{},scope:new Set()}}}
+function save(){localStorage.setItem("flang-dod",JSON.stringify({checks:state.checks,na:state.na,notes:state.notes,scope:[...state.scope]}))}
+function P(k){return PHASES.find(p=>p.key===k)}
+function idOf(pk,gi,ii){return pk+"|"+gi+"|"+ii}
+function isNA(p){ if(!p.scope) return false; if(state.na[p.key]!==undefined) return state.na[p.key]; return !state.scope.has(p.scope); }
 
-/* compliance status of a ticket per area: done | prog | none | na */
-function areaStatus(t,phaseKey){const ph=PHASES.find(p=>p.key===phaseKey);const st=ps(t,phaseKey);
-  if(st.status==="NA")return "na";if(st.status==="COMPLETED")return "done";if(ph&&ph.approval&&st.approval==="APPROVED")return "done";
-  const p=phasePct(t,ph);return p>0?"prog":"none"}
-function devStatus(t){const sel=t.devTypes;const phs=[["ETL","dev-etl"],["SQL","dev-sql"]].filter(x=>sel.includes(x[0]));
-  if(!phs.length)return "na";const sts=phs.map(x=>areaStatus(t,x[1]));if(sts.every(s=>s==="done"||s==="na"))return "done";if(sts.some(s=>s==="prog"||s==="done"))return "prog";return "none"}
-function unitStatus(t){const sel=t.devTypes;const phs=[["ETL","dev-etl"],["SQL","dev-sql"]].filter(x=>sel.includes(x[0]));if(!phs.length)return "na";
-  let total=0,done=0,naAll=true;phs.forEach(x=>{const ph=PHASES.find(p=>p.key===x[1]);const st=ps(t,ph.key);if(st.status==="NA")return;naAll=false;
-    ph.groups.forEach((g,gi)=>{if(!/unit testing/i.test(g.title))return;g.items.forEach((_,ii)=>{total++;if(t.checks[ik(ph.key,gi,ii)])done++})})});
-  if(naAll)return "na";if(total&&done>=total)return "done";return done>0?"prog":"none"}
+/* ===================== SCOPE BAR ===================== */
+const scopebar=document.getElementById("scopebar");
+SCOPES.forEach(s=>{
+  const c=document.createElement("div");c.className="scopechip"+(state.scope.has(s.k)?" on":"");
+  c.innerHTML=`<span class="x">${state.scope.has(s.k)?"✓":"+"}</span>${s.label}`;
+  c.onclick=()=>{state.scope.has(s.k)?state.scope.delete(s.k):state.scope.add(s.k);
+    c.classList.toggle("on");c.querySelector(".x").textContent=state.scope.has(s.k)?"✓":"+";
+    save();buildTabs();render();};
+  scopebar.appendChild(c);
+});
 
-/* =================== SEED =================== */
-if(!DB.tickets.length){
-  function seed(o){const t={id:uid(),key:o.k,title:o.ti,assignee:o.a,domain:o.d,source:o.s,target:o.tg,devTypes:o.dt,currentPhase:o.cp,checks:{},phases:{},evidence:[],comments:[],activity:[],createdAt:Date.now()};
-    PHASES.forEach((ph,idx)=>{const done=idx<o.through;const naScope=ph.scope&&!o.dt.includes(ph.scope);
-      t.phases[ph.key]={status:naScope?"NA":(done?"COMPLETED":(idx===o.cp?"IN_PROGRESS":"NOT_STARTED")),approval:done&&ph.approval?"APPROVED":"PENDING",naReason:naScope?"Not in selected development scope":""};
-      if(done&&!naScope)applicableKeys(ph).forEach(k=>t.checks[k]=true)});
-    act(t,"Ticket "+o.k+" assigned to "+o.a);DB.tickets.push(t)}
-  seed({k:"ADL-1700",ti:"APU Health Monitor — Engine VDS",a:"Suhas Shete",d:"Engineering",s:"AMOS",tg:"Dremio VDS",dt:["SQL"],cp:6,through:6});
-  seed({k:"ADL-1712",ti:"Xero Invoice CDC → curated",a:"Dhruv Mevada",d:"Finance",s:"Xero API",tg:"Data Lake → Dremio",dt:["ETL","SQL"],cp:5,through:5});
-  seed({k:"ADL-1733",ti:"MM Fleet Utilisation load",a:"Vansh Nautiyal",d:"Operations",s:"Movement Manager",tg:"S3 Iceberg",dt:["ETL"],cp:2,through:2});
-  seed({k:"ADL-1740",ti:"Tally GL consolidation VDS",a:"Dhruv Mevada",d:"Finance",s:"Tally",tg:"Dremio VDS",dt:["SQL"],cp:1,through:1});
-  save();
-}
-
-/* =================== UI helpers =================== */
-const $=id=>document.getElementById(id);
-function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
-function ring(v,size){size=size||66;const r=(size-7)/2,c=2*Math.PI*r,off=c-v/100*c;
-  return '<div class="ring-wrap" style="width:'+size+'px;height:'+size+'px"><svg width="'+size+'" height="'+size+'" style="transform:rotate(-90deg)"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--panel2)" stroke-width="7"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" style="transition:.6s"/></svg><span>'+v+'%</span></div>'}
-function dot(status){const m={done:["done","✓"],prog:["prog","◐"],none:["none","○"],na:["na","∅"]}[status];return '<span class="dot '+m[0]+'" title="'+status+'">'+m[1]+'</span>'}
-
-/* =================== ROUTER =================== */
-function route(){const h=location.hash.replace(/^#/,"");if(h.startsWith("/t/"))return renderTicket(h.slice(3).replace("__keep",""));if(h==="/new")return renderNew();return renderBoard()}
-window.addEventListener("hashchange",route);
-
-/* =================== BOARD (Lead compliance dashboard) =================== */
-function renderBoard(){
-  const ts=DB.tickets;
-  const inDev=ts.filter(t=>t.currentPhase===5||t.currentPhase===6).length;
-  const awaiting=ts.filter(t=>{const ph=PHASES[t.currentPhase];return ph&&ph.approval&&ps(t,ph.key).approval!=="APPROVED"}).length;
-  const avg=ts.length?Math.round(ts.reduce((a,t)=>a+overall(t),0)/ts.length):0;
-  const docDone=ts.filter(t=>areaStatus(t,"techdoc")==="done").length;
-  const utDone=ts.filter(t=>unitStatus(t)==="done").length;
-  const stat=(l,v,ic)=>'<div class="card stat glass"><div><div class="l">'+l+'</div><div class="v">'+v+'</div></div><div class="ic">'+ic+'</div></div>';
-  const rows=ts.map(t=>{const ph=PHASES[t.currentPhase];
-    return '<tr onclick="location.hash=\'#/t/'+t.id+'\'">'
-      +'<td><span class="tkey">'+esc(t.key)+'</span><div class="small muted">'+esc(t.title)+'</div></td>'
-      +'<td><span class="av">'+initials(t.assignee)+'</span><span class="hidesm">'+esc(t.assignee)+'</span></td>'
-      +'<td><span class="badge b">P'+ph.n+' · '+esc(ph.name.replace("Development — ",""))+'</span></td>'
-      +'<td class="c">'+dot(areaStatus(t,"requirement"))+'</td>'
-      +'<td class="c">'+dot(areaStatus(t,"techdoc"))+'</td>'
-      +'<td class="c">'+dot(areaStatus(t,"ready"))+'</td>'
-      +'<td class="c">'+dot(devStatus(t))+'</td>'
-      +'<td class="c">'+dot(unitStatus(t))+'</td>'
-      +'<td class="c">'+dot(areaStatus(t,"done"))+'</td>'
-      +'<td style="min-width:120px"><div style="display:flex;align-items:center;gap:8px"><div class="track" style="flex:1"><div class="fill" style="width:'+overall(t)+'%"></div></div><span class="small muted">'+overall(t)+'%</span></div></td>'
-      +'</tr>'}).join("");
-  $("app").innerHTML='<div class="wrap">'
-    +'<div class="row" style="align-items:flex-end"><div><h1 style="font-size:30px">Delivery Compliance Board</h1><div class="muted small">Every assigned ticket and whether it is following the standard process — '+ts.length+' tickets</div></div><div class="spacer"></div>'
-      +'<button class="btn" onclick="exportAll()">⬇ Export</button>'
-      +'<button class="btn" onclick="document.getElementById(\'importFile\').click()">⬆ Import</button>'
-      +'<input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importJSON(this)">'
-      +'<a class="btn primary" href="#/new">+ New Ticket</a></div>'
-    +'<div class="grid mt" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">'
-      +stat("Tickets",ts.length,"▤")+stat("In Development",inDev,"⚙")+stat("Awaiting Lead Sign-off",awaiting,"⚑")+stat("Avg Compliance",avg+"%","◍")+stat("Docs Complete",docDone+"/"+ts.length,"▦")+stat("Unit Tested",utDone+"/"+ts.length,"✓")+'</div>'
-    +'<div class="card mt"><div class="pad" style="padding-bottom:6px"><h3>Compliance by Ticket</h3><div class="legend">'+dot("done")+' done '+dot("prog")+' in progress '+dot("none")+' not started '+dot("na")+' N/A &nbsp;·&nbsp; click a row to open</div></div>'
-      +'<div style="overflow-x:auto"><table class="board"><thead><tr><th>Ticket</th><th>Assignee</th><th>Current Phase</th><th class="c">Req</th><th class="c">Docs</th><th class="c">Ready</th><th class="c">Dev</th><th class="c">Unit&nbsp;Test</th><th class="c">Done</th><th>Progress</th></tr></thead><tbody>'+(rows||'<tr><td colspan="10" class="hint">No tickets yet.</td></tr>')+'</tbody></table></div></div>'
-    +'</div>';
-}
-
-/* =================== NEW TICKET =================== */
-let nw={};
-function renderNew(){
-  nw={devTypes:[]};
-  $("app").innerHTML='<div class="wrap" style="max-width:680px"><a class="small muted" href="#/">← Board</a>'
-    +'<h1 class="mt" style="font-size:28px">New Ticket</h1><div class="muted small">Assign a JIRA ticket to an engineer and start its compliance checklist.</div>'
-    +'<div class="card pad mt"><div class="grid" style="grid-template-columns:1fr 1fr">'
-      +'<div><label>JIRA Ticket Key *</label><input id="n_key" placeholder="ADL-1700"></div>'
-      +'<div><label>Assignee *</label><select id="n_assignee">'+USERS.map(u=>'<option>'+u+'</option>').join("")+'</select></div>'
-      +'<div style="grid-column:1/3"><label>Title *</label><input id="n_title" placeholder="APU Health Monitor — Engine VDS"></div>'
-      +'<div><label>Business Domain</label><input id="n_domain" placeholder="Engineering / Finance"></div>'
-      +'<div><label>Project Type</label><input id="n_type" placeholder="New Build / Enhancement"></div>'
-      +'<div><label>Source System</label><input id="n_source" placeholder="AMOS / Xero API"></div>'
-      +'<div><label>Target System</label><input id="n_target" placeholder="Dremio VDS / S3"></div>'
-      +'</div>'
-      +'<div class="mt"><label>Development scope (pick what this ticket needs) *</label><div class="row" style="gap:8px">'
-        +SCOPE.map(s=>'<div class="chip" onclick="toggleScope(this,\''+s[0]+'\')">'+s[1]+'</div>').join("")
-        +'</div><div class="small muted mt" style="margin-top:6px">Only the selected build + unit-testing phases apply. Unselected ones are auto-marked N/A (you can add a reason).</div></div>'
-      +'<div class="adv"><a class="btn" href="#/">Cancel</a><div class="spacer"></div><button class="btn primary" onclick="createTicket()">✓ Create &amp; Start Checklist</button></div>'
-    +'</div></div>';
-}
-function toggleScope(el,c){const i=nw.devTypes.indexOf(c);if(i>=0)nw.devTypes.splice(i,1);else nw.devTypes.push(c);el.classList.toggle("on")}
-function createTicket(){
-  const key=$("n_key").value.trim(),title=$("n_title").value.trim();
-  if(!key||!title){toast("Ticket key and title are required");return}
-  if(!nw.devTypes.length){toast("Select at least one development scope");return}
-  const t={id:uid(),key,title,assignee:$("n_assignee").value,domain:$("n_domain").value.trim(),type:$("n_type").value.trim(),
-    source:$("n_source").value.trim(),target:$("n_target").value.trim(),devTypes:nw.devTypes.slice(),currentPhase:0,checks:{},phases:{},evidence:[],comments:[],activity:[],createdAt:Date.now()};
-  PHASES.forEach((ph,idx)=>{const naScope=ph.scope&&!t.devTypes.includes(ph.scope);t.phases[ph.key]={status:naScope?"NA":(idx===0?"IN_PROGRESS":"NOT_STARTED"),approval:"PENDING",naReason:naScope?"Not in selected development scope":""}});
-  act(t,"Ticket "+key+" assigned to "+t.assignee);DB.tickets.push(t);save();location.hash="#/t/"+t.id;
-}
-
-/* =================== TICKET WORKSPACE =================== */
-let activeIdx=0;
-function renderTicket(id){
-  const t=findT(id);if(!t){location.hash="#/";return}
-  if(location.hash.indexOf("__keep")<0)activeIdx=t.currentPhase;
-  const phase=PHASES[activeIdx];const st=ps(t,phase.key);
-  const reqKeys=applicableKeys(phase);const done=reqKeys.filter(k=>t.checks[k]).length;
-  const isNA=st.status==="NA";const ppct=isNA?100:(reqKeys.length?Math.round(done/reqKeys.length*100):100);
-  const canAdv=isNA||done>=reqKeys.length;
-
-  const steps=PHASES.map((ph,i)=>{const s=ps(t,ph.key);const cls=s.status==="COMPLETED"?"done":s.status==="NA"?"na":(i===t.currentPhase?"cur":"");const mark=s.status==="COMPLETED"?"✓":s.status==="NA"?"∅":ph.n;
-    return '<button class="step'+(i===activeIdx?" active":"")+'" onclick="goPhase(\''+id+'\','+i+')"><span class="n '+cls+'">'+mark+'</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(ph.name)+'</span></button>'}).join("");
-
-  let bd="";
-  if(phase.naAllowed){bd+='<div class="nabar"><span style="font-weight:600">Is this phase applicable to this ticket?</span><div class="miniseg"><button class="'+(!isNA?"on":"")+'" onclick="setNA(\''+id+'\',false)">Applicable</button><button class="'+(isNA?"on na":"")+'" onclick="askNA(\''+id+'\')">N/A + comment</button></div></div>'}
-  if(isNA){bd+='<div class="card pad mt" style="border-style:dashed"><b>Marked N/A</b><div class="muted mt" style="margin-top:6px">'+esc(st.naReason||"")+'</div></div>'}
-  else{phase.groups.forEach((g,gi)=>{bd+='<div class="group"><div class="ghead"><span class="bar"></span><h3>'+esc(g.title)+'</h3></div>';
-    g.items.forEach((it,ii)=>{const k=ik(phase.key,gi,ii);const ck=!!t.checks[k];
-      bd+='<label class="item'+(ck?" done":"")+'"><input type="checkbox" '+(ck?"checked":"")+' onchange="toggleItem(\''+id+'\',\''+k+'\',\''+phase.key+'\',this.checked)"><div style="flex:1;min-width:0"><div style="display:flex;gap:8px;align-items:flex-start"><span class="t" style="flex:1">'+esc(it.t)+'</span><span class="badge '+it.m+'">'+MLBL[it.m]+'</span></div>'+(it.w?'<div class="w">'+esc(it.w)+'</div>':'')+(it.v?'<div class="v"><b>verify</b>'+esc(it.v)+'</div>':'')+'</div></label>'});
-    bd+='</div>'})}
-  let adv='<div class="adv">';
-  if(phase.approval){adv+='<span style="font-weight:600">Lead sign-off:</span><button class="btn success sm" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\',\'APPROVED\')">✓ Approve &amp; Continue</button><button class="btn sm" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\',\'READY_WITH_CONDITIONS\')">Ready w/ conditions</button><button class="btn sm" onclick="advance(\''+id+'\',\'NOT_READY\')">Not Ready</button>'}
-  else{adv+='<button class="btn primary" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\')">'+(activeIdx===PHASES.length-1?"Complete & Close Ticket":"Complete Phase "+phase.n+" → Next")+'</button>'}
-  if(!canAdv)adv+='<span class="small muted">Verify all items (or mark N/A) to continue.</span>';
-  adv+='</div>';
-
-  const evs=(t.evidence||[]).filter(e=>e.phaseKey===phase.key);
-  const evH=evs.map(e=>{
-    if(e.kind==="file")return '<div class="ev">📄 <span style="flex:1"><a onclick="openEv(\''+e.fid+'\',\''+esc(e.name)+'\')">'+esc(e.name)+'</a> <span class="small muted">'+fmtSize(e.size)+'</span></span><span class="small muted">'+ago(e.at)+'</span></div>';
-    return '<a class="ev" href="'+esc(e.url)+'" target="_blank">🔗 <span style="flex:1">'+esc(e.name)+'</span><span class="small muted">'+ago(e.at)+'</span></a>';
-  }).join("");
-  const cms=(t.comments||[]).filter(c=>c.phaseKey===phase.key);
-  const cmH=cms.map(c=>'<div class="cmt"><div class="meta"><b>'+esc(c.by)+'</b> · '+ago(c.at)+'</div>'+esc(c.body)+'</div>').join("");
-
-  $("app").innerHTML='<div class="wrap"><a class="small muted" href="#/">← Board</a>'
-    +'<div class="card glass pad mt" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">'+ring(overall(t),72)
-      +'<div style="flex:1;min-width:0"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="tkey" style="font-size:18px">'+esc(t.key)+'</span><h1 style="font-size:22px">'+esc(t.title)+'</h1></div>'
-      +'<div class="small muted mt" style="margin-top:4px"><span class="av">'+initials(t.assignee)+'</span>'+esc(t.assignee)+' · '+esc(t.source||"—")+' → '+esc(t.target||"—")+'</div>'
-      +'<div class="mt" style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap">'+(t.devTypes.map(d=>'<span class="badge b">'+(d==="ETL"?"ETL / ELT":"SQL / VDS")+'</span>').join(""))+'</div></div>'
-      +'<div style="display:flex;gap:6px"><button class="btn sm" onclick="exportTicket(\''+id+'\')">⬇ Export</button><button class="btn sm" onclick="copyJira(\''+id+'\')">Copy for JIRA</button></div></div>'
-    +'<div class="grid work mt" style="grid-template-columns:250px 1fr">'
-      +'<div class="card pad" style="height:max-content"><h3 class="mb">Lifecycle</h3>'+steps+'</div>'
-      +'<div><div class="card pad"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><div style="display:flex;gap:8px;align-items:center"><span class="badge b">Phase '+phase.n+'</span><h2 style="font-size:21px">'+esc(phase.name)+'</h2></div><div class="muted small mt" style="margin-top:4px">'+esc(phase.sub)+'</div></div><span class="badge '+(st.status==="COMPLETED"?"ok":st.status==="NA"?"muted":"warn")+'">'+({NOT_STARTED:"Not started",IN_PROGRESS:"In progress",COMPLETED:"Completed",NA:"N/A"}[st.status]||st.status)+'</span></div>'
-        +(isNA?"":'<div class="mt" style="display:flex;gap:10px;align-items:center"><div class="track" style="flex:1"><div class="fill" style="width:'+ppct+'%"></div></div><span class="small muted">'+done+'/'+reqKeys.length+'</span></div>')+bd+adv+'</div>'
-      +'<div class="card pad mt"><h3 class="mb">📎 Evidence ('+evs.length+')</h3>'+evH
-        +'<div class="drop" ondragover="event.preventDefault();this.classList.add(\'over\')" ondragleave="this.classList.remove(\'over\')" ondrop="dropFiles(event,\''+id+'\',\''+phase.key+'\')" onclick="document.getElementById(\'fi\').click()">⬆ Drag &amp; drop files here, or <b>click to browse</b><div class="small muted" style="margin-top:3px">screenshots, CSVs, PDFs… stored in your browser (max 15&nbsp;MB each)</div></div>'
-        +'<input type="file" multiple id="fi" style="display:none" onchange="browseFiles(this,\''+id+'\',\''+phase.key+'\')">'
-        +'<div class="row" style="gap:8px;margin-top:8px"><input id="ev_name" placeholder="…or link name" style="flex:1"><input id="ev_url" placeholder="link / path (URL)" style="flex:1"><button class="btn sm" onclick="addEv(\''+id+'\',\''+phase.key+'\')">Attach link</button></div></div>'
-      +'<div class="card pad mt"><h3 class="mb">💬 Comments ('+cms.length+')</h3>'+cmH+'<div class="row" style="gap:8px;align-items:flex-end"><textarea id="cm_body" placeholder="Add a comment…" style="flex:1;min-height:44px"></textarea><button class="btn sm" onclick="addCm(\''+id+'\',\''+phase.key+'\')">Send</button></div></div>'
-      +'</div></div></div>';
-}
-function goPhase(id,i){activeIdx=i;location.hash="#/t/"+id+"__keep";renderTicket(id)}
-function toggleItem(id,k,pk,v){const t=findT(id);t.checks[k]=v;const st=ps(t,pk);if(st.status==="NOT_STARTED")st.status="IN_PROGRESS";save();renderTicket(id)}
-function setNA(id,na){const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);if(!na){st.status="IN_PROGRESS";st.naReason="";act(t,"Phase "+ph.n+" marked applicable")}save();renderTicket(id)}
-function askNA(id){const r=prompt("Reason this phase is N/A (e.g., data already lands in the Data Lake; no ETL required):");if(r==null)return;if(!r.trim()){toast("A reason is required");return}const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);st.status="NA";st.naReason=r.trim();act(t,"Phase "+ph.n+" marked N/A — "+r.trim());save();renderTicket(id)}
-function advance(id,approval){const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);const reqKeys=applicableKeys(ph);const done=reqKeys.filter(k=>t.checks[k]).length;
-  if(st.status!=="NA"&&done<reqKeys.length){toast("Complete all items first");return}
-  if(ph.approval&&!approval){toast("A sign-off decision is required");return}
-  if(st.status!=="NA")st.status="COMPLETED";if(ph.approval){st.approval=approval;st.signedBy=CURRENT;st.signedAt=Date.now()}
-  act(t,"Phase "+ph.n+" ("+ph.name+") completed"+(approval?" — "+approval:""));
-  const next=PHASES[activeIdx+1];
-  if(next){ps(t,next.key);if(t.phases[next.key].status==="NOT_STARTED")t.phases[next.key].status="IN_PROGRESS";t.currentPhase=activeIdx+1;activeIdx=activeIdx+1;toast("Phase "+ph.n+" complete → Phase "+next.n)}
-  else{t.completed=true;toast("Ticket complete 🎉")}
-  save();location.hash="#/t/"+id;renderTicket(id);
-}
-function addEv(id,pk){const n=$("ev_name").value.trim(),u=$("ev_url").value.trim();if(!n||!u){toast("Name and link required");return}const t=findT(id);t.evidence.push({kind:"link",phaseKey:pk,name:n,url:u,at:Date.now(),by:CURRENT});act(t,"Evidence link added: "+n);save();renderTicket(id)}
-/* ---- file uploads (drag & drop / browse) stored in IndexedDB ---- */
-let _fdb;
-function idb(){return new Promise((res,rej)=>{if(_fdb)return res(_fdb);const r=indexedDB.open("de-compliance-files",1);r.onupgradeneeded=()=>r.result.createObjectStore("files");r.onsuccess=()=>{_fdb=r.result;res(_fdb)};r.onerror=()=>rej(r.error)})}
-function idbPut(k,blob){return idb().then(db=>new Promise((res,rej)=>{const tx=db.transaction("files","readwrite");tx.objectStore("files").put(blob,k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)}))}
-function idbGet(k){return idb().then(db=>new Promise((res,rej)=>{const tx=db.transaction("files","readonly");const rq=tx.objectStore("files").get(k);rq.onsuccess=()=>res(rq.result);rq.onerror=()=>rej(rq.error)}))}
-function fmtSize(n){if(n<1024)return n+" B";if(n<1048576)return (n/1024).toFixed(0)+" KB";return (n/1048576).toFixed(1)+" MB"}
-async function handleFiles(list,id,pk){const t=findT(id);const files=[...list];let ok=0;
-  for(const f of files){if(f.size>15*1048576){toast('"'+f.name+'" too large (>15MB)');continue}const fid=uid()+"_"+f.name;
-    try{await idbPut(fid,f);t.evidence.push({kind:"file",fid,name:f.name,size:f.size,type:f.type,phaseKey:pk,at:Date.now(),by:CURRENT});act(t,"Evidence uploaded: "+f.name);ok++}catch(e){toast("Could not store "+f.name)}}
-  if(ok){save();renderTicket(id);toast(ok+" file(s) attached")}}
-function dropFiles(e,id,pk){e.preventDefault();handleFiles(e.dataTransfer.files,id,pk)}
-function browseFiles(inp,id,pk){handleFiles(inp.files,id,pk)}
-async function openEv(fid,name){try{const b=await idbGet(fid);if(!b){toast("File not found in this browser");return}const url=URL.createObjectURL(b);const a=document.createElement("a");a.href=url;if(b.type&&(b.type.indexOf("image/")===0||b.type==="application/pdf"||b.type.indexOf("text/")===0)){a.target="_blank"}else{a.download=name}document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000)}catch(e){toast("Could not open file")}}
-function addCm(id,pk){const b=$("cm_body").value.trim();if(!b)return;const t=findT(id);t.comments.push({phaseKey:pk,body:b,at:Date.now(),by:CURRENT});act(t,"Added a comment");save();renderTicket(id)}
-function buildReport(t){
-  const scopes=t.devTypes.map(d=>d==="ETL"?"ETL/ELT":"SQL/VDS").join(", ")||"—";
-  const L=["*Delivery Compliance Report — "+t.key+": "+t.title+"*",
-    "Assignee: "+t.assignee+"  |  Scope: "+scopes+"  |  Overall completion: "+overall(t)+"%",
-    "Generated "+new Date().toLocaleString()+" by "+CURRENT,
-    "----",""];
-  PHASES.forEach(ph=>{
-    const st=ps(t,ph.key);const ks=applicableKeys(ph);const done=ks.filter(k=>t.checks[k]).length;
-    let status;
-    if(st.status==="NA")status="N/A";
-    else if(st.status==="COMPLETED")status="DONE"+(ph.approval&&st.approval&&st.approval!=="PENDING"?" — "+st.approval.replace(/_/g," ")+(st.signedBy?" by "+st.signedBy:""):"");
-    else if(ks.length&&done>=ks.length)status="READY ("+done+"/"+ks.length+")";
-    else status=(done>0?"IN PROGRESS":"NOT STARTED")+" ("+done+"/"+ks.length+")";
-    L.push("h3. Phase "+ph.n+" — "+ph.name+"  ["+status+"]");
-    if(st.status==="NA"){L.push("_N/A — "+(st.naReason||"no reason given")+"_");}
-    else{ph.groups.forEach((g,gi)=>{L.push("*"+g.title+"*");g.items.forEach((it,ii)=>{const c=t.checks[ik(ph.key,gi,ii)];L.push((c?"(/) ":"(x) ")+it.t);});});}
-    const evs=(t.evidence||[]).filter(e=>e.phaseKey===ph.key);
-    if(evs.length)L.push("_Evidence: "+evs.map(e=>e.name).join(", ")+"_");
-    const cms=(t.comments||[]).filter(c=>c.phaseKey===ph.key);
-    if(cms.length)L.push("_Comments ("+cms.length+"): "+cms.map(c=>c.by+": "+c.body).join("  |  ")+"_");
-    L.push("");
+/* ===================== TABS ===================== */
+const tabsEl=document.getElementById("tabs");
+function buildTabs(){
+  tabsEl.innerHTML="";
+  PHASES.forEach(p=>{
+    const na=isNA(p);
+    const b=document.createElement("div");
+    b.className="tab"+(p.key===state.phase?" on":"");
+    b.innerHTML=`<span class="pn">${p.n}</span>${p.label}`+(na?` <span class="na">N/A</span>`:``);
+    b.onclick=()=>{state.phase=p.key;buildTabs();render();};
+    tabsEl.appendChild(b);
   });
-  return L.join("\n");
 }
-let REPORT_TID=null;
-function copyJira(id){const t=findT(id);REPORT_TID=id;const txt=buildReport(t);$("reportText").value=txt;$("reportTitle").textContent="Compliance report — "+t.key;
-  const nFiles=(t.evidence||[]).filter(e=>e.kind==="file").length;$("dlAtt").textContent="⬇ Attachments ("+nFiles+")";$("dlAtt").style.display=nFiles?"inline-flex":"none";
-  $("reportModal").classList.add("open");
-  navigator.clipboard.writeText(txt).then(()=>toast("Full report (all phases) copied")).catch(()=>{});}
-function copyReport(){const ta=$("reportText");navigator.clipboard.writeText(ta.value).then(()=>toast("Copied")).catch(()=>{ta.select();document.execCommand("copy");toast("Copied")});}
-function closeReport(){$("reportModal").classList.remove("open")}
-async function downloadAttachments(){const t=findT(REPORT_TID);const files=(t.evidence||[]).filter(e=>e.kind==="file");
-  if(!files.length){toast("No uploaded files on this ticket");return}
-  toast("Downloading "+files.length+" file(s)…");
-  for(const e of files){try{const b=await idbGet(e.fid);if(!b)continue;const url=URL.createObjectURL(b);const a=document.createElement("a");a.href=url;a.download=("P"+(PHASES.find(p=>p.key===e.phaseKey)||{}).n+"_"+e.name);document.body.appendChild(a);a.click();a.remove();await new Promise(r=>setTimeout(r,500));URL.revokeObjectURL(url)}catch(_){}}}
 
-/* =================== EXPORT / IMPORT =================== */
-function blobToDataURL(b){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)})}
-function dataURLtoBlob(d){const p=d.split(",");const mime=(p[0].match(/:(.*?);/)||[])[1]||"application/octet-stream";const bin=atob(p[1]);const a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new Blob([a],{type:mime})}
-function download(name,text){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"application/json"}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
-async function gatherFiles(tickets){const files={};for(const t of tickets){for(const e of (t.evidence||[])){if(e.kind==="file"){try{const b=await idbGet(e.fid);if(b)files[e.fid]=await blobToDataURL(b)}catch(_){}}}}return files}
-async function exportAll(){toast("Preparing export…");const files=await gatherFiles(DB.tickets);download("de-compliance-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify({app:"de-compliance",version:1,exportedAt:Date.now(),by:CURRENT,tickets:DB.tickets,files},null,2));toast("Exported "+DB.tickets.length+" ticket(s)")}
-async function exportTicket(id){const t=findT(id);toast("Preparing export…");const files=await gatherFiles([t]);download(t.key+"-status.json",JSON.stringify({app:"de-compliance",version:1,exportedAt:Date.now(),by:CURRENT,tickets:[t],files},null,2));toast("Exported "+t.key)}
-async function importJSON(inp){const f=inp.files[0];if(!f){return}
-  try{const data=JSON.parse(await f.text());
-    if(!data||!Array.isArray(data.tickets)){toast("Not a valid export file");inp.value="";return}
-    if(!confirm("Import "+data.tickets.length+" ticket(s) from "+(data.by||"unknown")+"?\\nTickets with the same ID will be overwritten; others are added.")){inp.value="";return}
-    if(data.files){for(const fid in data.files){try{await idbPut(fid,dataURLtoBlob(data.files[fid]))}catch(_){}}}
-    data.tickets.forEach(it=>{const i=DB.tickets.findIndex(x=>x.id===it.id);if(i>=0)DB.tickets[i]=it;else DB.tickets.push(it)});
-    save();toast("Imported "+data.tickets.length+" ticket(s)");location.hash="#/";renderBoard();
-  }catch(e){toast("Import failed: invalid file")}finally{inp.value=""}}
+/* ===================== CONTROLS ===================== */
+document.getElementById("matSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  state.mat=b.dataset.m;[...e.currentTarget.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");render();});
+document.getElementById("search").addEventListener("input",e=>{state.q=e.target.value.toLowerCase();render()});
+document.getElementById("resetBtn").onclick=()=>{const p=P(state.phase);
+  if(!confirm("Clear all ticks on this phase?"))return;
+  p.groups.forEach((g,gi)=>g.items.forEach((_,ii)=>delete state.checks[idOf(p.key,gi,ii)]));save();render();};
+document.getElementById("printBtn").onclick=()=>window.print();
 
-/* =================== THEME =================== */
-function applyTheme(){const d=localStorage.getItem("portal-theme")==="dark";document.documentElement.classList.toggle("dark",d);$("themeBtn").textContent=d?"☀":"☾"}
-$("themeBtn").onclick=()=>{const d=!document.documentElement.classList.contains("dark");localStorage.setItem("portal-theme",d?"dark":"light");applyTheme()};
-$("reportModal").onclick=e=>{if(e.target.id==="reportModal")closeReport()};
-applyTheme();route();
+/* ===================== RENDER ===================== */
+function visible(it){if(state.mat!=="ALL"&&it.m!==state.mat)return false;
+  if(state.q){const h=(it.t+" "+it.w+" "+it.v).toLowerCase();if(!h.includes(state.q))return false;}return true;}
+
+function render(){
+  const root=document.getElementById("list");root.innerHTML="";
+  const p=P(state.phase);
+  const d=document.createElement("div");d.className="pdesc";d.textContent=p.desc;root.appendChild(d);
+
+  // N/A bar for scoped phases
+  if(p.scope){
+    const na=isNA(p);
+    const bar=document.createElement("div");bar.className="nabar";
+    bar.innerHTML=`<span class="q">Is this phase applicable?</span><div class="gap"></div>`;
+    const seg=document.createElement("div");seg.className="miniseg";
+    const yes=document.createElement("button");yes.textContent="Applicable";yes.className=na?"":"on";
+    const no=document.createElement("button");no.textContent="Mark N/A";no.className=na?"on na":"";
+    yes.onclick=()=>{state.na[p.key]=false;save();buildTabs();render()};
+    no.onclick=()=>{state.na[p.key]=true;save();buildTabs();render()};
+    seg.append(yes,no);bar.appendChild(seg);root.appendChild(bar);
+    if(na){
+      const ta=document.createElement("textarea");ta.className="nacomment";
+      ta.placeholder="Reason this phase is N/A (e.g., data already lands in the Data Lake; no ETL required)…";
+      ta.value=state.notes[p.key]||"";
+      ta.oninput=()=>{state.notes[p.key]=ta.value;save()};
+      root.appendChild(ta);
+      document.getElementById("pPct").textContent="N/A";
+      document.getElementById("pCount").textContent="phase marked N/A";
+      document.getElementById("pFill").style.width="0%";
+      return;
+    }
+  }
+
+  let total=0,done=0,shown=0;
+  p.groups.forEach((g,gi)=>{
+    const items=g.items.map((it,ii)=>({it,ii})).filter(x=>visible(x.it));
+    if(!items.length)return;
+    const sec=document.createElement("section");sec.className="sec";
+    const h=document.createElement("div");h.className="sec-h";
+    h.innerHTML=`<span class="bar"></span><h2>${g.g}</h2><span class="cnt">${items.length}</span>`;sec.appendChild(h);
+    items.forEach(({it,ii})=>{
+      shown++;total++;
+      const id=idOf(p.key,gi,ii);const ck=!!state.checks[id];if(ck)done++;
+      const row=document.createElement("label");row.className="item"+(ck?" done":"");
+      const cb=document.createElement("input");cb.type="checkbox";cb.className="cb";cb.checked=ck;
+      cb.onchange=()=>{state.checks[id]=cb.checked;save();render()};
+      const body=document.createElement("div");body.className="body";
+      const top=document.createElement("div");top.className="top";
+      const test=document.createElement("div");test.className="test";test.textContent=it.t;
+      const chip=document.createElement("span");chip.className="chip "+it.m;chip.textContent=MAT_NAME[it.m];
+      top.append(test,chip);
+      const why=document.createElement("div");why.className="why";why.textContent=it.w;
+      const ver=document.createElement("div");ver.className="verify";
+      const vb=document.createElement("b");vb.textContent="verify";ver.append(vb,document.createTextNode(it.v));
+      body.append(top,why,ver);row.append(cb,body);sec.appendChild(row);
+    });
+    root.appendChild(sec);
+  });
+  if(!shown){const e=document.createElement("div");e.className="empty";e.textContent="No items match this filter.";root.appendChild(e);}
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById("pPct").textContent=pct+"%";
+  document.getElementById("pCount").textContent=`${done} / ${total} verified`;
+  document.getElementById("pFill").style.width=pct+"%";
+}
+
+/* ===================== COPY FOR JIRA ===================== */
+const modal=document.getElementById("modal"),out=document.getElementById("out");
+document.getElementById("copyBtn").onclick=()=>{
+  const p=P(state.phase);const L=[`*${p.title}*`,""];
+  if(p.scope&&isNA(p)){L.push(`_N/A — ${state.notes[p.key]||"no reason given"}_`);}
+  else{p.groups.forEach(g=>{const items=g.items.filter(visible);if(!items.length)return;
+    L.push(`### ${g.g}`);items.forEach(it=>L.push(`- [ ] ${it.t}  _(${MAT_NAME[it.m]})_`));L.push("");});}
+  out.value=L.join("\n");document.getElementById("modalTab").textContent=p.title;modal.classList.add("open");
+};
+document.getElementById("closeModal").onclick=()=>modal.classList.remove("open");
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open")};
+document.getElementById("copyOut").onclick=async()=>{try{await navigator.clipboard.writeText(out.value)}catch(e){out.select();document.execCommand("copy")}toast("Copied to clipboard")};
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
+
+buildTabs();render();
 </script>
 </body>
 </html>
