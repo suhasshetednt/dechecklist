@@ -103,6 +103,12 @@
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;padding:10px 18px;border-radius:10px;transition:.3s;z-index:80;pointer-events:none;box-shadow:var(--shadow)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .hint{color:var(--muted);text-align:center;padding:34px;font-size:13px}
+  .modal{position:fixed;inset:0;background:rgba(15,33,55,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:90}
+  .modal.open{display:flex}
+  .sheet{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:800px;width:100%;max-height:86vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+  .sheet .sh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);font-family:'Big Shoulders Display';font-weight:700}
+  .sheet textarea{flex:1;border:0;background:var(--panel2);color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:14px;resize:none;min-height:52vh}
+  .sheet .sf{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
   .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:8px}
   @media(max-width:880px){.work{grid-template-columns:1fr!important}.hidesm{display:none}}
 </style>
@@ -117,6 +123,7 @@
   <button class="btn icon" id="themeBtn" title="Theme">☾</button>
 </header>
 <div id="app"></div>
+<div class="modal" id="reportModal"><div class="sheet"><div class="sh"><span id="reportTitle">Compliance report</span><button class="btn sm" onclick="closeReport()">✕ Close</button></div><textarea id="reportText" readonly spellcheck="false"></textarea><div class="sf"><button class="btn primary" onclick="copyReport()">📋 Copy to clipboard</button><span class="small muted" style="margin-left:auto">Markdown · JIRA Cloud auto-converts on paste</span></div></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -426,9 +433,34 @@ function dropFiles(e,id,pk){e.preventDefault();handleFiles(e.dataTransfer.files,
 function browseFiles(inp,id,pk){handleFiles(inp.files,id,pk)}
 async function openEv(fid,name){try{const b=await idbGet(fid);if(!b){toast("File not found in this browser");return}const url=URL.createObjectURL(b);const a=document.createElement("a");a.href=url;if(b.type&&(b.type.indexOf("image/")===0||b.type==="application/pdf"||b.type.indexOf("text/")===0)){a.target="_blank"}else{a.download=name}document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000)}catch(e){toast("Could not open file")}}
 function addCm(id,pk){const b=$("cm_body").value.trim();if(!b)return;const t=findT(id);t.comments.push({phaseKey:pk,body:b,at:Date.now(),by:CURRENT});act(t,"Added a comment");save();renderTicket(id)}
-function copyJira(id){const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);let L=["*"+t.key+" · Phase "+ph.n+" — "+ph.name+"*",""];
-  if(st.status==="NA"){L.push("_N/A — "+(st.naReason||"")+"_")}else{ph.groups.forEach((g,gi)=>{L.push("### "+g.title);g.items.forEach((it,ii)=>{L.push("- ["+(t.checks[ik(ph.key,gi,ii)]?"x":" ")+"] "+it.t+"  _("+MLBL[it.m]+")_")});L.push("")})}
-  navigator.clipboard.writeText(L.join("\n")).then(()=>toast("Copied for JIRA")).catch(()=>toast("Copy failed"))}
+function buildReport(t){
+  const scopes=t.devTypes.map(d=>d==="ETL"?"ETL/ELT":"SQL/VDS").join(", ")||"—";
+  const L=["*Delivery Compliance Report — "+t.key+": "+t.title+"*",
+    "Assignee: "+t.assignee+"  |  Scope: "+scopes+"  |  Overall completion: "+overall(t)+"%",
+    "Generated "+new Date().toLocaleString()+" by "+CURRENT,
+    "----",""];
+  PHASES.forEach(ph=>{
+    const st=ps(t,ph.key);const ks=applicableKeys(ph);const done=ks.filter(k=>t.checks[k]).length;
+    let status;
+    if(st.status==="NA")status="N/A";
+    else if(st.status==="COMPLETED")status="DONE"+(ph.approval&&st.approval&&st.approval!=="PENDING"?" — "+st.approval.replace(/_/g," ")+(st.signedBy?" by "+st.signedBy:""):"");
+    else if(ks.length&&done>=ks.length)status="READY ("+done+"/"+ks.length+")";
+    else status=(done>0?"IN PROGRESS":"NOT STARTED")+" ("+done+"/"+ks.length+")";
+    L.push("h3. Phase "+ph.n+" — "+ph.name+"  ["+status+"]");
+    if(st.status==="NA"){L.push("_N/A — "+(st.naReason||"no reason given")+"_");}
+    else{ph.groups.forEach((g,gi)=>{L.push("*"+g.title+"*");g.items.forEach((it,ii)=>{const c=t.checks[ik(ph.key,gi,ii)];L.push((c?"(/) ":"(x) ")+it.t);});});}
+    const evs=(t.evidence||[]).filter(e=>e.phaseKey===ph.key);
+    if(evs.length)L.push("_Evidence: "+evs.map(e=>e.name).join(", ")+"_");
+    const cms=(t.comments||[]).filter(c=>c.phaseKey===ph.key);
+    if(cms.length)L.push("_Comments ("+cms.length+"): "+cms.map(c=>c.by+": "+c.body).join("  |  ")+"_");
+    L.push("");
+  });
+  return L.join("\n");
+}
+function copyJira(id){const t=findT(id);const txt=buildReport(t);$("reportText").value=txt;$("reportTitle").textContent="Compliance report — "+t.key;$("reportModal").classList.add("open");
+  navigator.clipboard.writeText(txt).then(()=>toast("Full report copied to clipboard")).catch(()=>{});}
+function copyReport(){const ta=$("reportText");navigator.clipboard.writeText(ta.value).then(()=>toast("Copied")).catch(()=>{ta.select();document.execCommand("copy");toast("Copied")});}
+function closeReport(){$("reportModal").classList.remove("open")}
 
 /* =================== EXPORT / IMPORT =================== */
 function blobToDataURL(b){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)})}
@@ -449,6 +481,7 @@ async function importJSON(inp){const f=inp.files[0];if(!f){return}
 /* =================== THEME =================== */
 function applyTheme(){const d=localStorage.getItem("portal-theme")==="dark";document.documentElement.classList.toggle("dark",d);$("themeBtn").textContent=d?"☀":"☾"}
 $("themeBtn").onclick=()=>{const d=!document.documentElement.classList.contains("dark");localStorage.setItem("portal-theme",d?"dark":"light");applyTheme()};
+$("reportModal").onclick=e=>{if(e.target.id==="reportModal")closeReport()};
 applyTheme();route();
 </script>
 </body>
