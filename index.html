@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DE Governance Portal</title>
+<title>DE Delivery Compliance</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,54 +11,41 @@
   :root{
     --bg:#eef3f9; --panel:#fff; --panel2:#f5f8fc; --line:#dde4ee; --border2:#c8d4e2; --accent-dim:rgba(2,132,199,.10);
     --txt:#0f2137; --muted:#4a6080; --faint:#8ba3bc;
-    --accent:#0284c7; --accent2:#0ea5e9;
-    --B:#059669; --S:#2563eb; --E:#7c3aed;
+    --accent:#0284c7; --accent2:#0ea5e9; --B:#059669; --S:#2563eb; --E:#7c3aed;
     --success:#059669; --warning:#d97706; --danger:#dc2626;
     --shadow:0 10px 30px rgba(15,33,55,.08); --r:14px;
   }
   .dark{
     --bg:#0b1220; --panel:#131c2e; --panel2:#172238; --line:#243049; --border2:#2c3a52; --accent-dim:rgba(56,189,248,.12);
-    --txt:#e6edf7; --muted:#9fb0c9; --faint:#64748b;
-    --accent:#38bdf8; --accent2:#0ea5e9; --B:#34d399; --S:#60a5fa; --E:#c084fc;
-    --shadow:0 14px 40px rgba(0,0,0,.4);
+    --txt:#e6edf7; --muted:#9fb0c9; --faint:#64748b; --accent:#38bdf8; --accent2:#0ea5e9;
+    --B:#34d399; --S:#60a5fa; --E:#c084fc; --shadow:0 14px 40px rgba(0,0,0,.4);
   }
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;color:var(--txt);font:15px/1.55 'IBM Plex Sans',system-ui,Segoe UI,Roboto,sans-serif;
-    background:radial-gradient(900px 520px at 100% -12%,var(--accent-dim),transparent 60%),
-      radial-gradient(700px 460px at -5% 0%,var(--accent-dim),transparent 55%),var(--bg);
+    background:radial-gradient(900px 520px at 100% -12%,var(--accent-dim),transparent 60%),radial-gradient(700px 460px at -5% 0%,var(--accent-dim),transparent 55%),var(--bg);
     background-attachment:fixed;-webkit-font-smoothing:antialiased}
   a{color:var(--accent);text-decoration:none}
   h1,h2,h3{font-family:'Big Shoulders Display',system-ui,sans-serif;margin:0}
-  .mono{font-family:'IBM Plex Mono',monospace}
-  /* layout */
   header.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;padding:11px 22px;
     background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line)}
   .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#7c3aed);display:grid;place-items:center;color:#fff;font-weight:800}
   .brand b{font-family:'Big Shoulders Display';font-size:18px;letter-spacing:.4px}
   .brand div{font-size:11px;color:var(--muted)}
   .wrap{max-width:1180px;margin:0 auto;padding:22px}
-  .row{display:flex;gap:16px;flex-wrap:wrap}
-  .spacer{flex:1}
-  /* buttons */
-  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);border-radius:8px;
-    padding:8px 14px;font:inherit;font-size:13px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:7px}
+  .row{display:flex;gap:16px;flex-wrap:wrap}.spacer{flex:1}.mt{margin-top:14px}.mb{margin-bottom:10px}
+  .muted{color:var(--muted)}.small{font-size:12px}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);border-radius:8px;padding:8px 14px;font:inherit;font-size:13px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:7px}
   .btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
   .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
   .btn.primary:hover{filter:brightness(1.07);color:#fff}
   .btn.success{background:var(--success);color:#fff;border-color:transparent}
-  .btn.sm{padding:5px 10px;font-size:12px}
-  .icon{width:34px;justify-content:center;padding:8px}
-  /* cards */
+  .btn.sm{padding:5px 10px;font-size:12px}.icon{width:34px;justify-content:center;padding:8px}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
   .glass{background:color-mix(in srgb,var(--panel) 80%,transparent);backdrop-filter:blur(12px) saturate(140%)}
-  .pad{padding:18px}
-  .grid{display:grid;gap:16px}
-  .stat{padding:16px;display:flex;justify-content:space-between;align-items:flex-start}
-  .stat .v{font-family:'Big Shoulders Display';font-size:28px;font-weight:800;margin-top:3px}
-  .stat .l{font-size:12px;color:var(--muted)}
-  .stat .s{font-size:11px;color:var(--faint);margin-top:2px}
-  .stat .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-dim);color:var(--accent)}
-  /* badges */
+  .pad{padding:18px}.grid{display:grid;gap:16px}
+  .stat{padding:15px;display:flex;justify-content:space-between;align-items:flex-start}
+  .stat .v{font-family:'Big Shoulders Display';font-size:27px;font-weight:800;margin-top:3px}
+  .stat .l{font-size:12px;color:var(--muted)} .stat .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--accent-dim);color:var(--accent)}
   .badge{display:inline-flex;align-items:center;gap:4px;border:1px solid;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700}
   .badge.b{color:var(--accent);border-color:transparent;background:var(--accent-dim)}
   .badge.muted{color:var(--muted);border-color:var(--line);background:var(--panel2)}
@@ -67,260 +54,213 @@
   .badge.E{color:var(--E);border-color:color-mix(in srgb,var(--E) 45%,transparent);background:color-mix(in srgb,var(--E) 10%,transparent)}
   .badge.ok{color:var(--success);border-color:color-mix(in srgb,var(--success) 45%,transparent);background:color-mix(in srgb,var(--success) 10%,transparent)}
   .badge.warn{color:var(--warning);border-color:color-mix(in srgb,var(--warning) 45%,transparent);background:color-mix(in srgb,var(--warning) 10%,transparent)}
-  /* progress */
   .track{height:8px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;overflow:hidden}
   .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.4s}
-  /* inputs */
   input,textarea,select{width:100%;background:var(--panel2);border:1px solid var(--border2);border-radius:8px;color:var(--txt);padding:8px 11px;font:inherit;font-size:14px}
-  input:focus,textarea:focus{outline:none;border-color:var(--accent);background:var(--panel)}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);background:var(--panel)}
   label{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px}
   textarea{min-height:70px;resize:vertical}
-  /* chips */
-  .chip{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;transition:.15s}
-  .chip:hover{border-color:var(--accent);color:var(--accent)}
-  .chip.on{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
-  /* project card */
-  .pcard{display:flex;align-items:center;gap:16px;padding:16px}
-  .pcard .nm{font-family:'Big Shoulders Display';font-size:19px;font-weight:700}
-  .pcard:hover{box-shadow:0 12px 32px rgba(15,33,55,.12)}
-  /* stepper */
+  .chip{cursor:pointer;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;transition:.15s}
+  .chip:hover{border-color:var(--accent);color:var(--accent)} .chip.on{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+  /* compliance board */
+  .board{width:100%;border-collapse:collapse}
+  .board th,.board td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+  .board th{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700}
+  .board tbody tr{cursor:pointer} .board tbody tr:hover td{background:var(--panel2)}
+  .board th.c,.board td.c{text-align:center}
+  .dot{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;font-size:12px;font-weight:800}
+  .dot.done{background:color-mix(in srgb,var(--success) 16%,transparent);color:var(--success)}
+  .dot.prog{background:color-mix(in srgb,var(--warning) 16%,transparent);color:var(--warning)}
+  .dot.none{background:var(--panel2);color:var(--faint)} .dot.na{background:var(--panel2);color:var(--muted)}
+  .av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:inline-grid;place-items:center;font-size:11px;font-weight:700;margin-right:7px;vertical-align:middle}
+  .tkey{font-family:'IBM Plex Mono';font-weight:600;color:var(--accent)}
+  /* stepper + items */
   .step{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;transition:.12s;width:100%;text-align:left;border:0;background:transparent;color:var(--txt)}
-  .step:hover{background:var(--panel2)}
-  .step.active{background:var(--accent-dim);color:var(--accent)}
+  .step:hover{background:var(--panel2)} .step.active{background:var(--accent-dim);color:var(--accent)}
   .step .n{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-weight:800;font-size:12px;border:1px solid var(--border2);flex:0 0 auto}
-  .step .n.done{background:var(--success);color:#fff;border-color:transparent}
-  .step .n.cur{background:var(--accent);color:#fff;border-color:transparent}
-  .step .n.na{background:var(--panel2);color:var(--muted)}
-  /* items */
+  .step .n.done{background:var(--success);color:#fff;border-color:transparent}.step .n.cur{background:var(--accent);color:#fff;border-color:transparent}.step .n.na{background:var(--panel2);color:var(--muted)}
   .group{border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-top:12px}
   .ghead{display:flex;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(90deg,var(--accent-dim),transparent)}
-  .ghead h3{font-size:15px;letter-spacing:.5px;text-transform:uppercase}
-  .ghead .bar{width:4px;height:18px;border-radius:3px;background:var(--accent)}
-  .item{display:flex;gap:12px;padding:12px 14px;border-top:1px solid var(--line)}
-  .item:hover{background:var(--panel2)}
+  .ghead h3{font-size:15px;letter-spacing:.5px;text-transform:uppercase}.ghead .bar{width:4px;height:18px;border-radius:3px;background:var(--accent)}
+  .item{display:flex;gap:12px;padding:12px 14px;border-top:1px solid var(--line)}.item:hover{background:var(--panel2)}
   .item input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--accent);flex:0 0 auto;cursor:pointer}
-  .item .t{font-weight:600}
-  .item.done .t{text-decoration:line-through;color:var(--muted)}
+  .item .t{font-weight:600}.item.done .t{text-decoration:line-through;color:var(--muted)}
   .item .w{color:var(--muted);font-size:13px;margin-top:3px}
-  .item .v{margin-top:6px;font-size:12px;background:var(--accent-dim);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);
-    border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;font-family:'IBM Plex Mono',monospace;overflow-x:auto}
+  .item .v{margin-top:6px;font-size:12px;background:var(--accent-dim);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;font-family:'IBM Plex Mono',monospace;overflow-x:auto}
   .item .v b{font-family:'IBM Plex Sans';color:var(--accent);margin-right:6px}
   .nabar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 14px;border:1px dashed var(--border2);border-radius:11px;background:var(--panel2);margin-top:12px}
   .miniseg{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;margin-left:auto}
   .miniseg button{border:0;background:var(--panel);color:var(--muted);padding:6px 12px;font:inherit;font-size:12px;cursor:pointer}
-  .miniseg button.on{background:var(--accent);color:#fff}
-  .miniseg button.on.na{background:var(--warning)}
+  .miniseg button.on{background:var(--accent);color:#fff}.miniseg button.on.na{background:var(--warning)}
   .ev{display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:13px;margin-bottom:8px}
-  .cmt{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;font-size:14px}
-  .cmt .meta{font-size:11px;color:var(--muted);margin-bottom:4px}
+  .cmt{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;font-size:14px}.cmt .meta{font-size:11px;color:var(--muted);margin-bottom:4px}
   .adv{display:flex;flex-wrap:wrap;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
-  /* modal/toast */
+  .ring-wrap{position:relative;display:grid;place-items:center}.ring-wrap span{position:absolute;font-weight:800;font-size:14px}
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;padding:10px 18px;border-radius:10px;transition:.3s;z-index:80;pointer-events:none;box-shadow:var(--shadow)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  .ring-wrap{position:relative;display:grid;place-items:center}
-  .ring-wrap span{position:absolute;font-weight:800;font-size:14px}
-  .muted{color:var(--muted)} .small{font-size:12px} .mt{margin-top:14px} .mb{margin-bottom:10px}
   .hint{color:var(--muted);text-align:center;padding:34px;font-size:13px}
-  @media(max-width:880px){.work{grid-template-columns:1fr!important}}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:8px}
+  @media(max-width:880px){.work{grid-template-columns:1fr!important}.hidesm{display:none}}
 </style>
 </head>
 <body>
 <header class="top">
-  <div class="logo">◆</div>
-  <div class="brand"><b>DE Governance Portal</b><div>Phase-driven delivery &amp; unit testing</div></div>
+  <div class="logo">✓</div>
+  <div class="brand"><b>DE Delivery Compliance</b><div>Is every ticket following the standard? — for Tech Leads &amp; Management</div></div>
   <div class="spacer"></div>
-  <a class="btn" href="#/">Dashboard</a>
-  <a class="btn primary" href="#/new">+ New Project</a>
+  <a class="btn" href="#/">Board</a>
+  <a class="btn primary" href="#/new">+ New Ticket</a>
   <button class="btn icon" id="themeBtn" title="Theme">☾</button>
 </header>
 <div id="app"></div>
 <div class="toast" id="toast"></div>
 
 <script>
-/* =================== GOVERNANCE CONTENT (10 phases) =================== */
-const DEV_TYPES=[["ETL","ETL"],["ELT","ELT"],["SQL","SQL"],["VDS","VDS"],["PYTHON","Python"],["SPARK","Spark"],["DATABRICKS","Databricks"],["DATALAKE","Data Lake"],["API","APIs"],["STREAMING","Streaming"],["OTHER","Other"]];
+/* =================== PHASES =================== */
+const SCOPE=[["ETL","ETL / ELT"],["SQL","SQL / VDS"]];
 const MLBL={B:"Basic",S:"Standard",E:"Enterprise"};
 const PHASES=[
- {key:"standards",n:0,name:"Engineering Standards",sub:"FLANG standards & environment readiness — the foundation for every project.",groups:[
-   {title:"Naming & Database Standards",items:[
-     {t:"Objects use lowercase snake_case; no spaces/special chars",w:"Portability & consistency.",v:"names match ^[a-z0-9_]+$",m:"B"},
-     {t:"Layer/zone prefixes applied (src_ / stg_ / dim_ / fact_)",w:"Self-describing datasets.",v:"prefix correct for the layer",m:"S"},
-     {t:"No reserved keywords as object names (value, date, type)",w:"Calcite/DB rejects or needs quoting.",v:"name is not reserved",m:"B"},
-     {t:"Environment & zone in the path, not the name",w:"Same name promotes DEV→PROD.",v:"no env suffix in names",m:"S"}]},
-   {title:"Column & Data Type Standards",items:[
-     {t:"Columns snake_case; key/date/bool suffixes (_id, _ts, is_)",w:"Type obvious from the name.",v:"suffixes applied",m:"B"},
-     {t:"Money as DECIMAL(p,s) — never FLOAT; timestamps in UTC",w:"Floats lose pennies; TZ bugs silent.",v:"amount=DECIMAL; UTC",m:"B"},
-     {t:"Consistent precision/scale & boolean representation",w:"Avoids join/sum mismatch.",v:"same DECIMAL across measures",m:"S"},
-     {t:"Reserved words aliased (t.\"value\" AS metric_value)",w:"Prevents VDS-save failures.",v:"reserved cols aliased",m:"B"}]},
-   {title:"Folder, Git & Coding Standards",items:[
-     {t:"Repo/folder structure follows the standard",w:"Maintainability.",v:"matches template",m:"S"},
-     {t:"Branch feature/<KEY>-desc; commit carries ticket key",w:"Traceability.",v:"branch+commit pattern",m:"B"},
-     {t:"PR template & lint/code-style followed",w:"Reviewable code.",v:"PR template; lint passes",m:"S"}]},
-   {title:"SQL, Performance & Logging Standards",items:[
-     {t:"SQL standards (no SELECT *, CTEs, sargable)",w:"Correctness & speed.",v:"review vs standard",m:"B"},
-     {t:"Performance standards (partitioning, pushdown, reflections)",w:"Designed for scale.",v:"documented & applied",m:"S"},
-     {t:"Logging standard (structured, run id, metrics)",w:"Operability.",v:"logging spec followed",m:"S"}]},
-   {title:"Error Handling, Audit, Security & Privacy",items:[
-     {t:"Error-handling & reject standard defined",w:"No silent failures.",v:"standard in place",m:"S"},
-     {t:"Audit standard (who/what/when)",w:"Compliance & lineage.",v:"audit fields defined",m:"S"},
-     {t:"Security standard (least-privilege, secrets in vault)",w:"Breach prevention.",v:"no secrets; RBAC",m:"B"},
-     {t:"Data-privacy standard (PII classification, masking)",w:"Compliance.",v:"PII handling defined",m:"S"}]},
+ {key:"standards",n:0,name:"Engineering Standards",sub:"FLANG standards + environment readiness — set up before any development.",groups:[
+   {title:"Table & Naming Standards (FLANG)",items:[
+     {t:"Table/dataset names: lowercase snake_case, no spaces/special chars",w:"Consistency & portability.",v:"names match ^[a-z0-9_]+$",m:"B"},
+     {t:"Layer/zone prefix applied (src_ / stg_ / dim_ / fact_)",w:"Self-describing.",v:"prefix correct for the layer",m:"S"},
+     {t:"No reserved keywords as names (value, date, type)",w:"Calcite/DB rejects.",v:"name not reserved",m:"B"},
+     {t:"Environment/zone in the path, not the name",w:"Same name promotes DEV→PROD.",v:"no env suffix",m:"S"}]},
+   {title:"Column & Data-Type Standards (FLANG)",items:[
+     {t:"Columns snake_case; suffixes _id / _key / _date / _ts; bool is_/has_",w:"Type obvious from name.",v:"suffixes applied",m:"B"},
+     {t:"Money DECIMAL(p,s) (never FLOAT); timestamps UTC",w:"Floats lose pennies; TZ bugs.",v:"amount=DECIMAL; UTC",m:"B"},
+     {t:"Consistent precision/scale; standard boolean representation",w:"Avoids mismatches.",v:"same DECIMAL across measures",m:"S"},
+     {t:"Reserved-word columns aliased (t.\"value\" AS metric_value)",w:"Prevents VDS-save failures.",v:"aliased",m:"B"}]},
+   {title:"Git, Documentation & Security Standards",items:[
+     {t:"Branch feature/<KEY>-desc; commit carries ticket key",w:"Traceability.",v:"pattern followed",m:"B"},
+     {t:"Dataset has description, owner, steward, classification",w:"Governable, discoverable.",v:"metadata present",m:"B"},
+     {t:"No secrets in code; least-privilege access",w:"Security.",v:"secret scan; RBAC",m:"B"}]},
    {title:"Environment Readiness & Access",items:[
      {t:"Git access provisioned",w:"Can't build without it.",v:"repo access confirmed",m:"B"},
-     {t:"Database access (source & target) provisioned",w:"Build & test.",v:"connections verified",m:"B"},
-     {t:"Data Lake access provisioned",w:"Storage access.",v:"lake paths reachable",m:"B"},
-     {t:"Pipeline / orchestration access provisioned",w:"Deploy & schedule.",v:"tool access confirmed",m:"S"}]}]},
- {key:"requirements",n:1,name:"Requirement Understanding",sub:"Understand the business need and analyse sources & targets before any build.",groups:[
-   {title:"Business & Acceptance",items:[
-     {t:"Business understanding & objective documented",w:"Wrong thing = costliest defect.",v:"requirement doc linked",m:"B"},
-     {t:"Functional requirements captured",w:"Defines what to build.",v:"FRs listed",m:"B"},
-     {t:"Non-functional requirements (SLA, volume, security)",w:"Drives design.",v:"NFRs listed",m:"S"},
-     {t:"Acceptance criteria defined & agreed",w:"Defines 'done'.",v:"AC on ticket; confirmed",m:"B"}]},
+     {t:"Source & target DB access provisioned",w:"Build & test.",v:"connections verified",m:"B"},
+     {t:"Data Lake / pipeline access provisioned",w:"Storage & deploy.",v:"access confirmed",m:"S"}]}]},
+ {key:"requirement",n:1,name:"Requirement & Source/Target",sub:"Understand the requirement and analyse sources & targets — before development.",groups:[
+   {title:"Requirement Understanding",items:[
+     {t:"Business requirement & objective documented",w:"Wrong thing = costliest defect.",v:"requirement doc linked",m:"B"},
+     {t:"Acceptance criteria defined & agreed with requester",w:"Defines 'done'.",v:"AC on ticket; confirmed",m:"B"},
+     {t:"Scope & out-of-scope stated; assumptions logged",w:"Prevents scope creep.",v:"in the doc",m:"S"},
+     {t:"Business rules captured",w:"Logic to build & test.",v:"rules documented",m:"B"}]},
    {title:"Source & Target Analysis",items:[
-     {t:"Source analysis (systems, schemas, owners, connections)",w:"Completeness needs every source.",v:"source inventory",m:"B"},
-     {t:"Target analysis (system, layer, model, grain, SCD)",w:"Defines where & how output lands.",v:"target design documented",m:"B"},
-     {t:"Data profiling (counts, keys, nulls, ranges, samples)",w:"Real-data surprises break designs.",v:"profiling attached",m:"S"},
-     {t:"Gap analysis (source vs requirement)",w:"Surfaces missing data.",v:"gaps documented",m:"S"}]},
-   {title:"Risk, Assumptions, Dependencies, Rules",items:[
-     {t:"Risk assessment completed",w:"Mitigate before building.",v:"risks + mitigations",m:"S"},
-     {t:"Assumptions documented",w:"Makes unknowns explicit.",v:"assumptions log",m:"S"},
-     {t:"Dependencies identified",w:"Changes cascade.",v:"dependency list",m:"S"},
-     {t:"Business rules captured",w:"Logic to build & test.",v:"rules documented",m:"B"}]}]},
- {key:"techdoc",n:2,name:"Technical Documentation",sub:"Produce the design & documentation set to FLANG standards.",groups:[
-   {title:"Mapping & Design",items:[
-     {t:"Source-to-target mapping (STTM) — field level",w:"Build-and-test contract.",v:"STTM linked",m:"B"},
+     {t:"Source systems identified (system, schema, tables, owner)",w:"Completeness needs every source.",v:"source inventory",m:"B"},
+     {t:"Source data profiled (counts, keys, nulls, ranges, samples)",w:"Real-data surprises break designs.",v:"profiling attached",m:"S"},
+     {t:"Target identified (system, layer, model, grain, SCD)",w:"Where & how output lands.",v:"target design",m:"B"},
+     {t:"Incremental strategy decided (full/CDC/watermark) + key",w:"No missed/dup data.",v:"strategy + key",m:"S"},
+     {t:"Dependencies & downstream impact analysed",w:"Changes cascade.",v:"impact list",m:"S"}]}]},
+ {key:"techdoc",n:2,name:"Technical Documentation",sub:"Create the design & documentation set in the FLANG standard format.",groups:[
+   {title:"Mapping & Dictionary (FLANG format)",items:[
+     {t:"Source-to-target mapping (STTM) — field level, standard template",w:"Build-and-test contract.",v:"STTM linked",m:"B"},
+     {t:"Data dictionary — tables & columns in FLANG standard format",w:"Self-describing, governable.",v:"dictionary per target column",m:"B"},
+     {t:"Transformation rules documented",w:"Unambiguous logic.",v:"rules in design",m:"B"}]},
+   {title:"Design & Diagrams",items:[
      {t:"Technical design document",w:"Single source of truth.",v:"design doc linked",m:"B"},
-     {t:"Transformation rules documented",w:"Unambiguous logic.",v:"rules in design",m:"B"},
-     {t:"Data dictionary (name, type, desc, source, rule, PII)",w:"Self-describing data.",v:"dictionary per column",m:"B"}]},
-   {title:"Architecture & Diagrams",items:[
-     {t:"Architecture diagram",w:"Shared mental model.",v:"diagram attached",m:"S"},
-     {t:"Data-flow diagram",w:"Reveals gaps.",v:"flow diagram attached",m:"S"},
-     {t:"ER / data-model diagram",w:"Clarifies keys & grain.",v:"ERD attached",m:"S"}]},
-   {title:"Operational Design",items:[
-     {t:"Performance design (volume, partitioning, reflections)",w:"Design for scale.",v:"documented",m:"S"},
-     {t:"Logging design",w:"Operability.",v:"documented",m:"S"},
-     {t:"Restart / recovery strategy",w:"Resilience.",v:"documented",m:"S"},
-     {t:"Error-handling design",w:"Plan for failures.",v:"documented",m:"S"}]},
-   {title:"Version & Approval",items:[
-     {t:"Version history maintained",w:"Auditable changes.",v:"version log",m:"S"},
-     {t:"Docs stored in agreed location & linked",w:"Findable.",v:"links on ticket",m:"B"}]}]},
- {key:"ready",n:3,name:"Definition of Ready",approval:true,sub:"Submit phases 0–2 to the Technical Lead for sign-off to start development.",groups:[
-   {title:"Readiness Checklist",items:[
+     {t:"Architecture / data-flow diagram",w:"Shared mental model.",v:"diagram attached",m:"S"},
+     {t:"ER / data-model diagram",w:"Clarifies keys & grain.",v:"ERD attached",m:"S"},
+     {t:"Performance, logging, restart & error-handling design",w:"Operability & resilience.",v:"documented",m:"S"}]},
+   {title:"Storage & Approval",items:[
+     {t:"Naming/standards (Phase 0) applied throughout",w:"Consistency.",v:"names/types match standard",m:"B"},
+     {t:"Docs versioned, stored in agreed location & linked to ticket",w:"Findable by the team.",v:"links on ticket",m:"B"}]}]},
+ {key:"ready",n:3,name:"Definition of Ready",approval:true,sub:"Package phases 0–2 and submit to the Technical Lead for sign-off to start development.",groups:[
+   {title:"Ready to submit to Lead",items:[
      {t:"Requirement doc, STTM & data dictionary attached",w:"Lead reviews artifacts.",v:"all linked",m:"B"},
      {t:"Diagrams (architecture + ER) attached",w:"Design reviewable.",v:"diagrams linked",m:"S"},
-     {t:"Standards (Phase 0) confirmed applied",w:"No surprises in review.",v:"self-check done",m:"B"},
-     {t:"Dev scope declared with rationale",w:"Sets build phases.",v:"scope + rationale",m:"B"},
-     {t:"Open questions / assumptions listed",w:"Focuses review.",v:"list present",m:"S"}]},
-   {title:"Approval Workflow",items:[
-     {t:"Ticket In Review / assigned to Technical Lead",w:"Triggers review.",v:"status + assignee",m:"B"},
-     {t:"Lead sign-off (Ready / Ready w conditions / Not Ready)",w:"Gate to start build.",v:"decision + signature",m:"B"}]}]},
- {key:"review-loop",n:4,name:"Review Loop",sub:"Capture feedback, correct phases 1–2, re-submit. Iterate until approved.",groups:[
-   {title:"Feedback & Iteration",items:[
-     {t:"Lead/architect feedback captured",w:"Actionable & auditable.",v:"review comments present",m:"B"},
-     {t:"Each feedback item actioned or answered",w:"Nothing dropped.",v:"each point resolved",m:"B"},
-     {t:"Phases 1–2 corrected per feedback",w:"Fix source of truth.",v:"docs updated",m:"B"},
-     {t:"Iteration history / comparison recorded",w:"Audit of changes.",v:"version diff",m:"S"},
-     {t:"Re-submitted for re-review if material",w:"Closes the loop.",v:"re-review requested",m:"S"},
-     {t:"Final design APPROVED by the Lead",w:"Starts the build.",v:"approval recorded",m:"B"}]}]},
- {key:"development",n:5,name:"Development",naAllowed:true,sub:"Build only the selected technologies. Mark sections N/A with a reason where not applicable.",groups:[
-   {title:"ETL / ELT",tech:["ETL","ELT"],items:[
-     {t:"Workflow built; parameters externalized (no hardcoding)",w:"Promotable.",v:"context/config used",m:"B"},
-     {t:"Scheduling & dependencies configured",w:"Correct sequencing.",v:"schedule/DAG set",m:"S"},
-     {t:"Logging, audit & restartability implemented",w:"Operable & resilient.",v:"logs+audit+resume",m:"S"},
-     {t:"Incremental / CDC logic validated",w:"No missed/dup rows.",v:"delta+boundary tested",m:"S"},
-     {t:"Performance tuned (bulk, parallelism)",w:"Meets SLA.",v:"timed on real volume",m:"S"}]},
-   {title:"SQL",tech:["SQL"],items:[
-     {t:"Coding standards (no SELECT *, CTEs, aliases)",w:"Readable, stable.",v:"review SELECT list",m:"B"},
-     {t:"Optimization & execution plan reviewed",w:"Plan is the truth.",v:"EXPLAIN/profile reviewed",m:"B"},
-     {t:"Indexes/partitions used; sargable predicates",w:"Avoids full scans.",v:"plan shows pruning",m:"S"},
-     {t:"Business rules; exception handling",w:"Correct & resilient.",v:"rules tested",m:"S"}]},
-   {title:"VDS (Dremio)",tech:["VDS"],items:[
-     {t:"Saved as VDS in correct space; validates (reserved aliased)",w:"VDS is the deliverable.",v:"VDS at path; validates",m:"B"},
-     {t:"Pushdown & partition pruning verified in profile",w:"Avoid full scans.",v:"profile shows pushdown",m:"S"},
-     {t:"Reflection created/considered; acceleration CHOSEN",w:"Biggest speed lever.",v:"profile = CHOSEN",m:"E"},
-     {t:"Caching, metadata fresh, security set",w:"Perf & governance.",v:"metadata refreshed; grants",m:"S"}]},
-   {title:"Python",tech:["PYTHON"],items:[
-     {t:"PEP8/lint clean; config externalized; secrets in vault",w:"Quality & security.",v:"lint passes; no secrets",m:"B"},
-     {t:"Structured logging & exception handling",w:"Observability.",v:"logs + try/except",m:"S"},
-     {t:"Unit tests written & passing",w:"Regression protection.",v:"pytest green",m:"S"}]},
-   {title:"Spark / Databricks",tech:["SPARK","DATABRICKS"],items:[
-     {t:"Explicit schema; partitioning matches query patterns",w:"Stable & prunable.",v:"schema; partitionBy",m:"S"},
-     {t:"Cache reused DFs; broadcast small dims; skew handled",w:"Performance.",v:"Spark UI reviewed",m:"S"},
-     {t:"Small-file compaction; runtime within SLA",w:"Read performance.",v:"files ~128–256MB",m:"S"}]},
-   {title:"Data Lake / API / Streaming",tech:["DATALAKE","API","STREAMING"],items:[
-     {t:"Storage zone/format/partitioning; least-privilege access",w:"Cost & security.",v:"Parquet+partitions; RBAC",m:"S"},
-     {t:"API auth/rate-limit/pagination; or streaming offsets/idempotency",w:"Reliability.",v:"tested per integration",m:"S"}]}]},
- {key:"unit-testing",n:6,name:"Unit Testing",sub:"Design and run test cases, validate data, and attach evidence.",groups:[
-   {title:"Test Case Design",items:[
-     {t:"Positive cases",w:"Happy path works.",v:"written & passing",m:"B"},
-     {t:"Negative & exception cases",w:"Bad input handled.",v:"written & passing",m:"B"},
-     {t:"Boundary & null cases",w:"Edges hide bugs.",v:"written & passing",m:"S"},
-     {t:"Duplicate-handling cases",w:"No dupes propagate.",v:"dup-key assertion=0",m:"S"},
-     {t:"Incremental & full-load cases",w:"Both modes correct.",v:"both tested",m:"S"},
-     {t:"Performance & regression cases",w:"No slow-downs.",v:"timed; regression green",m:"S"}]},
-   {title:"Validation",items:[
-     {t:"Source count = target count",w:"Completeness proof.",v:"counts reconcile",m:"B"},
-     {t:"Checksum / control-total match",w:"Values not just counts.",v:"SUM/hash reconciles",m:"S"},
-     {t:"Business-rule validation",w:"Logic correct.",v:"rule assertions=0",m:"B"},
-     {t:"Exception validation",w:"Errors routed.",v:"bad rows in reject store",m:"S"}]},
-   {title:"Evidence",items:[
-     {t:"Test evidence uploaded (results, counts, screenshots)",w:"Proof, not claims.",v:"evidence attached below",m:"B"}]}]},
- {key:"peer-review",n:7,name:"Peer Review",approval:true,sub:"Independent review across SQL, architecture, performance, docs, standards & security.",groups:[
-   {title:"Review Dimensions",items:[
-     {t:"SQL / code review",w:"Logic & quality.",v:"comments resolved",m:"B"},
-     {t:"Architecture review",w:"Sound design.",v:"architecture approved",m:"S"},
-     {t:"Performance review",w:"Meets SLA at scale.",v:"perf signed off",m:"S"},
-     {t:"Documentation review",w:"Docs match build.",v:"docs verified",m:"S"},
-     {t:"Coding-standard review",w:"Consistency.",v:"standards confirmed",m:"B"},
-     {t:"Security review",w:"No leaks; least-privilege.",v:"security signed off",m:"S"}]},
-   {title:"Approval",items:[
-     {t:"Comments addressed; reviewer approval recorded",w:"Independent gate.",v:"approval + signature",m:"B"}]}]},
- {key:"done",n:8,name:"Definition of Done",approval:true,sub:"Final completion gate before deployment readiness.",groups:[
-   {title:"Done Checklist",items:[
-     {t:"Development complete",w:"All scope built.",v:"scope done",m:"B"},
-     {t:"Unit testing passed (evidence attached)",w:"Proven correct.",v:"Phase 6 + evidence",m:"B"},
-     {t:"Peer review passed",w:"Independently verified.",v:"Phase 7 approved",m:"B"},
-     {t:"Documentation updated to final state",w:"Docs match shipped.",v:"docs current",m:"S"},
-     {t:"Deployment package ready",w:"Ready to release.",v:"package prepared",m:"S"},
-     {t:"No critical/high defects open",w:"Quality bar.",v:"defect list clean",m:"B"},
-     {t:"Knowledge transfer done",w:"Support readiness.",v:"KT notes",m:"S"},
-     {t:"Technical Lead approval",w:"Accountable closure.",v:"lead sign-off",m:"B"}]}]},
- {key:"deployment",n:9,name:"Deployment Readiness",sub:"Promotion, rollback, monitoring and production validation.",groups:[
-   {title:"Deployment Checklist",items:[
-     {t:"Promotion path followed (DEV→TEST→UAT→PROD)",w:"Skipping = bugs in prod.",v:"branch rules / merge guard",m:"B"},
-     {t:"Rollback plan ready",w:"Fast recovery.",v:"rollback steps documented",m:"B"},
-     {t:"Release notes prepared",w:"Stakeholder awareness.",v:"notes attached",m:"S"},
-     {t:"Monitoring & alerting configured",w:"Detect issues early.",v:"monitors live",m:"S"},
-     {t:"Support contacts & runbook documented",w:"Operability.",v:"runbook linked",m:"S"},
-     {t:"Production validation / smoke check passed",w:"Confirms live data.",v:"smoke result attached",m:"B"}]}]}
+     {t:"Standards confirmed applied; open questions listed",w:"Focuses review.",v:"self-check + list",m:"B"},
+     {t:"Development scope declared (ETL/ELT, SQL/VDS) with rationale",w:"Sets which build phases apply.",v:"scope on ticket",m:"B"},
+     {t:"Ticket moved to In Review / assigned to Technical Lead",w:"Triggers the review.",v:"status + assignee",m:"B"}]},
+   {title:"Lead Sign-off",items:[
+     {t:"Technical Lead decision recorded (Ready / Ready w conditions / Not Ready)",w:"The gate that starts the build.",v:"decision + signature captured",m:"B"}]}]},
+ {key:"review-loop",n:4,name:"Review Feedback & Iterate",sub:"Act on Lead feedback, correct phases 1–2, re-submit. Loop until approved.",groups:[
+   {title:"Feedback Loop",items:[
+     {t:"Lead/architect feedback captured on the ticket",w:"Actionable & auditable.",v:"comments present",m:"B"},
+     {t:"Each feedback item actioned or answered with rationale",w:"Nothing dropped.",v:"each point resolved",m:"B"},
+     {t:"Phases 1–2 corrected per feedback (requirement / mapping / docs)",w:"Fix the source of truth.",v:"docs updated & re-linked",m:"B"},
+     {t:"Re-submitted for re-review where changes are material",w:"Closes the loop (back to Phase 3).",v:"re-review requested",m:"S"},
+     {t:"Final design APPROVED by the Lead → proceed to development",w:"Starts the build.",v:"approval recorded",m:"B"}]}]},
+ {key:"dev-etl",n:5,name:"Development — ETL / ELT",scope:"ETL",naAllowed:true,sub:"Build & unit-test the pipeline. If data already lands in the lake, mark N/A with a reason.",groups:[
+   {title:"ETL / ELT Build",items:[
+     {t:"Workflow built per design; parameters externalized (no hardcoding)",w:"Promotable, maintainable.",v:"context/config used",m:"B"},
+     {t:"Scheduling, dependencies, logging, audit & restartability",w:"Operable & resilient.",v:"schedule + logs + resume tested",m:"S"},
+     {t:"Incremental / CDC logic implemented & validated",w:"No missed/duplicated rows.",v:"delta + boundary tested",m:"S"},
+     {t:"Performance tuned (bulk load, parallelism)",w:"Meets SLA.",v:"timed on real volume",m:"S"}]},
+   {title:"Unit Testing (ETL / ELT)",items:[
+     {t:"Source → target reconciliation: source = loaded + rejected + filtered",w:"Completeness proof.",v:"equation holds; evidence attached",m:"B"},
+     {t:"Control totals / checksum match",w:"Values, not just counts.",v:"SUM/hash reconciles",m:"S"},
+     {t:"Positive / negative / boundary / null cases pass",w:"Bugs hide at edges.",v:"cases written & passing",m:"B"},
+     {t:"Idempotency — re-run produces no duplicates",w:"Re-runs are normal.",v:"run twice; dup-key=0",m:"B"},
+     {t:"Reject / exception handling validated",w:"Errors routed, not lost.",v:"bad rows in reject store",m:"S"},
+     {t:"Test evidence uploaded (counts, results, screenshots)",w:"Proof, not claims.",v:"evidence attached below",m:"B"}]}]},
+ {key:"dev-sql",n:6,name:"Development — SQL / VDS",scope:"SQL",naAllowed:true,sub:"Build, optimize & unit-test the query, then publish the VDS. Mark N/A if no query/VDS work.",groups:[
+   {title:"SQL Build & Optimization",items:[
+     {t:"No SELECT *; CTEs; tables aliased; sargable predicates",w:"Readable, stable, fast.",v:"review SELECT list",m:"B"},
+     {t:"Execution plan reviewed — no full scans; indexes/partitions used",w:"The plan is the truth.",v:"EXPLAIN / profile reviewed",m:"B"},
+     {t:"Business rules implemented; NULL handling; exception handling",w:"Correctness & resilience.",v:"rules tested",m:"S"}]},
+   {title:"VDS Creation (Dremio)",items:[
+     {t:"Query saved as a VDS in the correct space; validates (reserved aliased)",w:"The VDS is the deliverable.",v:"VDS at path; validates",m:"B"},
+     {t:"Pushdown & partition pruning verified in the profile",w:"Avoid full scans.",v:"profile shows pushdown + pruning",m:"S"},
+     {t:"Reflection created/considered; acceleration CHOSEN; metadata fresh",w:"Biggest speed lever.",v:"profile Reflections = CHOSEN",m:"E"}]},
+   {title:"Unit Testing (SQL / VDS)",items:[
+     {t:"Row count vs source; grain & uniqueness (dup-key = 0)",w:"Dropped/dup rows skew metrics.",v:"GROUP BY key HAVING COUNT(*)>1 = 0",m:"B"},
+     {t:"Aggregation / control-total reconciliation",w:"Values correct.",v:"SUM reconciles to source",m:"S"},
+     {t:"Business-rule assertions = 0 violations; edge & null cases",w:"Valid ≠ correct.",v:"assertion queries = 0 rows",m:"B"},
+     {t:"Test evidence uploaded (query results, profile, counts)",w:"Proof, not claims.",v:"evidence attached below",m:"B"}]}]},
+ {key:"done",n:7,name:"Definition of Done",approval:true,sub:"Final sign-off to the Technical Lead — development, unit testing and documentation complete.",groups:[
+   {title:"Done Checklist (proves the work was done properly)",items:[
+     {t:"Development complete for all selected scope",w:"All scope built.",v:"phases 5/6 complete or N/A",m:"B"},
+     {t:"Unit testing passed with evidence attached",w:"Proven correct.",v:"reconciliation + test evidence present",m:"B"},
+     {t:"Documentation updated to final state (STTM, dictionary, diagrams)",w:"Docs match what shipped.",v:"docs current & linked",m:"B"},
+     {t:"No critical / high defects open",w:"Quality bar.",v:"defect list clean",m:"B"},
+     {t:"Deployment readiness: promotion path + rollback plan",w:"Smooth, reversible release.",v:"DEV→TEST→UAT→PROD + rollback",m:"S"},
+     {t:"Knowledge transfer / handover done",w:"Support readiness.",v:"KT notes",m:"S"}]},
+   {title:"Final Lead Sign-off",items:[
+     {t:"Technical Lead approves: ticket is Done",w:"Accountable closure.",v:"lead decision + signature",m:"B"}]}]}
 ];
-const USER="Suhas Shete";
+const USERS=["Suhas Shete","Dhruv Mevada","Vansh Nautiyal"];
+let CURRENT="Suhas Shete";
 
-/* =================== STORE (localStorage) =================== */
-const KEY="de-portal-v1";
-function load(){try{return JSON.parse(localStorage.getItem(KEY))||{projects:[]}}catch(e){return {projects:[]}}}
+/* =================== STORE =================== */
+const KEY="de-compliance-v1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{tickets:[]}}catch(e){return {tickets:[]}}}
 function save(){localStorage.setItem(KEY,JSON.stringify(DB))}
 let DB=load();
 function uid(){return Math.random().toString(36).slice(2,9)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
-function findP(id){return DB.projects.find(p=>p.id===id)}
-function itemKey(pk,gi,ii){return pk+"."+gi+"."+ii}
-function groupApplies(g,dt){return !g.tech || g.tech.some(t=>dt.includes(t))}
-function applicableKeys(phase,dt){const k=[];phase.groups.forEach((g,gi)=>{if(!groupApplies(g,dt))return;g.items.forEach((_,ii)=>k.push(itemKey(phase.key,gi,ii)))});return k}
-function phaseState(p,key){p.phases=p.phases||{};return p.phases[key]||(p.phases[key]={status:"NOT_STARTED",approval:"PENDING"})}
-function phasePct(p,phase){const st=phaseState(p,phase.key);if(st.status==="NA"||st.status==="COMPLETED")return 100;const ks=applicableKeys(phase,p.devTypes);const d=ks.filter(k=>p.checks[k]).length;return ks.length?Math.round(d/ks.length*100):0}
-function overall(p){let t=0,d=0;PHASES.forEach(ph=>{const st=phaseState(p,ph.key);if(st.status==="NA"){return}const ks=applicableKeys(ph,p.devTypes);t+=ks.length;d+=ks.filter(k=>p.checks[k]).length});return t?Math.round(d/t*100):0}
-function act(p,msg){p.activity=p.activity||[];p.activity.unshift({msg,at:Date.now(),by:USER});p.activity=p.activity.slice(0,40)}
+function findT(id){return DB.tickets.find(t=>t.id===id)}
+function ik(pk,gi,ii){return pk+"."+gi+"."+ii}
+function groupApplies(){return true}
+function applicableKeys(phase){const k=[];phase.groups.forEach((g,gi)=>g.items.forEach((_,ii)=>k.push(ik(phase.key,gi,ii))));return k}
+function ps(t,key){t.phases=t.phases||{};return t.phases[key]||(t.phases[key]={status:"NOT_STARTED",approval:"PENDING"})}
+function phasePct(t,phase){const st=ps(t,phase.key);if(st.status==="NA"||st.status==="COMPLETED")return 100;const ks=applicableKeys(phase);const d=ks.filter(k=>t.checks[k]).length;return ks.length?Math.round(d/ks.length*100):0}
+function overall(t){let to=0,d=0;PHASES.forEach(ph=>{const st=ps(t,ph.key);if(st.status==="NA")return;const ks=applicableKeys(ph);to+=ks.length;d+=ks.filter(k=>t.checks[k]).length});return to?Math.round(d/to*100):0}
+function act(t,msg){t.activity=t.activity||[];t.activity.unshift({msg,at:Date.now(),by:CURRENT});t.activity=t.activity.slice(0,40)}
 function ago(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return s+"s ago";const m=Math.floor(s/60);if(m<60)return m+"m ago";const h=Math.floor(m/60);if(h<24)return h+"h ago";return Math.floor(h/24)+"d ago"}
+function initials(n){return n.split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase()}
 
-/* =================== SEED demo =================== */
-if(!DB.projects.length){
-  function seed(o){const p={id:uid(),name:o.n,domain:o.d,application:o.app,source:o.s,target:o.tg,type:o.ty,devTypes:o.dt,risk:o.r,currentPhase:o.cp,checks:{},phases:{},evidence:[],comments:[],activity:[],createdAt:Date.now()};
-    PHASES.forEach(ph=>{const done=ph.n<o.through;p.phases[ph.key]={status:done?"COMPLETED":(ph.n===o.cp?"IN_PROGRESS":"NOT_STARTED"),approval:done&&ph.approval?"APPROVED":"PENDING"};if(done)applicableKeys(ph,o.dt).forEach(k=>p.checks[k]=true)});
-    act(p,'Project "'+o.n+'" created');DB.projects.push(p)}
-  seed({n:"APU Health Monitor",d:"Engineering",app:"Fleet Reliability",s:"AMOS",tg:"Dremio (Engine VDS)",ty:"New Build",dt:["SQL","VDS"],r:"MEDIUM",cp:5,through:5});
-  seed({n:"Xero Invoice CDC Pipeline",d:"Finance",app:"AP Automation",s:"Xero API",tg:"Data Lake → Dremio",ty:"New Build",dt:["ETL","API","SQL","VDS"],r:"HIGH",cp:6,through:6});
-  seed({n:"MM Fleet Utilisation (PySpark)",d:"Operations",app:"OCC Dashboard",s:"Movement Manager",tg:"S3 Iceberg",ty:"Enhancement",dt:["PYTHON","SPARK","DATALAKE"],r:"MEDIUM",cp:2,through:2});
+/* compliance status of a ticket per area: done | prog | none | na */
+function areaStatus(t,phaseKey){const ph=PHASES.find(p=>p.key===phaseKey);const st=ps(t,phaseKey);
+  if(st.status==="NA")return "na";if(st.status==="COMPLETED")return "done";if(ph&&ph.approval&&st.approval==="APPROVED")return "done";
+  const p=phasePct(t,ph);return p>0?"prog":"none"}
+function devStatus(t){const sel=t.devTypes;const phs=[["ETL","dev-etl"],["SQL","dev-sql"]].filter(x=>sel.includes(x[0]));
+  if(!phs.length)return "na";const sts=phs.map(x=>areaStatus(t,x[1]));if(sts.every(s=>s==="done"||s==="na"))return "done";if(sts.some(s=>s==="prog"||s==="done"))return "prog";return "none"}
+function unitStatus(t){const sel=t.devTypes;const phs=[["ETL","dev-etl"],["SQL","dev-sql"]].filter(x=>sel.includes(x[0]));if(!phs.length)return "na";
+  let total=0,done=0,naAll=true;phs.forEach(x=>{const ph=PHASES.find(p=>p.key===x[1]);const st=ps(t,ph.key);if(st.status==="NA")return;naAll=false;
+    ph.groups.forEach((g,gi)=>{if(!/unit testing/i.test(g.title))return;g.items.forEach((_,ii)=>{total++;if(t.checks[ik(ph.key,gi,ii)])done++})})});
+  if(naAll)return "na";if(total&&done>=total)return "done";return done>0?"prog":"none"}
+
+/* =================== SEED =================== */
+if(!DB.tickets.length){
+  function seed(o){const t={id:uid(),key:o.k,title:o.ti,assignee:o.a,domain:o.d,source:o.s,target:o.tg,devTypes:o.dt,currentPhase:o.cp,checks:{},phases:{},evidence:[],comments:[],activity:[],createdAt:Date.now()};
+    PHASES.forEach(ph=>{const done=ph.n<o.through;const naScope=ph.scope&&!o.dt.includes(ph.scope);
+      t.phases[ph.key]={status:naScope?"NA":(done?"COMPLETED":(ph.n===o.cp?"IN_PROGRESS":"NOT_STARTED")),approval:done&&ph.approval?"APPROVED":"PENDING",naReason:naScope?"Not in selected development scope":""};
+      if(done&&!naScope)applicableKeys(ph).forEach(k=>t.checks[k]=true)});
+    act(t,"Ticket "+o.k+" assigned to "+o.a);DB.tickets.push(t)}
+  seed({k:"ADL-1700",ti:"APU Health Monitor — Engine VDS",a:"Suhas Shete",d:"Engineering",s:"AMOS",tg:"Dremio VDS",dt:["SQL"],cp:6,through:6});
+  seed({k:"ADL-1712",ti:"Xero Invoice CDC → curated",a:"Dhruv Mevada",d:"Finance",s:"Xero API",tg:"Data Lake → Dremio",dt:["ETL","SQL"],cp:5,through:5});
+  seed({k:"ADL-1733",ti:"MM Fleet Utilisation load",a:"Vansh Nautiyal",d:"Operations",s:"Movement Manager",tg:"S3 Iceberg",dt:["ETL"],cp:2,through:2});
+  seed({k:"ADL-1740",ti:"Tally GL consolidation VDS",a:"Dhruv Mevada",d:"Finance",s:"Tally",tg:"Dremio VDS",dt:["SQL"],cp:1,through:1});
   save();
 }
 
@@ -328,180 +268,145 @@ if(!DB.projects.length){
 const $=id=>document.getElementById(id);
 function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
 function ring(v,size){size=size||66;const r=(size-7)/2,c=2*Math.PI*r,off=c-v/100*c;
-  return '<div class="ring-wrap" style="width:'+size+'px;height:'+size+'px"><svg width="'+size+'" height="'+size+'" style="transform:rotate(-90deg)">'
-  +'<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--panel2)" stroke-width="7"/>'
-  +'<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" style="transition:.6s"/></svg><span>'+v+'%</span></div>'}
-const RISKC={LOW:"var(--success)",MEDIUM:"var(--warning)",HIGH:"var(--danger)"};
+  return '<div class="ring-wrap" style="width:'+size+'px;height:'+size+'px"><svg width="'+size+'" height="'+size+'" style="transform:rotate(-90deg)"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--panel2)" stroke-width="7"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" style="transition:.6s"/></svg><span>'+v+'%</span></div>'}
+function dot(status){const m={done:["done","✓"],prog:["prog","◐"],none:["none","○"],na:["na","∅"]}[status];return '<span class="dot '+m[0]+'" title="'+status+'">'+m[1]+'</span>'}
 
 /* =================== ROUTER =================== */
-function route(){const h=location.hash.replace(/^#/,"");
-  if(h.startsWith("/p/"))return renderWork(h.slice(3));
-  if(h==="/new")return renderWizard();
-  return renderDash();}
+function route(){const h=location.hash.replace(/^#/,"");if(h.startsWith("/t/"))return renderTicket(h.slice(3).replace("__keep",""));if(h==="/new")return renderNew();return renderBoard()}
 window.addEventListener("hashchange",route);
 
-/* =================== DASHBOARD =================== */
-function renderDash(){
-  const ps=DB.projects;
-  const avg=ps.length?Math.round(ps.reduce((a,p)=>a+overall(p),0)/ps.length):0;
-  const active=ps.length;
-  const highRisk=ps.filter(p=>p.risk==="HIGH").length;
-  const pending=ps.filter(p=>{const ph=PHASES[p.currentPhase];return ph&&ph.approval}).length;
-  const utAvg=ps.length?Math.round(ps.reduce((a,p)=>a+phasePct(p,PHASES[6]),0)/ps.length):0;
-  const docAvg=ps.length?Math.round(ps.reduce((a,p)=>a+phasePct(p,PHASES[2]),0)/ps.length):0;
-  const stat=(l,v,s,ic)=>'<div class="card stat glass"><div><div class="l">'+l+'</div><div class="v">'+v+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div><div class="ic">'+ic+'</div></div>';
-  // phase distribution bar
-  const dist=PHASES.map(ph=>ps.filter(p=>p.currentPhase===ph.n).length);const mx=Math.max(1,...dist);
-  const bars=PHASES.map((ph,i)=>{const hh=Math.round(dist[i]/mx*90);return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="height:100px;display:flex;align-items:flex-end"><div title="'+dist[i]+'" style="width:60%;height:'+hh+'px;min-height:3px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:6px 6px 0 0"></div></div><div class="small muted">'+ph.n+'</div></div>'}).join("");
-  // risk donut
-  const rc={LOW:ps.filter(p=>p.risk==="LOW").length,MEDIUM:ps.filter(p=>p.risk==="MEDIUM").length,HIGH:ps.filter(p=>p.risk==="HIGH").length};
-  const tot=Math.max(1,rc.LOW+rc.MEDIUM+rc.HIGH);let acc=0;const segs=Object.keys(rc).map(k=>{const frac=rc[k]/tot,c=2*Math.PI*54,dash=frac*c,o=-acc*c;acc+=frac;return '<circle cx="70" cy="70" r="54" fill="none" stroke="'+RISKC[k]+'" stroke-width="16" stroke-dasharray="'+dash+' '+(c-dash)+'" stroke-dashoffset="'+o+'"/>'}).join("");
-  const donut='<svg width="140" height="140" style="transform:rotate(-90deg)">'+segs+'</svg>';
-  const legend=Object.keys(rc).map(k=>'<div class="small" style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:'+RISKC[k]+'"></span>'+k+' · '+rc[k]+'</div>').join("");
-  const allAct=ps.flatMap(p=>(p.activity||[]).map(a=>({...a,proj:p.name}))).sort((a,b)=>b.at-a.at).slice(0,8);
-
-  const pcards=ps.map(p=>{const ph=PHASES[p.currentPhase];return '<a class="card pcard" href="#/p/'+p.id+'">'+ring(overall(p),60)
-    +'<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="nm">'+esc(p.name)+'</span><span class="badge muted">'+esc(p.domain)+'</span><span class="small" style="color:'+RISKC[p.risk]+';font-weight:700">● '+p.risk+'</span></div>'
-    +'<div class="small muted mt" style="margin-top:4px">'+esc(p.source)+' → '+esc(p.target)+' · '+p.devTypes.join(", ")+'</div>'
-    +'<div class="mt" style="margin-top:7px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="badge b">Phase '+p.currentPhase+' · '+esc(ph.name)+'</span></div></div>'
-    +'<span class="btn sm">Open →</span></a>'}).join("")||'<div class="card hint">No projects yet. Create your first one.</div>';
-
+/* =================== BOARD (Lead compliance dashboard) =================== */
+function renderBoard(){
+  const ts=DB.tickets;
+  const inDev=ts.filter(t=>t.currentPhase===5||t.currentPhase===6).length;
+  const awaiting=ts.filter(t=>{const ph=PHASES[t.currentPhase];return ph&&ph.approval&&ps(t,ph.key).approval!=="APPROVED"}).length;
+  const avg=ts.length?Math.round(ts.reduce((a,t)=>a+overall(t),0)/ts.length):0;
+  const docDone=ts.filter(t=>areaStatus(t,"techdoc")==="done").length;
+  const utDone=ts.filter(t=>unitStatus(t)==="done").length;
+  const stat=(l,v,ic)=>'<div class="card stat glass"><div><div class="l">'+l+'</div><div class="v">'+v+'</div></div><div class="ic">'+ic+'</div></div>';
+  const rows=ts.map(t=>{const ph=PHASES[t.currentPhase];
+    return '<tr onclick="location.hash=\'#/t/'+t.id+'\'">'
+      +'<td><span class="tkey">'+esc(t.key)+'</span><div class="small muted">'+esc(t.title)+'</div></td>'
+      +'<td><span class="av">'+initials(t.assignee)+'</span><span class="hidesm">'+esc(t.assignee)+'</span></td>'
+      +'<td><span class="badge b">P'+t.currentPhase+' · '+esc(ph.name.replace("Development — ",""))+'</span></td>'
+      +'<td class="c">'+dot(areaStatus(t,"requirement"))+'</td>'
+      +'<td class="c">'+dot(areaStatus(t,"techdoc"))+'</td>'
+      +'<td class="c">'+dot(areaStatus(t,"ready"))+'</td>'
+      +'<td class="c">'+dot(devStatus(t))+'</td>'
+      +'<td class="c">'+dot(unitStatus(t))+'</td>'
+      +'<td class="c">'+dot(areaStatus(t,"done"))+'</td>'
+      +'<td style="min-width:120px"><div style="display:flex;align-items:center;gap:8px"><div class="track" style="flex:1"><div class="fill" style="width:'+overall(t)+'%"></div></div><span class="small muted">'+overall(t)+'%</span></div></td>'
+      +'</tr>'}).join("");
   $("app").innerHTML='<div class="wrap">'
-    +'<div class="row" style="align-items:flex-end"><div><h1 style="font-size:30px">Governance Dashboard</h1><div class="muted small">Phase-driven delivery across '+ps.length+' projects · FLANG standards</div></div><div class="spacer"></div><a class="btn primary" href="#/new">+ New Project</a></div>'
+    +'<div class="row" style="align-items:flex-end"><div><h1 style="font-size:30px">Delivery Compliance Board</h1><div class="muted small">Every assigned ticket and whether it is following the standard process — '+ts.length+' tickets</div></div><div class="spacer"></div><a class="btn primary" href="#/new">+ New Ticket</a></div>'
     +'<div class="grid mt" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">'
-      +stat("Overall Completion",avg+"%","","◍")+stat("Active Projects",active,"total","▦")+stat("Pending Reviews",pending,"awaiting sign-off","⚑")
-      +stat("High Risk",highRisk,"","⚠")+stat("Unit Testing",utAvg+"%","avg","✓")+stat("Documentation",docAvg+"%","avg","▤")+'</div>'
-    +'<div class="grid mt" style="grid-template-columns:2fr 1fr">'
-      +'<div class="card pad"><h3 class="mb">Projects by Phase</h3><div style="display:flex;gap:4px;align-items:flex-end">'+bars+'</div></div>'
-      +'<div class="card pad"><h3 class="mb">Risk Distribution</h3><div style="display:flex;align-items:center;gap:16px"><div class="ring-wrap" style="width:140px;height:140px">'+donut+'</div><div style="display:flex;flex-direction:column;gap:6px">'+legend+'</div></div></div></div>'
-    +'<div class="grid mt" style="grid-template-columns:2fr 1fr">'
-      +'<div><h2 class="mb" style="font-size:22px">Projects</h2><div class="grid">'+pcards+'</div></div>'
-      +'<div class="card pad"><h3 class="mb">Recent Activity</h3>'+(allAct.map(a=>'<div style="display:flex;gap:9px;font-size:13px;margin-bottom:11px"><span style="margin-top:6px;width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto"></span><div><div>'+esc(a.msg)+'</div><div class="small muted">'+esc(a.proj)+' · '+ago(a.at)+'</div></div></div>').join("")||'<div class="muted small">No activity.</div>')+'</div></div>'
+      +stat("Tickets",ts.length,"▤")+stat("In Development",inDev,"⚙")+stat("Awaiting Lead Sign-off",awaiting,"⚑")+stat("Avg Compliance",avg+"%","◍")+stat("Docs Complete",docDone+"/"+ts.length,"▦")+stat("Unit Tested",utDone+"/"+ts.length,"✓")+'</div>'
+    +'<div class="card mt"><div class="pad" style="padding-bottom:6px"><h3>Compliance by Ticket</h3><div class="legend">'+dot("done")+' done '+dot("prog")+' in progress '+dot("none")+' not started '+dot("na")+' N/A &nbsp;·&nbsp; click a row to open</div></div>'
+      +'<div style="overflow-x:auto"><table class="board"><thead><tr><th>Ticket</th><th>Assignee</th><th>Current Phase</th><th class="c">Req</th><th class="c">Docs</th><th class="c">Ready</th><th class="c">Dev</th><th class="c">Unit&nbsp;Test</th><th class="c">Done</th><th>Progress</th></tr></thead><tbody>'+(rows||'<tr><td colspan="10" class="hint">No tickets yet.</td></tr>')+'</tbody></table></div></div>'
     +'</div>';
 }
 
-/* =================== WIZARD =================== */
-let wiz={};
-function renderWizard(){
-  wiz={name:"",domain:"",application:"",source:"",target:"",type:"",devTypes:[]};
-  $("app").innerHTML='<div class="wrap" style="max-width:680px"><a class="small muted" href="#/">← Dashboard</a>'
-    +'<h1 class="mt" style="font-size:28px">Create Project</h1><div class="muted small">Phases adapt to the technologies you choose.</div>'
+/* =================== NEW TICKET =================== */
+let nw={};
+function renderNew(){
+  nw={devTypes:[]};
+  $("app").innerHTML='<div class="wrap" style="max-width:680px"><a class="small muted" href="#/">← Board</a>'
+    +'<h1 class="mt" style="font-size:28px">New Ticket</h1><div class="muted small">Assign a JIRA ticket to an engineer and start its compliance checklist.</div>'
     +'<div class="card pad mt"><div class="grid" style="grid-template-columns:1fr 1fr">'
-      +'<div><label>Project Name *</label><input id="w_name" placeholder="APU Health Monitor"></div>'
-      +'<div><label>Business Domain *</label><input id="w_domain" placeholder="Engineering / Finance"></div>'
-      +'<div><label>Project Type</label><input id="w_type" placeholder="New Build / Enhancement"></div>'
-      +'<div><label>Application</label><input id="w_app" placeholder="Fleet Reliability"></div>'
-      +'<div><label>Source System</label><input id="w_source" placeholder="AMOS / Xero API"></div>'
-      +'<div><label>Target System</label><input id="w_target" placeholder="Dremio VDS / S3"></div>'
+      +'<div><label>JIRA Ticket Key *</label><input id="n_key" placeholder="ADL-1700"></div>'
+      +'<div><label>Assignee *</label><select id="n_assignee">'+USERS.map(u=>'<option>'+u+'</option>').join("")+'</select></div>'
+      +'<div style="grid-column:1/3"><label>Title *</label><input id="n_title" placeholder="APU Health Monitor — Engine VDS"></div>'
+      +'<div><label>Business Domain</label><input id="n_domain" placeholder="Engineering / Finance"></div>'
+      +'<div><label>Project Type</label><input id="n_type" placeholder="New Build / Enhancement"></div>'
+      +'<div><label>Source System</label><input id="n_source" placeholder="AMOS / Xero API"></div>'
+      +'<div><label>Target System</label><input id="n_target" placeholder="Dremio VDS / S3"></div>'
       +'</div>'
-      +'<div class="mt"><label>Development Scope (pick all that apply)</label><div class="row" style="gap:8px">'
-        +DEV_TYPES.map(d=>'<div class="chip" data-dt="'+d[0]+'" onclick="toggleDT(this,\''+d[0]+'\')">'+d[1]+'</div>').join("")+'</div></div>'
-      +'<div class="adv"><a class="btn" href="#/">Cancel</a><div class="spacer"></div><button class="btn primary" onclick="createProject()">✓ Create Project</button></div>'
+      +'<div class="mt"><label>Development scope (pick what this ticket needs) *</label><div class="row" style="gap:8px">'
+        +SCOPE.map(s=>'<div class="chip" onclick="toggleScope(this,\''+s[0]+'\')">'+s[1]+'</div>').join("")
+        +'</div><div class="small muted mt" style="margin-top:6px">Only the selected build + unit-testing phases apply. Unselected ones are auto-marked N/A (you can add a reason).</div></div>'
+      +'<div class="adv"><a class="btn" href="#/">Cancel</a><div class="spacer"></div><button class="btn primary" onclick="createTicket()">✓ Create &amp; Start Checklist</button></div>'
     +'</div></div>';
 }
-function toggleDT(elm,code){const i=wiz.devTypes.indexOf(code);if(i>=0)wiz.devTypes.splice(i,1);else wiz.devTypes.push(code);elm.classList.toggle("on")}
-function createProject(){
-  const name=$("w_name").value.trim(),domain=$("w_domain").value.trim();
-  if(!name||!domain){toast("Name and domain are required");return}
-  const p={id:uid(),name,domain,application:$("w_app").value.trim(),source:$("w_source").value.trim(),target:$("w_target").value.trim(),
-    type:$("w_type").value.trim(),devTypes:wiz.devTypes.slice(),risk:"LOW",currentPhase:0,checks:{},phases:{},evidence:[],comments:[],activity:[],createdAt:Date.now()};
-  phaseState(p,"standards").status="IN_PROGRESS";act(p,'Project "'+name+'" created');
-  DB.projects.push(p);save();location.hash="#/p/"+p.id;
+function toggleScope(el,c){const i=nw.devTypes.indexOf(c);if(i>=0)nw.devTypes.splice(i,1);else nw.devTypes.push(c);el.classList.toggle("on")}
+function createTicket(){
+  const key=$("n_key").value.trim(),title=$("n_title").value.trim();
+  if(!key||!title){toast("Ticket key and title are required");return}
+  if(!nw.devTypes.length){toast("Select at least one development scope");return}
+  const t={id:uid(),key,title,assignee:$("n_assignee").value,domain:$("n_domain").value.trim(),type:$("n_type").value.trim(),
+    source:$("n_source").value.trim(),target:$("n_target").value.trim(),devTypes:nw.devTypes.slice(),currentPhase:0,checks:{},phases:{},evidence:[],comments:[],activity:[],createdAt:Date.now()};
+  PHASES.forEach(ph=>{const naScope=ph.scope&&!t.devTypes.includes(ph.scope);t.phases[ph.key]={status:naScope?"NA":(ph.n===0?"IN_PROGRESS":"NOT_STARTED"),approval:"PENDING",naReason:naScope?"Not in selected development scope":""}});
+  act(t,"Ticket "+key+" assigned to "+t.assignee);DB.tickets.push(t);save();location.hash="#/t/"+t.id;
 }
 
-/* =================== WORKSPACE =================== */
+/* =================== TICKET WORKSPACE =================== */
 let activeIdx=0;
-function renderWork(id){
-  const p=findP(id);if(!p){location.hash="#/";return}
-  if(location.hash.indexOf("__keep")<0)activeIdx=p.currentPhase;
-  const phase=PHASES[activeIdx];const st=phaseState(p,phase.key);
-  const reqKeys=applicableKeys(phase,p.devTypes);const done=reqKeys.filter(k=>p.checks[k]).length;
+function renderTicket(id){
+  const t=findT(id);if(!t){location.hash="#/";return}
+  if(location.hash.indexOf("__keep")<0)activeIdx=t.currentPhase;
+  const phase=PHASES[activeIdx];const st=ps(t,phase.key);
+  const reqKeys=applicableKeys(phase);const done=reqKeys.filter(k=>t.checks[k]).length;
   const isNA=st.status==="NA";const ppct=isNA?100:(reqKeys.length?Math.round(done/reqKeys.length*100):100);
   const canAdv=isNA||done>=reqKeys.length;
 
-  const steps=PHASES.map((ph,i)=>{const s=phaseState(p,ph.key);const cls=s.status==="COMPLETED"?"done":s.status==="NA"?"na":(i===p.currentPhase?"cur":"");
-    const mark=s.status==="COMPLETED"?"✓":s.status==="NA"?"∅":ph.n;
+  const steps=PHASES.map((ph,i)=>{const s=ps(t,ph.key);const cls=s.status==="COMPLETED"?"done":s.status==="NA"?"na":(i===t.currentPhase?"cur":"");const mark=s.status==="COMPLETED"?"✓":s.status==="NA"?"∅":ph.n;
     return '<button class="step'+(i===activeIdx?" active":"")+'" onclick="goPhase(\''+id+'\','+i+')"><span class="n '+cls+'">'+mark+'</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(ph.name)+'</span></button>'}).join("");
 
-  let body="";
-  if(phase.naAllowed){
-    body+='<div class="nabar"><span style="font-weight:600">Is this phase applicable?</span><div class="miniseg">'
-      +'<button class="'+(!isNA?"on":"")+'" onclick="setNA(\''+id+'\',false)">Applicable</button>'
-      +'<button class="'+(isNA?"on na":"")+'" onclick="askNA(\''+id+'\')">Mark N/A</button></div></div>';
-  }
-  if(isNA){
-    body+='<div class="card pad mt" style="border-style:dashed"><b>Marked N/A</b><div class="muted mt" style="margin-top:6px">'+esc(st.naReason||"")+'</div></div>';
-  }else{
-    phase.groups.forEach((g,gi)=>{if(!groupApplies(g,p.devTypes))return;
-      body+='<div class="group"><div class="ghead"><span class="bar"></span><h3>'+esc(g.title)+'</h3>'+(g.tech?'<span class="badge muted">'+g.tech.join("/")+'</span>':'')+'</div>';
-      g.items.forEach((it,ii)=>{const k=itemKey(phase.key,gi,ii);const ck=!!p.checks[k];
-        body+='<label class="item'+(ck?" done":"")+'"><input type="checkbox" '+(ck?"checked":"")+' onchange="toggleItem(\''+id+'\',\''+k+'\',\''+phase.key+'\',this.checked)">'
-          +'<div style="flex:1;min-width:0"><div style="display:flex;gap:8px;align-items:flex-start"><span class="t" style="flex:1">'+esc(it.t)+'</span><span class="badge '+it.m+'">'+MLBL[it.m]+'</span></div>'
-          +(it.w?'<div class="w">'+esc(it.w)+'</div>':'')+(it.v?'<div class="v"><b>verify</b>'+esc(it.v)+'</div>':'')+'</div></label>'});
-      body+='</div>';
-    });
-  }
-  // advance bar
+  let bd="";
+  if(phase.naAllowed){bd+='<div class="nabar"><span style="font-weight:600">Is this phase applicable to this ticket?</span><div class="miniseg"><button class="'+(!isNA?"on":"")+'" onclick="setNA(\''+id+'\',false)">Applicable</button><button class="'+(isNA?"on na":"")+'" onclick="askNA(\''+id+'\')">N/A + comment</button></div></div>'}
+  if(isNA){bd+='<div class="card pad mt" style="border-style:dashed"><b>Marked N/A</b><div class="muted mt" style="margin-top:6px">'+esc(st.naReason||"")+'</div></div>'}
+  else{phase.groups.forEach((g,gi)=>{bd+='<div class="group"><div class="ghead"><span class="bar"></span><h3>'+esc(g.title)+'</h3></div>';
+    g.items.forEach((it,ii)=>{const k=ik(phase.key,gi,ii);const ck=!!t.checks[k];
+      bd+='<label class="item'+(ck?" done":"")+'"><input type="checkbox" '+(ck?"checked":"")+' onchange="toggleItem(\''+id+'\',\''+k+'\',\''+phase.key+'\',this.checked)"><div style="flex:1;min-width:0"><div style="display:flex;gap:8px;align-items:flex-start"><span class="t" style="flex:1">'+esc(it.t)+'</span><span class="badge '+it.m+'">'+MLBL[it.m]+'</span></div>'+(it.w?'<div class="w">'+esc(it.w)+'</div>':'')+(it.v?'<div class="v"><b>verify</b>'+esc(it.v)+'</div>':'')+'</div></label>'});
+    bd+='</div>'})}
   let adv='<div class="adv">';
-  if(phase.approval){adv+='<span style="font-weight:600">Sign-off:</span>'
-    +'<button class="btn success sm" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\',\'APPROVED\')">✓ Approve &amp; Continue</button>'
-    +'<button class="btn sm" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\',\'READY_WITH_CONDITIONS\')">Ready w/ conditions</button>'
-    +'<button class="btn sm" onclick="advance(\''+id+'\',\'NOT_READY\')">Not Ready</button>';
-  }else{adv+='<button class="btn primary" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\')">'+(phase.n===9?"Complete Project":"Complete Phase "+phase.n+" → Next")+'</button>'}
+  if(phase.approval){adv+='<span style="font-weight:600">Lead sign-off:</span><button class="btn success sm" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\',\'APPROVED\')">✓ Approve &amp; Continue</button><button class="btn sm" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\',\'READY_WITH_CONDITIONS\')">Ready w/ conditions</button><button class="btn sm" onclick="advance(\''+id+'\',\'NOT_READY\')">Not Ready</button>'}
+  else{adv+='<button class="btn primary" '+(canAdv?"":"disabled")+' onclick="advance(\''+id+'\')">'+(phase.n===7?"Complete & Close Ticket":"Complete Phase "+phase.n+" → Next")+'</button>'}
   if(!canAdv)adv+='<span class="small muted">Verify all items (or mark N/A) to continue.</span>';
   adv+='</div>';
 
-  // evidence + comments for this phase
-  const evs=(p.evidence||[]).filter(e=>e.phaseKey===phase.key);
-  const evHtml=evs.map(e=>'<a class="ev" href="'+esc(e.url)+'" target="_blank">⬆ <span style="flex:1">'+esc(e.name)+'</span><span class="small muted">'+ago(e.at)+'</span></a>').join("");
-  const cms=(p.comments||[]).filter(c=>c.phaseKey===phase.key);
-  const cmHtml=cms.map(c=>'<div class="cmt"><div class="meta"><b>'+esc(c.by)+'</b> · '+ago(c.at)+'</div>'+esc(c.body)+'</div>').join("");
+  const evs=(t.evidence||[]).filter(e=>e.phaseKey===phase.key);
+  const evH=evs.map(e=>'<a class="ev" href="'+esc(e.url)+'" target="_blank">⬆ <span style="flex:1">'+esc(e.name)+'</span><span class="small muted">'+ago(e.at)+'</span></a>').join("");
+  const cms=(t.comments||[]).filter(c=>c.phaseKey===phase.key);
+  const cmH=cms.map(c=>'<div class="cmt"><div class="meta"><b>'+esc(c.by)+'</b> · '+ago(c.at)+'</div>'+esc(c.body)+'</div>').join("");
 
-  $("app").innerHTML='<div class="wrap"><a class="small muted" href="#/">← Dashboard</a>'
-    +'<div class="card glass pad mt" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">'+ring(overall(p),72)
-      +'<div style="flex:1;min-width:0"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1 style="font-size:24px">'+esc(p.name)+'</h1><span class="badge muted">'+esc(p.domain)+'</span><span class="small" style="color:'+RISKC[p.risk]+';font-weight:700">● '+p.risk+' RISK</span></div>'
-      +'<div class="small muted mt" style="margin-top:4px">'+esc(p.source)+' → '+esc(p.target)+' · Owner '+esc(USER)+'</div>'
-      +'<div class="mt" style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap">'+p.devTypes.map(d=>'<span class="badge b">'+d+'</span>').join("")+'</div></div>'
-      +'<div style="display:flex;gap:6px"><button class="btn sm" onclick="copyJira(\''+id+'\')">Copy for JIRA</button></div></div>'
+  $("app").innerHTML='<div class="wrap"><a class="small muted" href="#/">← Board</a>'
+    +'<div class="card glass pad mt" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">'+ring(overall(t),72)
+      +'<div style="flex:1;min-width:0"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="tkey" style="font-size:18px">'+esc(t.key)+'</span><h1 style="font-size:22px">'+esc(t.title)+'</h1></div>'
+      +'<div class="small muted mt" style="margin-top:4px"><span class="av">'+initials(t.assignee)+'</span>'+esc(t.assignee)+' · '+esc(t.source||"—")+' → '+esc(t.target||"—")+'</div>'
+      +'<div class="mt" style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap">'+(t.devTypes.map(d=>'<span class="badge b">'+(d==="ETL"?"ETL / ELT":"SQL / VDS")+'</span>').join(""))+'</div></div>'
+      +'<button class="btn sm" onclick="copyJira(\''+id+'\')">Copy for JIRA</button></div>'
     +'<div class="grid work mt" style="grid-template-columns:250px 1fr">'
       +'<div class="card pad" style="height:max-content"><h3 class="mb">Lifecycle</h3>'+steps+'</div>'
-      +'<div><div class="card pad"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><div style="display:flex;gap:8px;align-items:center"><span class="badge b">Phase '+phase.n+'</span><h2 style="font-size:21px">'+esc(phase.name)+'</h2></div><div class="muted small mt" style="margin-top:4px">'+esc(phase.sub)+'</div></div>'
-        +'<span class="badge '+(st.status==="COMPLETED"?"ok":st.status==="NA"?"muted":"warn")+'">'+({NOT_STARTED:"Not started",IN_PROGRESS:"In progress",COMPLETED:"Completed",NA:"N/A"}[st.status]||st.status)+'</span></div>'
-        +(isNA?"":'<div class="mt" style="display:flex;gap:10px;align-items:center"><div class="track" style="flex:1"><div class="fill" style="width:'+ppct+'%"></div></div><span class="small muted">'+done+'/'+reqKeys.length+'</span></div>')
-        +body+adv+'</div>'
-      +'<div class="card pad mt"><h3 class="mb">📎 Evidence ('+evs.length+')</h3>'+evHtml
-        +'<div class="row" style="gap:8px;margin-top:6px"><input id="ev_name" placeholder="Evidence name (reconciliation.xlsx)" style="flex:1"><input id="ev_url" placeholder="Link / path" style="flex:1"><button class="btn sm" onclick="addEv(\''+id+'\',\''+phase.key+'\')">Attach</button></div>'
-        +'<div class="small muted mt" style="margin-top:8px">Attach a link to the CI report, query result, profile or reconciliation.</div></div>'
-      +'<div class="card pad mt"><h3 class="mb">💬 Comments ('+cms.length+')</h3>'+cmHtml
-        +'<div class="row" style="gap:8px;align-items:flex-end"><textarea id="cm_body" placeholder="Add a comment for this phase…" style="flex:1;min-height:44px"></textarea><button class="btn sm" onclick="addCm(\''+id+'\',\''+phase.key+'\')">Send</button></div></div>'
+      +'<div><div class="card pad"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><div style="display:flex;gap:8px;align-items:center"><span class="badge b">Phase '+phase.n+'</span><h2 style="font-size:21px">'+esc(phase.name)+'</h2></div><div class="muted small mt" style="margin-top:4px">'+esc(phase.sub)+'</div></div><span class="badge '+(st.status==="COMPLETED"?"ok":st.status==="NA"?"muted":"warn")+'">'+({NOT_STARTED:"Not started",IN_PROGRESS:"In progress",COMPLETED:"Completed",NA:"N/A"}[st.status]||st.status)+'</span></div>'
+        +(isNA?"":'<div class="mt" style="display:flex;gap:10px;align-items:center"><div class="track" style="flex:1"><div class="fill" style="width:'+ppct+'%"></div></div><span class="small muted">'+done+'/'+reqKeys.length+'</span></div>')+bd+adv+'</div>'
+      +'<div class="card pad mt"><h3 class="mb">📎 Evidence ('+evs.length+')</h3>'+evH+'<div class="row" style="gap:8px;margin-top:6px"><input id="ev_name" placeholder="Evidence name (reconciliation.xlsx)" style="flex:1"><input id="ev_url" placeholder="Link / path" style="flex:1"><button class="btn sm" onclick="addEv(\''+id+'\',\''+phase.key+'\')">Attach</button></div></div>'
+      +'<div class="card pad mt"><h3 class="mb">💬 Comments ('+cms.length+')</h3>'+cmH+'<div class="row" style="gap:8px;align-items:flex-end"><textarea id="cm_body" placeholder="Add a comment…" style="flex:1;min-height:44px"></textarea><button class="btn sm" onclick="addCm(\''+id+'\',\''+phase.key+'\')">Send</button></div></div>'
       +'</div></div></div>';
 }
-function goPhase(id,i){activeIdx=i;if(location.hash.indexOf("__keep")<0)location.hash="#/p/"+id+"__keep";else renderWork(id)}
-function toggleItem(id,k,pk,val){const p=findP(id);p.checks[k]=val;const st=phaseState(p,pk);if(st.status==="NOT_STARTED")st.status="IN_PROGRESS";save();renderWork(id)}
-function setNA(id,na){const p=findP(id);const ph=PHASES[activeIdx];const st=phaseState(p,ph.key);if(!na){st.status="IN_PROGRESS";st.naReason="";act(p,"Phase "+ph.n+" marked applicable")}save();renderWork(id)}
-function askNA(id){const r=prompt("Reason this phase is N/A (e.g., data already in the Data Lake; no ETL required):");if(r==null)return;if(!r.trim()){toast("A reason is required");return}const p=findP(id);const ph=PHASES[activeIdx];const st=phaseState(p,ph.key);st.status="NA";st.naReason=r.trim();act(p,"Phase "+ph.n+" marked N/A — "+r.trim());save();renderWork(id)}
-function advance(id,approval){const p=findP(id);const ph=PHASES[activeIdx];const st=phaseState(p,ph.key);
-  const reqKeys=applicableKeys(ph,p.devTypes);const done=reqKeys.filter(k=>p.checks[k]).length;
+function goPhase(id,i){activeIdx=i;location.hash="#/t/"+id+"__keep";renderTicket(id)}
+function toggleItem(id,k,pk,v){const t=findT(id);t.checks[k]=v;const st=ps(t,pk);if(st.status==="NOT_STARTED")st.status="IN_PROGRESS";save();renderTicket(id)}
+function setNA(id,na){const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);if(!na){st.status="IN_PROGRESS";st.naReason="";act(t,"Phase "+ph.n+" marked applicable")}save();renderTicket(id)}
+function askNA(id){const r=prompt("Reason this phase is N/A (e.g., data already lands in the Data Lake; no ETL required):");if(r==null)return;if(!r.trim()){toast("A reason is required");return}const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);st.status="NA";st.naReason=r.trim();act(t,"Phase "+ph.n+" marked N/A — "+r.trim());save();renderTicket(id)}
+function advance(id,approval){const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);const reqKeys=applicableKeys(ph);const done=reqKeys.filter(k=>t.checks[k]).length;
   if(st.status!=="NA"&&done<reqKeys.length){toast("Complete all items first");return}
-  if(ph.approval&&!approval){toast("An approval decision is required");return}
-  if(st.status!=="NA")st.status="COMPLETED";if(ph.approval){st.approval=approval;st.signedBy=USER;st.signedAt=Date.now()}
-  act(p,"Phase "+ph.n+" ("+ph.name+") completed"+(approval?" — "+approval:""));
+  if(ph.approval&&!approval){toast("A sign-off decision is required");return}
+  if(st.status!=="NA")st.status="COMPLETED";if(ph.approval){st.approval=approval;st.signedBy=CURRENT;st.signedAt=Date.now()}
+  act(t,"Phase "+ph.n+" ("+ph.name+") completed"+(approval?" — "+approval:""));
   const next=PHASES[ph.n+1];
-  if(next){phaseState(p,next.key);if(p.phases[next.key].status==="NOT_STARTED")p.phases[next.key].status="IN_PROGRESS";p.currentPhase=next.n;activeIdx=next.n;toast("Phase "+ph.n+" complete → Phase "+next.n)}
-  else{p.completed=true;toast("Project complete 🎉")}
-  save();location.hash="#/p/"+id;renderWork(id);
+  if(next){ps(t,next.key);if(t.phases[next.key].status==="NOT_STARTED")t.phases[next.key].status="IN_PROGRESS";t.currentPhase=next.n;activeIdx=next.n;toast("Phase "+ph.n+" complete → Phase "+next.n)}
+  else{t.completed=true;toast("Ticket complete 🎉")}
+  save();location.hash="#/t/"+id;renderTicket(id);
 }
-function addEv(id,pk){const n=$("ev_name").value.trim(),u=$("ev_url").value.trim();if(!n||!u){toast("Name and link required");return}const p=findP(id);p.evidence.push({phaseKey:pk,name:n,url:u,at:Date.now(),by:USER});act(p,"Evidence added: "+n);save();renderWork(id)}
-function addCm(id,pk){const b=$("cm_body").value.trim();if(!b)return;const p=findP(id);p.comments.push({phaseKey:pk,body:b,at:Date.now(),by:USER});act(p,"Added a comment");save();renderWork(id)}
-function copyJira(id){const p=findP(id);const ph=PHASES[activeIdx];const st=phaseState(p,ph.key);let L=["*Phase "+ph.n+" — "+ph.name+" · "+p.name+"*",""];
-  if(st.status==="NA"){L.push("_N/A — "+(st.naReason||"")+"_")}else{ph.groups.forEach((g,gi)=>{if(!groupApplies(g,p.devTypes))return;L.push("### "+g.title);g.items.forEach((it,ii)=>{const k=itemKey(ph.key,gi,ii);L.push("- ["+(p.checks[k]?"x":" ")+"] "+it.t+"  _("+MLBL[it.m]+")_")});L.push("")})}
+function addEv(id,pk){const n=$("ev_name").value.trim(),u=$("ev_url").value.trim();if(!n||!u){toast("Name and link required");return}const t=findT(id);t.evidence.push({phaseKey:pk,name:n,url:u,at:Date.now(),by:CURRENT});act(t,"Evidence added: "+n);save();renderTicket(id)}
+function addCm(id,pk){const b=$("cm_body").value.trim();if(!b)return;const t=findT(id);t.comments.push({phaseKey:pk,body:b,at:Date.now(),by:CURRENT});act(t,"Added a comment");save();renderTicket(id)}
+function copyJira(id){const t=findT(id);const ph=PHASES[activeIdx];const st=ps(t,ph.key);let L=["*"+t.key+" · Phase "+ph.n+" — "+ph.name+"*",""];
+  if(st.status==="NA"){L.push("_N/A — "+(st.naReason||"")+"_")}else{ph.groups.forEach((g,gi)=>{L.push("### "+g.title);g.items.forEach((it,ii)=>{L.push("- ["+(t.checks[ik(ph.key,gi,ii)]?"x":" ")+"] "+it.t+"  _("+MLBL[it.m]+")_")});L.push("")})}
   navigator.clipboard.writeText(L.join("\n")).then(()=>toast("Copied for JIRA")).catch(()=>toast("Copy failed"))}
 
 /* =================== THEME =================== */
 function applyTheme(){const d=localStorage.getItem("portal-theme")==="dark";document.documentElement.classList.toggle("dark",d);$("themeBtn").textContent=d?"☀":"☾"}
 $("themeBtn").onclick=()=>{const d=!document.documentElement.classList.contains("dark");localStorage.setItem("portal-theme",d?"dark":"light");applyTheme()};
-applyTheme();
-route();
+applyTheme();route();
 </script>
 </body>
 </html>
